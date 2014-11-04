@@ -24,7 +24,7 @@
 	<script type="text/javascript">
 			var gameId=<?php echo $_GET['gameId'] ?>;
 			var player="<?php  echo $_GET['player']?>";
-			ajax_getInfo("/konnekt4/gameController.php",'start', gameId);
+			ajax_getInfo("/gameController.php",'start', gameId);
 	</script>
 </head>
 <body>
