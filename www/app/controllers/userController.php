@@ -40,7 +40,6 @@ else if(isset($_GET['getChat'])){
 else if(isset($_GET['getLoggedIn'])){
 	$userModel = new userModel();
 	$who = $userModel->getLoggedInUsers();
-	unset($userModel);
 	echo $who;
 	unset($userModel);
 }
