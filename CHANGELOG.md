@@ -6,3 +6,5 @@
 ### 1.1: 11-04-2014
   - Bug Fixes
 
+### 1.1.1: 11-04-2014
+  - Hotfix for Database Connection
