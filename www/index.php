@@ -2,9 +2,9 @@
 session_start();
 if(isset($_SESSION['user_Id']))
 {
-	header("Location:foyer.php");
+	header("Location:/foyer");
 }else
 {
-	header("Location:login.php");
+	header("Location:/login");
 }
 ?>

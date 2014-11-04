@@ -4,8 +4,8 @@
 // class which handles all game
 // interactions with the database
 ///////////////////////////////////
-require_once "dbInfo.php";
-require_once "commHelpers.php";
+require_once "../../_db/dbInfo.php";
+require_once "../commHelpers.php";
 
 class gameModel{
 

@@ -2,9 +2,9 @@
 session_start();
 	if(isset($_SESSION['user_Id'])){
 		$content= "<div class='box' id='welcome'><h2>Welcome back ".$_SESSION['username']."!</h2>";
-		$content.= "<a href='userController.php?logout'>Logout</a></div>";
+		$content.= "<a href='/app/controllers/userController.php?logout'>Logout</a></div>";
 	}else{
-		header("Location:login.php");
+		header("Location:/login/");
 	}
 ?>
 <!DOCTYPE html>
@@ -12,9 +12,9 @@ session_start();
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Foyer</title>
-	<link type="text/css" rel="stylesheet" href="styles.css" />
+	<link type="text/css" rel="stylesheet" href="/css/styles.css" />
 	<!--<script type="text/javascript" src="json-minified.js"></script>-->
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="/js/vendor/jquery-1.11.1.min.js"></script>
 	<!--<script type="text/javascript" src="foyerScripts.js"></script>-->
 	<script language="javascript"  type="text/javascript">
 
@@ -35,7 +35,7 @@ session_start();
 		var theQuery='getChat=true&game_Id=0';
 		$.ajax({
 			type: "GET",
-			url: 'userController.php',
+			url: '/app/controllers/userController.php',
 			data: theQuery,
 			success: function(jsonText) {
 				var obj = eval(jsonText);
@@ -59,7 +59,7 @@ session_start();
 		}
 		$.ajax({
 			type: "GET",
-			url: 'userController.php',
+			url: '/app/controllers/userController.php',
 			data: theQuery,
 			success: function(jsonText) {
 				var obj = eval(jsonText);
@@ -76,13 +76,13 @@ session_start();
 	function getLoggedInUsers(){
 		$.ajax({
 			type: "GET",
-			url: 'userController.php',
+			url: '/app/controllers/userController.php',
 			data: 'getLoggedIn=true',
 			success: function(jsonText) {
 				var obj = eval(jsonText);
 				var stuffForPage='';
 				for(i in obj){
-					stuffForPage+='<form class="user-form" action="gameController.php" method="GET" onsubmit=""><input type="hidden" name="user_Id" value="'+obj[i].user_Id+'"/><input type="submit" id="btn_'+obj[i].username+'" name="challenge" value=" '+obj[i].username+'       "/>	</form>';
+					stuffForPage+='<form class="user-form" action="/app/controllers/gameController.php" method="GET" onsubmit=""><input type="hidden" name="user_Id" value="'+obj[i].user_Id+'"/><input type="submit" id="btn_'+obj[i].username+'" name="challenge" value=" '+obj[i].username+'       "/>	</form>';
 					$('#usersLoggedIn').html(stuffForPage);
 				}
 			}
@@ -93,13 +93,13 @@ session_start();
 	function getChallenges(){
 		$.ajax({
 			type: "GET",
-			url: 'gameController.php',
+			url: '/app/controllers/gameController.php',
 			data: 'getChallenges=true',
 			success: function(jsonText){
 				var obj = eval(jsonText);
 				var stuffForPage='<ul>';
 				for(i in obj){
-					stuffForPage+="<li>You challenged "+obj[i].username+". <a href='game/konnekt4.php?player="+<?php echo $_SESSION['user_Id']; ?>+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
+					stuffForPage+="<li>You challenged "+obj[i].username+". <a href='/game/konnekt4.php?player="+<?php echo $_SESSION['user_Id']; ?>+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
 				}
 				stuffForPage+='</ul>';
 				if(stuffForPage != ''){
@@ -115,13 +115,13 @@ session_start();
 	function getChallengers(){
 		$.ajax({
 			type: "GET",
-			url: 'gameController.php',
+			url: '/app/controllers/gameController.php',
 			data: 'getChallengers=true',
 			success: function(jsonText){
 				var obj = eval(jsonText);
 				var stuffForPage='<ul>';
 				for(i in obj){
-					stuffForPage+="<li>"+obj[i].username+" challenged you. <a href='game/konnekt4.php?player="+<?php echo $_SESSION['user_Id']; ?>+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
+					stuffForPage+="<li>"+obj[i].username+" challenged you. <a href='/game/konnekt4.php?player="+<?php echo $_SESSION['user_Id']; ?>+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
 				}
 				stuffForPage+='</ul>';
 				if(stuffForPage != ''){
@@ -138,7 +138,7 @@ session_start();
 <body onLoad="init()">
 	<div id="foyer_container">
         <div id="leftCol">
-        	<img src="images/title.png"/>
+        	<img src="/images/title.png"/>
             <div class="box" id="users">
                 <h3>Users Online:</h3>
                 <ul id="usersLoggedIn">

@@ -5,12 +5,12 @@
 // distributes calls to correct gameModel function
 ///////////////////////////////////////////////////
 session_start();
-include_once "gameModel.php";
+include_once "../models/gameModel.php";
 
 if(isset($_GET['challenge'])){
 	$gameModel = new gameModel();
 	$gameModel->newGame($_SESSION['user_Id'],$_GET['user_Id']);
-	header("Location:foyer.php");
+	header("Location:/foyer");
 	unset($gameModel);
 }
 else if(isset($_GET['getChallenges'])){
@@ -26,13 +26,13 @@ else if(isset($_GET['getChallengers'])){
 
 //ajax calls
 else if(isset($_GET['start'])){
-  	$gameModel = new gameModel();
+  $gameModel = new gameModel();
 	$game = $gameModel->start($_GET['start']);
 	echo $game;
 	unset($gameModel);
 }
 elseif(isset($_GET['changeTurn'])){
-  	$gameModel = new gameModel();
+  $gameModel = new gameModel();
 	$gameModel->changeTurn($_GET['changeTurn']);
 	unset($gameModel);
 }
@@ -48,12 +48,12 @@ elseif(isset($_GET['changeBoard'])){
 	unset($gameModel);
 }
 elseif(isset($_GET['getMove'])){
-  	$gameModel = new gameModel();
+  $gameModel = new gameModel();
 	$move = $gameModel->getMove($_GET['getMove']);
 	echo $move;
 	unset($gameModel);
 }
 else{
-	header("Location:index.php");
+	header("Location:/index.php");
 }
 ?>

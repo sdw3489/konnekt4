@@ -3,8 +3,8 @@
 // userModel Class
 // Handles all database interaction related to users
 ///////////////////////////////////////
-require_once "dbInfo.php";
-require_once "commHelpers.php";
+require_once "../../_db/dbInfo.php";
+require_once "../commHelpers.php";
 
 class userModel{
 
@@ -78,7 +78,7 @@ class userModel{
 			$stmt->execute();
 			$stmt->close();
 		}
-		header("Location:login.php?username=".$username);
+		header("Location:/login/index.php?username=".$username);
 
 	}//end register
 
@@ -100,10 +100,10 @@ class userModel{
 			}*/
 			//end session
 			session_destroy();
-			header("Location:index.php");
+			header("Location:/index.php");
 		  }
 		else{
-			header("Location:login.php");
+			header("Location:/login");
 		}
 	}//end logout
 

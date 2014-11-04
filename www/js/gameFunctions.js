@@ -12,31 +12,31 @@ var myY;						//hold my last pos.
 var mover='';					//hold the id of the thing I'm moving
 
 function gameInit(){
-	
+
 	//create a parent to stick board in...
 	var gEle=document.createElementNS(svgns,'g');
-	
+
 	gEle.setAttributeNS(null,'transform','translate('+BOARDX+','+BOARDY+')');
-	
+
 	gEle.setAttributeNS(null,"id","game_1");
-	
+
 	gEle.setAttributeNS(null,'stroke','blue');
 	//stick g on board
-	
+
 	document.getElementsByTagName('svg')[0].insertBefore(gEle,document.getElementsByTagName('svg')[0].childNodes[4]);
-	
+
 	//create the board...
 	for(i=0;i<BOARDHEIGHT;i++){//rows i
 		boardArr[i]=new Array();
 		for(j=0;j<BOARDWIDTH;j++){//cols j
 			boardArr[i][j]=new Cell(document.getElementById("game_1"),'cell_'+j+i,75,j,i);
 		}
-	}	
+	}
 
 	//put the player in the text
 	document.getElementById('youPlayer').firstChild.data+=player;
 	document.getElementById('opponentPlayer').firstChild.data+=player2;
-	ajax_checkTurn('../gameController.php','checkTurn',gameId);
+	ajax_checkTurn('/app/controllers/gameController.php','checkTurn',gameId);
 
 }
 
@@ -50,11 +50,11 @@ function placePiece(col)
 		var targetSpot = boardArr[i][col];
 		//if the target drop spot cell is not already occupied
 		if(targetSpot.occupied == "")
-		{	
+		{
 			//if its the current players turn add a new piece at the target spot
-			if(playerId == turn){			
+			if(playerId == turn){
 				var piece = new Piece('game_'+gameId,playerId,i,col,'Checker',1);
-				ajax_changeBoard('../gameController.php',targetSpot.id,i,col,'changeBoard',gameId);
+				ajax_changeBoard('/app/controllers/gameController.php',targetSpot.id,i,col,'changeBoard',gameId);
 				changeTurn();
 			}else{// if its not your turn throw a not your turn error at the top of the game board
 				var hit=false;
@@ -64,7 +64,7 @@ function placePiece(col)
 		}
 	}
 }
-		
+
 
 ///////////////////////////////Utilities////////////////////////////////////////
 ////get Piece/////
@@ -73,7 +73,7 @@ function placePiece(col)
 function getPiece(which){
 	return pieceArr[parseInt(which.substr((which.search(/\_/)+1),1))][parseInt(which.substring((which.search(/\|/)+1),which.length))];
 }
-			
+
 ////get Transform/////
 //	look at the id of the piece sent in and work on it's transform
 ////////////////
@@ -84,7 +84,7 @@ function getTransform(which){
 	retVal[1]=hold.substring((hold.search(/,/) + 1),hold.search(/\)/));;		//y value
 	return retVal;
 }
-			
+
 ////set Transform/////
 //	look at the id, x, y of the piece sent in and set it's translate
 ////////////////
@@ -105,7 +105,7 @@ function changeTurn(){
 	//how about for the server (and other player)?
 	//send JSON message to server, have both clients monitor server to know who's turn it is...
 	document.getElementById('output2').firstChild.data='playerId '+playerId+ ' turn '+turn;
-	ajax_changeServerTurn('../gameController.php','changeTurn',gameId);
+	ajax_changeServerTurn('/app/controllers/gameController.php','changeTurn',gameId);
 }
 
 /////////////////////////////////Messages to user/////////////////////////////////

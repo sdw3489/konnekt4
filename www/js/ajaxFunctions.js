@@ -61,12 +61,12 @@ function ajax_checkTurn(whatURL,whatFUNCT,whatVALUE){ //good to also check for n
 					turn=obj[0].whoseTurn;
 					document.getElementById('output2').firstChild.nodeValue='playerId '+playerId+ ' turn '+turn;
 					//get the data from the last guys move
-					ajax_getMove('../gameController.php','getMove',gameId);
+					ajax_getMove('/app/controllers/gameController.php','getMove',gameId);
 				}
 			}
 		});
 	}
-	setTimeout("ajax_checkTurn('../gameController.php','checkTurn',"+gameId+")",3000);
+	setTimeout("ajax_checkTurn('/app/controllers/gameController.php','checkTurn',"+gameId+")",3000);
 }
 
 function ajax_getMove(whatURL,whatFUNCT,whatVALUE){

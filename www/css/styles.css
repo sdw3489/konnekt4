@@ -1,7 +1,7 @@
 @font-face {
 	font-family: "myFont";
-	src: url( images/hand_of_sean.eot ); /* IE */
-	src: local("Hand Of Sean"), url( images/hand_of_sean.ttf ) format("truetype"); /* non-IE */
+	src: url( /fonts/hand_of_sean.eot ); /* IE */
+	src: local("Hand Of Sean"), url( /fonts/hand_of_sean.ttf ) format("truetype"); /* non-IE */
 }
 
 .myFont {
@@ -123,7 +123,7 @@ div#users{
 }
 
 div#users input{
-	background-image:url("images/userbg.png");
+	background-image:url("/images/userbg.png");
 	background-position:3px 4px;
 	background-repeat:no-repeat;
 	color:#396D8B;
@@ -223,3 +223,16 @@ div#games-avail2 a{
 	padding:0 0 0 40px;
 	margin: 0;
 }
+
+/*GAME8*/
+.background0 { fill: #966; stroke: black; stroke-width: 2px; }
+.background1 { fill: #696; stroke: black; stroke-width: 2px; }
+.player0   {fill: #DD0000; stroke: #DD0000; stroke-width: 1px; }
+.player1 {fill: black; stroke: black; stroke-width: 1px; }
+.htmlBlock {position:absolute;top:200px;left:300px;width:200px;height:100px;background:#ffc;padding:10px;display:none;}
+body{padding:0px;margin:0px;}
+.cell_white{fill:yellow;stroke-width:2px;stroke:yellow;}
+.cell_black{fill:yellow;stroke-width:2px;stroke:yellow;}
+.cell_alert{fill:yellow;stroke-width:2px;stroke:yellow;}
+.name_black{fill:black;font-size:18px}
+.name_orange{fill:orange;font-size:24px;}
