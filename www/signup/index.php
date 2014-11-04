@@ -1,24 +1,26 @@
-<?php session_start(); ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<title>Sign Up</title>
-	<script type="text/javascript">	</script>
-	<link type="text/css" rel="stylesheet" href="/css/styles.css"/>
-</head>
-<body>
-	<div id="container">
-		<img src="/images/title.png"/>
-		<form id="signup_form" action="/app/controllers/userController.php" method="POST">
+<?php
+	session_start();
+	$title="Foyer";
+	require_once "../_includes/head.php";
+?>
+	<div class="container">
+		<p class="text-center"><img src="/images/title.png"/></p>
+		<form class="form-signin"  id="signup_form" name="signup_form" action="/app/controllers/userController.php" method="POST">
 	    <h1 class="sub_title">Sign Up</h1>
-	    <p><br></p>
-			<label for="name">Username:</label>
-			<input type="text" name="username"/><br/>
-			<label for="password">Password:</label>
-			<input type="password" name="password"/><br/>
-			<input class="button" type="submit" name="submit-register" value="Register"/>
+	    <p>Already Signed up? <a href="/login">Login</a></p>
+			<input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
+      <input type="password" name="password" class="form-control" placeholder="Password" required >
+      <input class="btn btn-lg btn-primary btn-block" type="submit" name="submit-register" value="Sign Up"/>
 		</form>
-	</div>
+  </div> <!-- /container -->
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="/js/vendor/jquery-1.11.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+		});
+	</script>
 </body>
 </html>

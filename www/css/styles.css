@@ -10,12 +10,9 @@
 
 body {
 	background-color:#7EC4EC;
-	color:#603913;
-	font-family:Tahoma,verdana;
-	font-size:13px;
 }
 
-form#login_form, form#signup_form {
+/*form#login_form, form#signup_form {
 	background-color:#E3F4FD;
 	color:#7EC4EC;
 	min-height:400px;
@@ -26,33 +23,33 @@ form#login_form, form#signup_form {
 	-moz-border-radius: 20px;
 	-webkit-border-radius: 20px;
 	text-align:left;
-}
+}*/
 
-#container {
+/*#container {
 	margin-left:auto;
 	margin-right:auto;
 	text-align:center;
 	width:490px;
-}
+}*/
 
-form#login_form p, form#signup_form p {
+/*form#login_form p, form#signup_form p {
 	color:#603913;
 	margin:84px 0px 59px 269px;
-}
+}*/
 
-a {
+/*a {
 	color:#603913;
-}
+}*/
 
-h1.sub_title {
+/*h1.sub_title {
 	font-family:myFont,verdana,helvetica,sans-serif;
 	font-size:75px;
 	font-weight:normal;
 	float:left;
 	margin-top:-26px;
-}
+}*/
 
-label {
+/*label {
 	font-family:myFont,verdana,helvetica,sans-serif;
 	font-size:25px;
 	padding:10px;
@@ -77,13 +74,13 @@ input.button{
 	margin-left:142px;
 	margin-top:30px;
 	color:#FFF;
-}
+}*/
 
 /*///////////////////////////////////////////
 ////////////////foyer////////////////////////
 ///////////////////////////////////////////*/
 
-div#foyer_container{
+/*div#foyer_container{
 	margin-left:auto;
 	margin-right:auto;
 	width:900px;
@@ -149,7 +146,7 @@ div#welcome h2 {
 	color:#396D8B;
 	display:inline;
 	font-weight:normal;
-}
+}*/
 
 div#chat-container{
 	margin-bottom:20px;
@@ -178,7 +175,7 @@ div#chat-box {
 #chat-input {
 	width:400px;
 }
-
+/*
 div#games-avail {
 	color:#396D8B;
 	font-size:25px;
@@ -222,9 +219,10 @@ div#games-avail2 a{
 .box ul{
 	padding:0 0 0 40px;
 	margin: 0;
-}
+}*/
 
-/*GAME8*/
+
+/* Game Board Styles */
 .background0 { fill: #966; stroke: black; stroke-width: 2px; }
 .background1 { fill: #696; stroke: black; stroke-width: 2px; }
 .player0   {fill: #DD0000; stroke: #DD0000; stroke-width: 1px; }
@@ -236,3 +234,40 @@ body{padding:0px;margin:0px;}
 .cell_alert{fill:yellow;stroke-width:2px;stroke:yellow;}
 .name_black{fill:black;font-size:18px}
 .name_orange{fill:orange;font-size:24px;}
+
+
+/* Signin Styles*/
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

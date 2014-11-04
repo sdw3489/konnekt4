@@ -78,7 +78,7 @@ class userModel{
 			$stmt->execute();
 			$stmt->close();
 		}
-		header("Location:/login/index.php?username=".$username);
+		header("Location:/?username=".$username);
 
 	}//end register
 
@@ -100,10 +100,10 @@ class userModel{
 			}*/
 			//end session
 			session_destroy();
-			header("Location:/index.php");
+			header("Location:/");
 		  }
 		else{
-			header("Location:/login");
+			header("Location:/");
 		}
 	}//end logout
 

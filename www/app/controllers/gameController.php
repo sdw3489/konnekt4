@@ -10,7 +10,7 @@ include_once "../models/gameModel.php";
 if(isset($_GET['challenge'])){
 	$gameModel = new gameModel();
 	$gameModel->newGame($_SESSION['user_Id'],$_GET['user_Id']);
-	header("Location:/foyer");
+	header("Location:/");
 	unset($gameModel);
 }
 else if(isset($_GET['getChallenges'])){
@@ -54,6 +54,6 @@ elseif(isset($_GET['getMove'])){
 	unset($gameModel);
 }
 else{
-	header("Location:/index.php");
+	header("Location:/");
 }
 ?>

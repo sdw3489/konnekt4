@@ -11,8 +11,8 @@ if(isset($_POST['submit-login'])){
 		$userModel = new userModel();
 		$loggedIn = $userModel->loginUser($_POST['name'],$_POST['password']);
 		unset($userModel);
-		if($loggedIn){ header("Location:/index.php");}else{header("Location:/login");}
-	}else{header("Location:/login");}
+		if($loggedIn){ header("Location:/");}else{header("Location:/");}
+	}else{header("Location:/");}
 }
 else if(isset($_POST['submit-register'])){
 	$userModel = new userModel();
@@ -45,6 +45,6 @@ else if(isset($_GET['getLoggedIn'])){
 	unset($userModel);
 }
 else{
-	header("Location:/index.php");
+	header("Location:/");
 }
 ?>
