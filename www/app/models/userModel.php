@@ -142,7 +142,6 @@ class userModel{
 			$stmt->bind_param("i",$_SESSION['user_Id']);
 			$stmt->execute();
 			$stmt->store_result();
-			// print_r($stmt);
 			if($stmt->num_rows > 0){
 				$meta = $stmt->result_metadata();
 				while ($field = $meta->fetch_field())
