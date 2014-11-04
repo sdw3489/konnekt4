@@ -19,7 +19,7 @@ session_start();
 	<script language="javascript"  type="text/javascript">
 
 	function init(){
-		sendChat(); // initializes the chat system
+		getChat(); // initializes the chat system
 		getLoggedInUsers(); // grabs logged in users
 		getChallenges(); // retrieves games current user has challenged other users
 		getChallengers();	//retrieves games which the current user has been challenged in
@@ -27,6 +27,26 @@ session_start();
 	function scrollBox(){ //auto scroll of box
 		var objDiv = document.getElementById("chat-box");
 		objDiv.scrollTop = objDiv.scrollHeight;
+	}
+
+
+	function getChat(){
+		scrollBox();
+		var theQuery='getChat=true&game_Id=0';
+		$.ajax({
+			type: "GET",
+			url: 'userController.php',
+			data: theQuery,
+			success: function(jsonText) {
+				var obj = eval(jsonText);
+				var stuffForPage='';
+				for(i in obj){
+					stuffForPage+=obj[i].username+": "+obj[i].message+"<br>";
+				}
+				$('#chat-box').html(stuffForPage);
+			}
+		});
+		setTimeout('getChat()', 2000);
 	}
 
 	function sendChat(){
