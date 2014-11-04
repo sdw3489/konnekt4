@@ -4,7 +4,6 @@
   <title>Konnekt 4</title>
 	<link type="text/css" rel="stylesheet" href="../styles.css" />
 	<style type="text/css">
-	  <![CDATA[
 		.background0 { fill: #966; stroke: black; stroke-width: 2px; }
 		.background1 { fill: #696; stroke: black; stroke-width: 2px; }
 		.player0   {fill: #DD0000; stroke: #DD0000; stroke-width: 1px; }
@@ -16,7 +15,6 @@
 		.cell_alert{fill:yellow;stroke-width:2px;stroke:yellow;}
 		.name_black{fill:black;font-size:18px}
 		.name_orange{fill:orange;font-size:24px;}
-	  ]]>
 	</style>
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script src="js/Objects/Cell.js" type="text/javascript"></script>
