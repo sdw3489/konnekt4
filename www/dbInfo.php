@@ -28,18 +28,18 @@ switch (getenv('ENV')) {
     define('ENVIRONMENT', 'development');
     // db env settings
     define("DB_SERVER", "localhost");
+    define("DB_NAME", "sethwhi1_konnekt4");
     define("DB_USER", "root");
     define("DB_PASS", "");
-    define("DB_NAME", "sethwhi1_konnekt4");
     break;
 
   default:
     define('ENVIRONMENT', 'production');
     // db env settings
-    define('DBNAME', 'sethwhi1_konnekt4');
-    define('DBUSER', 'sethwhi1_admin');
-    define('DBPASS', 'Carr1349');
-    define('DBHOST', 'localhost');
+    define("DB_SERVER", "localhost");
+    define('DB_NAME', 'sethwhi1_konnekt4');
+    define('DB_USER', 'sethwhi1_admin');
+    define('DB_PASS', 'Carr1349');
     break;
 
 }
