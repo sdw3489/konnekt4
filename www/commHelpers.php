@@ -1,16 +1,15 @@
 <?php
 /*	returnAssArray
-	
 	takes: prepared statement
 		-parameters already bound
 	returns: json encoded multi-dimensional associative array
 */
 function returnAssArray ($stmt){
-	$stmt->execute();
-	$stmt->store_result();
- 	$meta = $stmt->result_metadata();
-    $bindVarsArray = array();
-    
+  $stmt->execute();
+  $stmt->store_result();
+  $meta = $stmt->result_metadata();
+  $bindVarsArray = array();
+
 	//using the stmt, get it's metadata (so we can get the name of the name=val pair for the associate array)!
 	while ($column = $meta->fetch_field()) {
     	$bindVarsArray[] = &$results[$column->name];

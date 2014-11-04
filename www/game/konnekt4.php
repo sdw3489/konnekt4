@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
 <head>
   <title>Konnekt 4</title>
@@ -21,18 +21,13 @@
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script src="js/Objects/Cell.js" type="text/javascript"></script>
 	<script src="js/Objects/Piece.js" type="text/javascript"></script>
-	<script src="js/gameFunctions.js" type="text/javascript"></script>	
-	
+	<script src="js/gameFunctions.js" type="text/javascript"></script>
 	<script src="js/ajax/ajaxFunctions.js" type="text/javascript"></script>
 	<script type="text/javascript">
-		
 			var gameId=<?php echo $_GET['gameId'] ?>;
 			var player="<?php  echo $_GET['player']?>";
-			
 			ajax_getInfo("/konnekt4/gameController.php",'start', gameId);
-	
 	</script>
-
 </head>
 <body>
 	<img src="../images/title.png"/><br/>
