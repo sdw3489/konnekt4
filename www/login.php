@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	if(isset($_GET)){
+	if(isset($_GET['username'])){
 		$name=$_GET['username'];
 	}else{
 		$name='';
