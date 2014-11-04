@@ -1,0 +1,40 @@
+{
+  "name": "konnekt4",
+  "description": "Konnekt4 Game",
+  "version": "1.0",
+  "homepage": "https://github.com/sdw3489/konnekt4",
+  "author": {
+    "name": "Seth Whitaker",
+    "url": "http://github.com/sdw3489/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sdw3489/konnekt4.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sdw3489/konnekt4/issues"
+  },
+  "engines": {
+    "node": ">=0.8"
+  },
+  "scripts": {
+    "test": "grunt assemble"
+  },
+  "devDependencies": {
+    "assemble": "~0.4.33",
+    "grunt": "~0.4.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-connect": "~0.6.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "load-grunt-tasks": "~0.2.1",
+    "time-grunt": "~0.2.7"
+  },
+  "keywords": [
+    "assemble",
+    "templates",
+    "handlebars",
+    "site generator",
+    "site builder",
+    "grunt"
+  ]
+}

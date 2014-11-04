@@ -1,0 +1,10 @@
+<?php
+session_start();
+if(isset($_SESSION['user_Id']))
+{
+	header("Location:foyer.php");
+}else
+{
+	header("Location:login.php");
+}
+?>
