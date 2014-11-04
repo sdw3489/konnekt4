@@ -4,14 +4,14 @@ function init(){
   getChallenges(); // retrieves games current user has challenged other users
   getChallengers(); //retrieves games which the current user has been challenged in
 }
-function scrollBox(){ //auto scroll of box
-  var objDiv = document.getElementById("chat-box");
-  objDiv.scrollTop = objDiv.scrollHeight;
+
+function scrollBox(){ //auto scroll of box\
+  var $objDiv = $(".js-chat");
+  $objDiv[0].scrollTop = $objDiv[0].scrollHeight;
 }
 
 
 function getChat(){
-  scrollBox();
   var theQuery='getChat=true&game_Id=0';
   $.ajax({
     type: "GET",
@@ -19,23 +19,21 @@ function getChat(){
     data: theQuery,
     success: function(jsonText) {
       var obj = eval(jsonText);
-      var stuffForPage='';
+      var html='';
       for(i in obj){
-        stuffForPage+=obj[i].username+": "+obj[i].message+"<br>";
+        html+=obj[i].username+": "+obj[i].message+"<br>";
       }
-      $('#chat-box').html(stuffForPage);
+      $('.js-chat').html(html);
+      scrollBox();
     }
   });
   setTimeout('getChat()', 2000);
 }
 
 function sendChat(){
-  scrollBox();
   if(arguments[0]){
     theQuery='setChat=true&message='+arguments[0]+'&game_Id=0';
     var inputDiv = document.getElementById("chat-input").value="";
-  }else{
-    theQuery='getChat=true&game_Id=0';
   }
   $.ajax({
     type: "GET",
@@ -43,14 +41,14 @@ function sendChat(){
     data: theQuery,
     success: function(jsonText) {
       var obj = eval(jsonText);
-      var stuffForPage='';
+      var html='';
       for(i in obj){
-        stuffForPage+=obj[i].username+": "+obj[i].message+"<br />";
+        html+=obj[i].username+": "+obj[i].message+"<br />";
       }
-      $('#chat-box').html(stuffForPage);
+      $('.js-chat').html(html);
+      scrollBox();
     }
   });
-  if(!arguments[0]) setTimeout('sendChat()', 2000);
 }
 
 function getLoggedInUsers(){
@@ -59,16 +57,29 @@ function getLoggedInUsers(){
     url: '/app/controllers/userController.php',
     data: 'getLoggedIn=true',
     success: function(jsonText) {
-      var obj = eval(jsonText);
-      var stuffForPage='';
-      for(i in obj){
-        stuffForPage+='<form class="user-form" action="/app/controllers/gameController.php" method="GET" onsubmit=""><input type="hidden" name="user_Id" value="'+obj[i].user_Id+'"/><input type="submit" id="btn_'+obj[i].username+'" name="challenge" value=" '+obj[i].username+'       "/> </form>';
-        $('#usersLoggedIn').html(stuffForPage);
+      var html='';
+      console.log(jsonText);
+      if(jsonText !== ''){
+        var obj = eval(jsonText);
+          html+='<ul class="list-group">';
+        for(i in obj){
+          html+='<li class="list-group-item">';
+          html+='<form class="user-form" action="/app/controllers/gameController.php" method="GET" onsubmit="">';
+          html+='<input type="hidden" name="user_Id" value="'+obj[i].user_Id+'"/>';
+          html+='<span class="glyphicon glyphicon-user"></span><span class="username">'+obj[i].username+'</span>';
+          html+='<input type="submit" class="btn btn-primary btn-sm pull-right" name="challenge" value="Challenge"/>';
+          html+='</form>';
+          html+='</li>';
+        }
+          html+='</ul>';
       }
+      $('.js-logged-in-users').html(html);
     }
   });
   setTimeout('getLoggedInUsers()', 5000);
 }
+
+
 
 function getChallenges(){
   $.ajax({
@@ -77,13 +88,13 @@ function getChallenges(){
     data: 'getChallenges=true',
     success: function(jsonText){
       var obj = eval(jsonText);
-      var stuffForPage='<ul>';
+      var html='<ul>';
       for(i in obj){
-        stuffForPage+="<li>You challenged "+obj[i].username+". <a href='/game/konnekt4.php?player="+userId+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
+        html+="<li>You challenged "+obj[i].username+". <a href='/game/konnekt4.php?player="+userId+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
       }
-      stuffForPage+='</ul>';
-      if(stuffForPage != ''){
-        $('#games-avail').html(stuffForPage);
+      html+='</ul>';
+      if(html != ''){
+        $('#games-avail').html(html);
       }else{
         $('#games-avail').html("No Games Currently");
       }
@@ -99,13 +110,13 @@ function getChallengers(){
     data: 'getChallengers=true',
     success: function(jsonText){
       var obj = eval(jsonText);
-      var stuffForPage='<ul>';
+      var html='<ul>';
       for(i in obj){
-        stuffForPage+="<li>"+obj[i].username+" challenged you. <a href='/game/konnekt4.php?player="+userId+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
+        html+="<li>"+obj[i].username+" challenged you. <a href='/game/konnekt4.php?player="+userId+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
       }
-      stuffForPage+='</ul>';
-      if(stuffForPage != ''){
-        $('#games-avail2').html(stuffForPage);
+      html+='</ul>';
+      if(html != ''){
+        $('#games-avail2').html(html);
       }else{
         $('#games-avail2').html("No Games Currently");
       }
