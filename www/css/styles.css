@@ -41,11 +41,8 @@ body {
 
 /* Game Board Styles */
 
-.alerts-panel{
-	min-height:72px;
-	overflow:hidden;
-}
-#nyt{
+
+.alerts-panel .alert{
 	display: none;
 }
 

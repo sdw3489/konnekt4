@@ -113,33 +113,11 @@ function changeTurn(){
 //	tell player it isn't his turn!
 ////////////////
 function nytwarning(){
-	console.log("NOT YOUR TURN");
-	var $alert = $("#nyt");
-	console.log($alert);
+	var $alert = $(".js-turn-alert");
 	if(!$alert.is(':visible')){
-		console.log("ALERT IS NOT VISIBLE");
-		$alert.fadeIn('slow');
-		setTimeout('nytwarning()',2500);
+		$alert.slideDown();
+		setTimeout('nytwarning()',3000);
 	}else{
-		$alert.fadeOut('slow');
-	}
-
-	// if(document.getElementById('nyt').getAttributeNS(null,'display') == 'none'){
-	// 	document.getElementById('nyt').setAttributeNS(null,'display','inline');
-	// 	setTimeout('nytwarning()',2000);
-	// }else{
-	// 	document.getElementById('nyt').setAttributeNS(null,'display','none');
-	// }
-}
-
-////nypwarning (not your piece)/////
-//	tell player it isn't his piece!
-////////////////
-function nypwarning(){
-	if(document.getElementById('nyp').getAttributeNS(null,'display') == 'none'){
-		document.getElementById('nyp').setAttributeNS(null,'display','inline');
-		setTimeout('nypwarning()',2000);
-	}else{
-		document.getElementById('nyp').setAttributeNS(null,'display','none');
+		$alert.slideUp();
 	}
 }

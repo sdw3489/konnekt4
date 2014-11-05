@@ -29,8 +29,7 @@
 					<div class="panel-heading">Game Board</div>
 					<div class="panel-body">
 						<div class="alerts-panel">
-							<div id="nyt" class="alert alert-danger" role="alert">Not Your Turn!</div>
-							<!-- <div id="nyp" class="alert alert-danger hidden" role="alert">Not Your Piece!</div> -->
+							<div class="alert alert-danger js-turn-alert" role="alert">Not Your Turn!</div>
 						</div>
 						<svg width="100%" height="450px"></svg>
 					</div>
