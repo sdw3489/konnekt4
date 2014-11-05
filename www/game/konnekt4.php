@@ -11,30 +11,27 @@
 		<p><a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-hand-left"></span> Back to  Foyer</a></p>
 
 		<div class="row">
-			<div class="col-md-3">
-				<div class="panel panel-default">
+			<div class="col-md-4">
+				<div class="panel panel-primary">
 					<div class="panel-heading">Game Info</div>
-					<div class="panel-body">
-						<ul class="list-group">
-							<li id="youPlayer" class="list-group-item">You Are: </li>
-							<li id="opponentPlayer" class="list-group-item">Opponent Is: </li>
-							<li id="output2" class="list-group-item">Turn: </li>
-						</ul>
-					</div>
+					<ul class="list-group">
+						<li id="youPlayer" class="list-group-item">You Are: </li>
+						<li id="opponentPlayer" class="list-group-item">Opponent Is: </li>
+						<li id="output2" class="list-group-item">Turn: </li>
+					</ul>
 				</div>
 			</div>
-			<div class="col-md-9">
 
-				<div class="panel panel-default">
-					<div class="panel-heading">Game Board</div>
-					<div class="panel-body">
-						<div class="alerts-panel">
-							<div class="alert alert-danger js-turn-alert" role="alert">Not Your Turn!</div>
-						</div>
-						<svg width="100%" height="450px"></svg>
+			<div class="col-md-8">
+				<div class="panel panel-primary">
+					<div class="panel-heading ">Game Board</div>
+					<div class="alerts-panel">
+						<div class="alert alert-danger js-turn-alert" role="alert">Not Your Turn!</div>
+					</div>
+					<div class="svg-container">
+						<svg class="svg-content" viewBox="0 0 525 450" preserveAspectRatio="xMinYMin meet"></svg>
 					</div>
 				</div>
-
 			</div>
 		</div>
 

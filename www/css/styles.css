@@ -30,6 +30,20 @@ body {
 
 /* Game Board Styles */
 
+.svg-container{
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	padding-bottom: 86%;
+	vertical-align: middle;
+	overflow: hidden;
+}
+.svg-content{
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
 
 .alerts-panel .alert{
 	display: none;
