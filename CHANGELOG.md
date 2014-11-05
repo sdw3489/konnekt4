@@ -14,3 +14,6 @@
 
 ### 1.2.1: 11-05-2014
   - Hotfix Production Loading
+
+### 1.3: 11-05-2014
+  - Game Winning Logic fixed
