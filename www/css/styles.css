@@ -14,20 +14,9 @@ body {
 
 
 /* Foyer */
-
-.chat-container{
-
-}
-.chat-inner{
-	/*background-color:#fff;*/
-	/*border:solid 1px #D1D1D1;*/
-}
-
 .chat-box {
-	color:#333;
+	color:#666;
 	height:250px;
-	/*line-height:20px;*/
-	/*padding:15px;*/
 	overflow:auto;
 }
 
