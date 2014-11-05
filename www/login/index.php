@@ -7,16 +7,11 @@
 	<div class="container">
 		<p class="text-center"><img src="/images/title.png"/></p>
    	<form class="form-signin" id="login_form" name="login_form" method="POST" action="/app/controllers/userController.php" role="form">
-		  <h1 class="sub_title">Log in</h1>
-		  <p>New User? - <a href="/signup/">Sign up</a></p>
-      <input type="text" name="name" class="form-control" placeholder="Username" value="<?= $name ;?>" required autofocus>
-      <input type="password" class="form-control" placeholder="Password" required name="password">
-     <!--  <div class="checkbox">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div> -->
-      <input class="btn btn-lg btn-primary btn-block" type="submit" name="submit-login" value="Sign in"/>
+		  <h1>Login</h1>
+		  <p>New User? - <a href="/signup/">Sign Up</a></p>
+      <input type="text" name="name" class="signin-name form-control" placeholder="Username" value="<?= $name ;?>" required autofocus>
+      <input type="password" class="signin-password form-control" placeholder="Password" required name="password">
+      <input class="btn btn-lg btn-primary btn-block" type="submit" name="submit-login" value="Login"/>
     </form>
   </div> <!-- /container -->
 
