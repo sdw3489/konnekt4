@@ -60,7 +60,6 @@ function getLoggedInUsers(){
       var html='';
       if(jsonText !== ''){
         var obj = eval(jsonText);
-          html+='<ul class="list-group">';
         for(i in obj){
           html+='<li class="list-group-item">';
           html+='<form class="user-form" action="/app/controllers/gameController.php" method="GET" onsubmit="">';
@@ -70,7 +69,6 @@ function getLoggedInUsers(){
           html+='</form>';
           html+='</li>';
         }
-          html+='</ul>';
       }
       $('.js-logged-in-users').html(html);
     }
@@ -89,13 +87,11 @@ function getChallenges(){
       var html='';
       if(jsonText !== ''){
         var obj = eval(jsonText);
-        html+='<ul class="list-group">';
         for(i in obj){
           html+='<li class="list-group-item clearfix">You challenged '+obj[i].username+'! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
         }
-        html+='</ul>';
       }else{
-        html+='<p>No Games Currently</p>';
+        html+='<li class="list-group-item">You haven\'t challenged anyone.</li>';
       }
       $('#games-avail').html(html);
     }
@@ -112,13 +108,11 @@ function getChallengers(){
       var html='';
       if(jsonText !== ''){
       var obj = eval(jsonText);
-      html+='<ul class="list-group">';
       for(i in obj){
-         html+='<li class="list-group-item clearfix">'+obj[i].username+' challenged you! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
+        html+='<li class="list-group-item clearfix">'+obj[i].username+' challenged you! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
       }
-      html+='</ul>';
      }else{
-        html+='<p>No Games Currently</p>';
+        html+='<li class="list-group-item">Noone has challenged you.</li>';
       }
       $('#games-avail2').html(html);
     }

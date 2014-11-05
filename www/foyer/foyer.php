@@ -3,52 +3,42 @@
     <div class="row">
       <div class="col-md-3">
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
           <div class="panel-heading">Users Online</div>
-          <div class="panel-body js-logged-in-users"></div>
+          <ul class="list-group js-logged-in-users"></ul>
         </div>
 
       </div>
       <div class="col-md-9">
         <div class="row">
           <div class="col-md-6">
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
               <div class="panel-heading">Challenges</div>
-              <div  id="games-avail" class="panel-body">
-                No Games Currently
-              </div>
+              <ul id="games-avail" class="list-group"></ul>
             </div>
-
           </div>
           <div class="col-md-6">
-
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
               <div class="panel-heading">Challengers</div>
-              <div  id="games-avail2" class="panel-body">
-                No Games Currently
-              </div>
+              <ul id="games-avail2" class="list-group"></ul>
             </div>
-
           </div>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-3">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
           <div class="panel-heading">Stats</div>
-          <div class="panel-body">
-            <ul class="list-group">
-              <li class="list-group-item">Wins <span class="js-wins badge">34</span></li>
-              <li class="list-group-item">Loses <span class="js-loses badge">10</span></li>
-              <li class="list-group-item">Ties <span class="js-ties badge">4</span></li>
-            </ul>
-          </div>
+          <ul class="list-group">
+            <li class="list-group-item">Wins <span class="js-wins badge">34</span></li>
+            <li class="list-group-item">Loses <span class="js-loses badge">10</span></li>
+            <li class="list-group-item">Ties <span class="js-ties badge">4</span></li>
+          </ul>
         </div>
       </div>
       <div class="col-md-9">
-
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
           <div class="panel-heading">Chat</div>
           <div class="panel-body">
             <div class="chat-container">
