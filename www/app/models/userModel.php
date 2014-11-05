@@ -3,8 +3,8 @@
 // userModel Class
 // Handles all database interaction related to users
 ///////////////////////////////////////
-require_once "dbInfo.php";
-require_once "commHelpers.php";
+require_once "../../_db/dbInfo.php";
+require_once "../commHelpers.php";
 
 class userModel{
 
@@ -78,7 +78,7 @@ class userModel{
 			$stmt->execute();
 			$stmt->close();
 		}
-		header("Location:login.php?username=".$username);
+		header("Location:/?username=".$username);
 
 	}//end register
 
@@ -100,10 +100,10 @@ class userModel{
 			}*/
 			//end session
 			session_destroy();
-			header("Location:index.php");
+			header("Location:/");
 		  }
 		else{
-			header("Location:login.php");
+			header("Location:/");
 		}
 	}//end logout
 
@@ -138,26 +138,30 @@ class userModel{
 	}//end get chat
 
 	public function getLoggedInUsers(){
-		if($stmt = $this->link->prepare("SELECT * FROM users WHERE logged_In=1")){
+		if($stmt = $this->link->prepare("SELECT * FROM users WHERE logged_In=1 AND user_Id<>?")){
+			$stmt->bind_param("i",$_SESSION['user_Id']);
 			$stmt->execute();
-			$meta = $stmt->result_metadata();
-			while ($field = $meta->fetch_field())
-			{
-				$params[] = &$row[$field->name];
-			}
-
-			call_user_func_array(array($stmt, 'bind_result'), $params);
-
-			while ($stmt->fetch()) {
-				foreach($row as $key => $val)
+			$stmt->store_result();
+			if($stmt->num_rows > 0){
+				$meta = $stmt->result_metadata();
+				while ($field = $meta->fetch_field())
 				{
-					$c[$key] = $val;
+					$params[] = &$row[$field->name];
 				}
-				$result[] = $c;
+
+				call_user_func_array(array($stmt, 'bind_result'), $params);
+
+				while ($stmt->fetch()) {
+					foreach($row as $key => $val)
+					{
+						$c[$key] = $val;
+					}
+					$result[] = $c;
+				}
+				$stmt->close();
+				return  json_encode($result);
 			}
-			$stmt->close();
 		}
-		return  json_encode($result);
 	}
 }//end class
 

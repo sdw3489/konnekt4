@@ -4,15 +4,15 @@
 // controls and distributes ajax calls for user interactions
 /////////////////////////////////////
 session_start();
-include_once "userModel.php";
+include_once "../models/userModel.php";
 
-if(isset($_POST['submit-login'])){	
+if(isset($_POST['submit-login'])){
 	if(!empty($_POST['name']) && !empty($_POST['password'])){
 		$userModel = new userModel();
 		$loggedIn = $userModel->loginUser($_POST['name'],$_POST['password']);
 		unset($userModel);
-		if($loggedIn){ header("Location:index.php");}else{header("Location:login.php");}		
-	}else{header("Location:login.php");}
+		if($loggedIn){ header("Location:/");}else{header("Location:/");}
+	}else{header("Location:/");}
 }
 else if(isset($_POST['submit-register'])){
 	$userModel = new userModel();
@@ -40,11 +40,10 @@ else if(isset($_GET['getChat'])){
 else if(isset($_GET['getLoggedIn'])){
 	$userModel = new userModel();
 	$who = $userModel->getLoggedInUsers();
-	unset($userModel);
 	echo $who;
 	unset($userModel);
 }
 else{
-	header("Location:index.php");
+	header("Location:/");
 }
 ?>
