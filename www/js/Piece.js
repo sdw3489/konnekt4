@@ -63,7 +63,12 @@
 			this.checkDirection(arguments[i]);
 		}
 
-		if(this.connections >= 3){return true;} else{return false;}
+		if(this.connections >= 3){
+			return true;
+		} else{
+			this.connections=0;
+			return false;
+		}
 	}
 
 
