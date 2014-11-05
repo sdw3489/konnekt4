@@ -8,10 +8,10 @@
 
 		<p><img src="/images/title.png"/></p>
 
-		<p><a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-hand-left"></span> Back to  Foyer</a></p>
+		<p><a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-hand-left"></span> Back to Foyer</a></p>
 
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-sm-4">
 				<div class="panel panel-primary">
 					<div class="panel-heading">Game Info</div>
 					<ul class="list-group">
@@ -22,7 +22,7 @@
 				</div>
 			</div>
 
-			<div class="col-md-8">
+			<div class="col-sm-8">
 				<div class="panel panel-primary">
 					<div class="panel-heading ">Game Board</div>
 					<div class="alerts-panel">
@@ -34,9 +34,6 @@
 				</div>
 			</div>
 		</div>
-
-
-
 	</div>
 
   <!-- Latest compiled and minified JavaScript -->
