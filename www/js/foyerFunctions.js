@@ -27,7 +27,7 @@ function getChat(){
       scrollBox();
     }
   });
-  setTimeout('getChat()', 2000);
+  setTimeout('getChat()', 1500);
 }
 
 function sendChat(){
@@ -58,7 +58,6 @@ function getLoggedInUsers(){
     data: 'getLoggedIn=true',
     success: function(jsonText) {
       var html='';
-      console.log(jsonText);
       if(jsonText !== ''){
         var obj = eval(jsonText);
           html+='<ul class="list-group">';
@@ -87,17 +86,18 @@ function getChallenges(){
     url: '/app/controllers/gameController.php',
     data: 'getChallenges=true',
     success: function(jsonText){
-      var obj = eval(jsonText);
-      var html='<ul>';
-      for(i in obj){
-        html+="<li>You challenged "+obj[i].username+". <a href='/game/konnekt4.php?player="+userId+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
-      }
-      html+='</ul>';
-      if(html != ''){
-        $('#games-avail').html(html);
+      var html='';
+      if(jsonText !== ''){
+        var obj = eval(jsonText);
+        html+='<ul class="list-group">';
+        for(i in obj){
+          html+='<li class="list-group-item clearfix">You challenged '+obj[i].username+'! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
+        }
+        html+='</ul>';
       }else{
-        $('#games-avail').html("No Games Currently");
+        html+='<p>No Games Currently</p>';
       }
+      $('#games-avail').html(html);
     }
   });
   setTimeout('getChallenges()', 4000);
@@ -109,18 +109,19 @@ function getChallengers(){
     url: '/app/controllers/gameController.php',
     data: 'getChallengers=true',
     success: function(jsonText){
+      var html='';
+      if(jsonText !== ''){
       var obj = eval(jsonText);
-      var html='<ul>';
+      html+='<ul class="list-group">';
       for(i in obj){
-        html+="<li>"+obj[i].username+" challenged you. <a href='/game/konnekt4.php?player="+userId+"&gameId="+obj[i].game_Id+"'>Game "+obj[i].game_Id+"</a></li>";
+         html+='<li class="list-group-item clearfix">'+obj[i].username+' challenged you! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
       }
       html+='</ul>';
-      if(html != ''){
-        $('#games-avail2').html(html);
-      }else{
-        $('#games-avail2').html("No Games Currently");
+     }else{
+        html+='<p>No Games Currently</p>';
       }
+      $('#games-avail2').html(html);
     }
   });
-  setTimeout('getChallengers()', 3000);
+  setTimeout('getChallengers()', 4000);
 }
