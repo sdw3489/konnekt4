@@ -70,15 +70,13 @@
 	Piece.prototype.countConnections = function(direction)
 	{
 		var checkedCell = boardArr[checkerRow][checkerCol];
-			if(checkedCell.occupied != "undefined")
-			{
-				var checkedCellArr = checkedCell.occupied;
-				if(checkedCellArr[0] == this.player)
-				{
-					this.connections++;
-					this.checkDirection(direction);
-				}
+		if(checkedCell.occupied != null){
+			var checkedCellArr = checkedCell.occupied;
+			if(checkedCellArr[0] == this.player){
+				this.connections++;
+				this.checkDirection(direction);
 			}
+		}
 	}
 
 

@@ -49,7 +49,7 @@ function placePiece(col)
 		//get the target cell based on the col passed into the function and the i variable which counts bottom up
 		var targetSpot = boardArr[row][col];
 		//if the target drop spot cell is not already occupied
-		if(targetSpot.occupied == "")
+		if(targetSpot.occupied === null)
 		{
 			//if its the current players turn add a new piece at the target spot
 			if(playerId == turn){
