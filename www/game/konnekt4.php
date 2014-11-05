@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	$title="Game Board | Konnect4";
+	$title="Game Board";
 	require_once "../_includes/head.php";
 ?>
 	<?php require_once "../_includes/nav.php"; ?>

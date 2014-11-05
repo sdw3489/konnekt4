@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	$title="Foyer";
+	$title="Signup";
 	require_once "../_includes/head.php";
 ?>
 	<div class="container">

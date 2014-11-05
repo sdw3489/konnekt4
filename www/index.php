@@ -1,10 +1,10 @@
 <?php
   session_start();
   $logged_in = false;
-  $title="Login | Konnekt4";
+  $title="Login";
   if(isset($_SESSION['user_Id'])) {
     $logged_in = true;
-    $title = "Foyer | Konnekt4";
+    $title = "Foyer";
   }
 ?>
 <?php require_once "_includes/head.php"; ?>
