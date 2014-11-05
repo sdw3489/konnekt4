@@ -89,7 +89,7 @@
 		case 'below':
 			if(checkerRow >= BOARDHEIGHT-1) return;
 			checkerRow++;
-			if (typeof boardArr[checkerRow] != "undefined")
+			if (typeof boardArr[checkerRow][checkerCol] != "undefined")
 			{
 				this.countConnections(direction);
 			}
@@ -132,7 +132,7 @@
 			if(checkerRow >= BOARDHEIGHT-1 || checkerCol >= BOARDWIDTH-1) return;
 			checkerRow++;
 			checkerCol++;
-			if (typeof boardArr[checkerRow] != "undefined")
+			if (typeof boardArr[checkerRow][checkerCol] != "undefined")
 			{
 				this.countConnections(direction);
 			}
@@ -141,7 +141,7 @@
 			if(checkerRow >= BOARDHEIGHT-1 || checkerCol === 0) return;
 			checkerRow++;
 			checkerCol--;
-			if (typeof boardArr[checkerRow] != "undefined")
+			if (typeof boardArr[checkerRow][checkerCol] != "undefined")
 			{
 				this.countConnections(direction);
 			}
