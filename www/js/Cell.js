@@ -16,7 +16,7 @@ function Cell(myParent,id,size,col,row) {
 	this.col = col;
 	this.row = row;
 	//initialize the other instance vars
-	this.occupied = '';
+	this.occupied = null;
 	this.state = 'alive';
 	this.x = this.col * this.size;
 	this.y = this.row * this.size;
@@ -88,12 +88,12 @@ Cell.prototype.getCenterY = function(){
 
 //set me to occupied...
 Cell.prototype.isOccupied = function(pieceId){
-	//this.occupied = pieceId;
+	this.occupied = pieceId;
 }
 
 //set me to unoccupied...
 Cell.prototype.notOccupied = function(){
-	this.occupied = '';
+	this.occupied = null;
 	//for testing purposes only!
 	this.changeFill(this.color);
 }
