@@ -40,6 +40,15 @@ body {
 }
 
 /* Game Board Styles */
+
+.alerts-panel{
+	min-height:72px;
+	overflow:hidden;
+}
+#nyt{
+	display: none;
+}
+
 .background0 {
 	fill: #966;
 	stroke: black;

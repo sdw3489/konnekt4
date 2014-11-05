@@ -1,30 +1,46 @@
 <?php
 	session_start();
-	$title="Foyer";
+	$title="Game Board | Konnect4";
 	require_once "../_includes/head.php";
 ?>
 	<?php require_once "../_includes/nav.php"; ?>
 	<div class="container">
 
-		<img src="/images/title.png"/><br/>
-		Go back to the <a href="/foyer/">Foyer</a><br/>
-		<svg width="800px" height="525px">
-			<text x="20px" y="20px" id="youPlayer">
-				You are:
-			</text>
-			<text x="270px" y="20px" id="nyt" fill="red" display="none">
-				NOT YOUR TURN!
-			</text>
-			<text x="270px" y="20px" id="nyp" fill="red" display="none">
-				NOT YOUR PIECE!
-			</text>
-			<text x="520px" y="20px" id="opponentPlayer">
-				Opponent is:
-			</text>
-			<text x="650px" y="190px" id="output2">
-				piece id
-			</text>
-		</svg>
+		<p><img src="/images/title.png"/></p>
+
+		<p><a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-hand-left"></span> Back to  Foyer</a></p>
+
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-default">
+					<div class="panel-heading">Game Info</div>
+					<div class="panel-body">
+						<ul class="list-group">
+							<li id="youPlayer" class="list-group-item">You Are: </li>
+							<li id="opponentPlayer" class="list-group-item">Opponent Is: </li>
+							<li id="output2" class="list-group-item">Turn: </li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9">
+
+				<div class="panel panel-default">
+					<div class="panel-heading">Game Board</div>
+					<div class="panel-body">
+						<div class="alerts-panel">
+							<div id="nyt" class="alert alert-danger" role="alert">Not Your Turn!</div>
+							<!-- <div id="nyp" class="alert alert-danger hidden" role="alert">Not Your Piece!</div> -->
+						</div>
+						<svg width="100%" height="450px"></svg>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+
 	</div>
 
   <!-- Latest compiled and minified JavaScript -->

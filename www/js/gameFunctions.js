@@ -1,7 +1,7 @@
 var xhtmlns = "http://www.w3.org/1999/xhtml";
 var svgns = "http://www.w3.org/2000/svg";
-var BOARDX = 50;				//starting pos of board
-var BOARDY = 50;				//look above
+var BOARDX = 0;				//starting pos of board
+var BOARDY = 0;				//look above
 var boardArr = new Array();		//2d array [row][col]
 var pieceArr = new Array();		//2d array [player][piece] (player is either 0 or 1)
 var BOARDWIDTH = 7;				//how many squares across
@@ -113,12 +113,23 @@ function changeTurn(){
 //	tell player it isn't his turn!
 ////////////////
 function nytwarning(){
-	if(document.getElementById('nyt').getAttributeNS(null,'display') == 'none'){
-		document.getElementById('nyt').setAttributeNS(null,'display','inline');
-		setTimeout('nytwarning()',2000);
+	console.log("NOT YOUR TURN");
+	var $alert = $("#nyt");
+	console.log($alert);
+	if(!$alert.is(':visible')){
+		console.log("ALERT IS NOT VISIBLE");
+		$alert.fadeIn('slow');
+		setTimeout('nytwarning()',2500);
 	}else{
-		document.getElementById('nyt').setAttributeNS(null,'display','none');
+		$alert.fadeOut('slow');
 	}
+
+	// if(document.getElementById('nyt').getAttributeNS(null,'display') == 'none'){
+	// 	document.getElementById('nyt').setAttributeNS(null,'display','inline');
+	// 	setTimeout('nytwarning()',2000);
+	// }else{
+	// 	document.getElementById('nyt').setAttributeNS(null,'display','none');
+	// }
 }
 
 ////nypwarning (not your piece)/////
