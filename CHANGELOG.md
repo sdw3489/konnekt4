@@ -11,3 +11,6 @@
 
 ### 1.2: 11-05-2014
   - Bootstrap Design Update
+
+### 1.2.1: 11-05-2014
+  - Hotfix Production Loading

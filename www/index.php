@@ -7,12 +7,12 @@
     $title = "Foyer";
   }
 ?>
-<?php require_once "_includes/head.php"; ?>
+<?php require_once "./_includes/head.php"; ?>
 <?php
   if ($logged_in === false) {
-    include "/login/index.php";
+    include "./login/index.php";
   }else{
-    require_once "_includes/nav.php";
-    include "/foyer/foyer.php";
+    require_once "./_includes/nav.php";
+    include "./foyer/foyer.php";
   }
 ?>
