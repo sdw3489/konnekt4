@@ -9,7 +9,7 @@ var BOARDHEIGHT = 6;			//how many squares down
 //the problem of dragging....
 var myX;						//hold my last pos.
 var myY;						//hold my last pos.
-var mover='';					//hold the id of the thing I'm moving
+var numPieces=0;					//hold the number of pieces
 
 function gameInit(){
 
@@ -44,17 +44,18 @@ function gameInit(){
 function placePiece(col)
 {
 	//checks from the bottom of the board up.
-	for(var i=boardArr.length-1; i >= 0; i--)
+	for(var row=boardArr.length-1; row >= 0; row--)
 	{
 		//get the target cell based on the col passed into the function and the i variable which counts bottom up
-		var targetSpot = boardArr[i][col];
+		var targetSpot = boardArr[row][col];
 		//if the target drop spot cell is not already occupied
 		if(targetSpot.occupied == "")
 		{
 			//if its the current players turn add a new piece at the target spot
 			if(playerId == turn){
-				var piece = new Piece('game_'+gameId,playerId,i,col,'Checker',1);
-				ajax_changeBoard('/app/controllers/gameController.php',targetSpot.id,i,col,'changeBoard',gameId);
+				numPieces++;
+				var piece = new Piece('game_'+gameId,playerId,row,col,'Checker',numPieces);
+				ajax_changeBoard('/app/controllers/gameController.php',targetSpot.id,row,col,'changeBoard',gameId);
 				changeTurn();
 			}else{// if its not your turn throw a not your turn error at the top of the game board
 				var hit=false;

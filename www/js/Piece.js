@@ -63,7 +63,7 @@
 			this.checkDirection(arguments[i]);
 		}
 
-		if(this.connections >= 3){return true;} else{return false;}
+		if(this.connections >= 4){return true;} else{return false;}
 	}
 
 
@@ -87,15 +87,15 @@
 		switch(direction)
 		{
 		case 'below':
+			if(checkerRow >= BOARDHEIGHT-1) return;
 			checkerRow++;
-			checkerCol+0;
 			if (typeof boardArr[checkerRow] != "undefined")
 			{
 				this.countConnections(direction);
 			}
 			break;
 		case 'right':
-			checkerRow+0;
+			if(checkerCol >= BOARDWIDTH-1) return;
 			checkerCol++;
 			if (typeof boardArr[checkerRow][checkerCol] != "undefined")
 			{
@@ -103,7 +103,7 @@
 			}
 			break;
 		case 'left':
-			checkerRow+0;
+			if(checkerCol === 0) return;
 			checkerCol--;
 			if (typeof boardArr[checkerRow][checkerCol] != "undefined")
 			{
@@ -111,6 +111,7 @@
 			}
 			break;
 		case 'aboveRight':
+			if(checkerCol >= BOARDWIDTH-1 || checkerRow === 0) return;
 			checkerRow--;
 			checkerCol++;
 			if (typeof boardArr[checkerRow][checkerCol] != "undefined")
@@ -119,6 +120,7 @@
 			}
 			break;
 		case 'aboveLeft':
+			if(checkerCol === 0 || checkerRow === 0) return;
 			checkerRow--;
 			checkerCol--;
 			if (typeof boardArr[checkerRow][checkerCol] != "undefined")
@@ -127,6 +129,7 @@
 			}
 			break;
 		case 'belowRight':
+			if(checkerRow >= BOARDHEIGHT-1 || checkerCol >= BOARDWIDTH-1) return;
 			checkerRow++;
 			checkerCol++;
 			if (typeof boardArr[checkerRow] != "undefined")
@@ -135,6 +138,7 @@
 			}
 			break;
 		case 'belowLeft':
+			if(checkerRow >= BOARDHEIGHT-1 || checkerCol === 0) return;
 			checkerRow++;
 			checkerCol--;
 			if (typeof boardArr[checkerRow] != "undefined")

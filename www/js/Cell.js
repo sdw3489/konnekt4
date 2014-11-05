@@ -88,7 +88,7 @@ Cell.prototype.getCenterY = function(){
 
 //set me to occupied...
 Cell.prototype.isOccupied = function(pieceId){
-	//this.occupied = pieceId;
+	this.occupied = pieceId;
 }
 
 //set me to unoccupied...
