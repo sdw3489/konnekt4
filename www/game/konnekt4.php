@@ -36,6 +36,22 @@
 		</div>
 	</div>
 
+
+	<div class="modal fade js-game-end-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 class="modal-title">Game Over</h2>
+				</div>
+				<div class="modal-body js-game-end-msg"></div>
+				<div class="modal-footer">
+					<!-- <a href="#" class="btn btn-default js-restart-game" data-dismiss="modal">Restart</a> -->
+					<a href="/" class="btn btn-primary">End Game</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
   <!-- Latest compiled and minified JavaScript -->
 	<script src="/js/vendor/jquery-1.11.1.min.js" type="text/javascript"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
