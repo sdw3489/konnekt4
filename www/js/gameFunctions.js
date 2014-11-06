@@ -4,6 +4,24 @@ var BOARDX = 0;				//starting pos of board
 var BOARDY = 0;				//look above
 var boardArr = new Array();		//2d array [row][col]
 var pieceArr = new Array();		//2d array [player][piece] (player is either 0 or 1)
+var directionArr = [
+	{
+		direction: ['right','left'],
+		message:'Won with 4 Across.'
+	},
+	{
+		direction: ['below'],
+		message:'Won with 4 Stacked.'
+	},
+	{
+		direction: ['aboveRight','belowLeft'],
+		message:'Won with 4 Diagonal Right.'
+	},
+	{
+		direction: ['aboveLeft','belowRight'],
+		message:'Won with 4 Diagonal Left.'
+	}
+];
 var BOARDWIDTH = 7;				//how many squares across
 var BOARDHEIGHT = 6;			//how many squares down
 //the problem of dragging....
@@ -121,4 +139,9 @@ function nytwarning(){
 	}else{
 		$alert.slideUp();
 	}
+}
+
+function gameEnd(player, msg){
+	$('.js-game-end-msg').html("<p>Player "+player+" "+ msg+"</p>");
+	$('.js-game-end-modal').modal();
 }

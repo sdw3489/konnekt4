@@ -32,36 +32,26 @@
 		this.setAtt("id",this.id);						// make sure the SVG object has the correct id value (make sure it can be dragged)
 
 		boardArr[cellRow][cellCol].occupied = Array(player,cellRow, cellCol);
-		if(this.countDirection('right','left'))
-		{
-			alert('Konnekt 4 Won by player ' + this.player + ' with 4 across.');
-
-		} else if(this.countDirection('below'))
-		{
-			alert('Konnekt 4 Won by player ' + this.player + ' with 4 on top of each other.');
-
-		} else if(this.countDirection('aboveRight','belowLeft'))
-		{
-			alert('Konnekt 4 Won by player ' + this.player + ' with 4 positive diagonals.');
-
-		} else if(this.countDirection('aboveLeft','belowRight'))
-		{
-			alert('Konnekt 4 Won by player ' + this.player + ' with 4 negative diagonals.');
-		}
 		document.getElementsByTagName('svg')[0].appendChild(this.piece);
+
+		for (var i = 0; i <= directionArr.length-1; i++) {
+			for (var k = 0; k <= directionArr[i].direction.length-1; k++) {
+				if(this.countDirection(directionArr[i].direction[k])){
+					gameEnd(this.player, directionArr[i].message);
+					return;
+				}
+			}
+		}
 
 		// return this piece object
 		return this;
 	}
 
-	Piece.prototype.countDirection = function()
+	Piece.prototype.countDirection = function(direction)
 	{
-		for(var i=0;i<arguments.length;i++)
-		{
-			checkerRow = this.cellRow;
-			checkerCol = this.cellCol;
-			this.checkDirection(arguments[i]);
-		}
+		checkerRow = this.cellRow;
+		checkerCol = this.cellCol;
+		this.checkDirection(direction);
 
 		if(this.connections >= 3){
 			return true;
