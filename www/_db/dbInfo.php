@@ -25,22 +25,22 @@ $host = $_SERVER['HTTP_HOST'];
 
 switch (getenv('ENV')) {
   case 'dev':
-    define('ENVIRONMENT', 'development');
-    // db env settings
-    define("DB_SERVER", "localhost");
-    define("DB_NAME", "sethwhi1_konnekt4");
-    define("DB_USER", "root");
-    define("DB_PASS", "");
-    break;
+  define('ENVIRONMENT', 'development');
+  // db env settings
+  define("DB_SERVER", "localhost");
+  define("DB_NAME", "sethwhi1_konnekt4");
+  define("DB_USER", "root");
+  define("DB_PASS", "");
+  break;
 
   default:
-    define('ENVIRONMENT', 'production');
-    // db env settings
-    define("DB_SERVER", "localhost");
-    define('DB_NAME', 'sethwhi1_konnekt4');
-    define('DB_USER', 'sethwhi1_admin');
-    define('DB_PASS', 'Carr1349');
-    break;
+  define('ENVIRONMENT', 'production');
+  // db env settings
+  define("DB_SERVER", "localhost");
+  define('DB_NAME', 'sethwhi1_konnekt4');
+  define('DB_USER', 'sethwhi1_admin');
+  define('DB_PASS', 'Carr1349');
+  break;
 
 }
 

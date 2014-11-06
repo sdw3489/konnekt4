@@ -1,147 +1,147 @@
 var xhtmlns = "http://www.w3.org/1999/xhtml";
 var svgns = "http://www.w3.org/2000/svg";
-var BOARDX = 0;				//starting pos of board
-var BOARDY = 0;				//look above
-var boardArr = new Array();		//2d array [row][col]
-var pieceArr = new Array();		//2d array [player][piece] (player is either 0 or 1)
+var BOARDX = 0;       //starting pos of board
+var BOARDY = 0;       //look above
+var boardArr = new Array();   //2d array [row][col]
+var pieceArr = new Array();   //2d array [player][piece] (player is either 0 or 1)
 var directionArr = [
-	{
-		direction: ['right','left'],
-		message:'Won with 4 Across.'
-	},
-	{
-		direction: ['below'],
-		message:'Won with 4 Stacked.'
-	},
-	{
-		direction: ['aboveRight','belowLeft'],
-		message:'Won with 4 Diagonal Right.'
-	},
-	{
-		direction: ['aboveLeft','belowRight'],
-		message:'Won with 4 Diagonal Left.'
-	}
+  {
+    direction: ['right','left'],
+    message:'Won with 4 Across.'
+  },
+  {
+    direction: ['below'],
+    message:'Won with 4 Stacked.'
+  },
+  {
+    direction: ['aboveRight','belowLeft'],
+    message:'Won with 4 Diagonal Right.'
+  },
+  {
+    direction: ['aboveLeft','belowRight'],
+    message:'Won with 4 Diagonal Left.'
+  }
 ];
-var BOARDWIDTH = 7;				//how many squares across
-var BOARDHEIGHT = 6;			//how many squares down
+var BOARDWIDTH = 7;       //how many squares across
+var BOARDHEIGHT = 6;      //how many squares down
 //the problem of dragging....
-var myX;						//hold my last pos.
-var myY;						//hold my last pos.
-var numPieces=0;					//hold the number of pieces
+var myX;            //hold my last pos.
+var myY;            //hold my last pos.
+var numPieces=0;          //hold the number of pieces
 
 function gameInit(){
 
-	//create a parent to stick board in...
-	var gEle=document.createElementNS(svgns,'g');
+  //create a parent to stick board in...
+  var gEle=document.createElementNS(svgns,'g');
 
-	gEle.setAttributeNS(null,'transform','translate('+BOARDX+','+BOARDY+')');
+  gEle.setAttributeNS(null,'transform','translate('+BOARDX+','+BOARDY+')');
 
-	gEle.setAttributeNS(null,"id","game_1");
+  gEle.setAttributeNS(null,"id","game_1");
 
-	gEle.setAttributeNS(null,'stroke','blue');
-	//stick g on board
+  gEle.setAttributeNS(null,'stroke','blue');
+  //stick g on board
 
-	document.getElementsByTagName('svg')[0].insertBefore(gEle,document.getElementsByTagName('svg')[0].childNodes[4]);
+  document.getElementsByTagName('svg')[0].insertBefore(gEle,document.getElementsByTagName('svg')[0].childNodes[4]);
 
-	//create the board...
-	for(i=0;i<BOARDHEIGHT;i++){//rows i
-		boardArr[i]=new Array();
-		for(j=0;j<BOARDWIDTH;j++){//cols j
-			boardArr[i][j]=new Cell(document.getElementById("game_1"),'cell_'+j+i,75,j,i);
-		}
-	}
+  //create the board...
+  for(i=0;i<BOARDHEIGHT;i++){//rows i
+    boardArr[i]=new Array();
+    for(j=0;j<BOARDWIDTH;j++){//cols j
+      boardArr[i][j]=new Cell(document.getElementById("game_1"),'cell_'+j+i,75,j,i);
+    }
+  }
 
-	//put the player in the text
-	document.getElementById('youPlayer').firstChild.data+=player;
-	document.getElementById('opponentPlayer').firstChild.data+=player2;
-	ajax_checkTurn('/app/controllers/gameController.php','checkTurn',gameId);
+  //put the player in the text
+  document.getElementById('youPlayer').firstChild.data+=player;
+  document.getElementById('opponentPlayer').firstChild.data+=player2;
+  ajax_checkTurn('/app/controllers/gameController.php','checkTurn',gameId);
 
 }
 
 //************************ NEW FUNCTION ***********************/
 function placePiece(col)
 {
-	//checks from the bottom of the board up.
-	for(var row=boardArr.length-1; row >= 0; row--)
-	{
-		//get the target cell based on the col passed into the function and the i variable which counts bottom up
-		var targetSpot = boardArr[row][col];
-		//if the target drop spot cell is not already occupied
-		if(targetSpot.occupied === null)
-		{
-			//if its the current players turn add a new piece at the target spot
-			if(playerId == turn){
-				numPieces++;
-				var piece = new Piece('game_'+gameId,playerId,row,col,'Checker',numPieces);
-				ajax_changeBoard('/app/controllers/gameController.php',targetSpot.id,row,col,'changeBoard',gameId);
-				changeTurn();
-			}else{// if its not your turn throw a not your turn error at the top of the game board
-				var hit=false;
-				nytwarning();
-			}
-			break;
-		}
-	}
+  //checks from the bottom of the board up.
+  for(var row=boardArr.length-1; row >= 0; row--)
+  {
+    //get the target cell based on the col passed into the function and the i variable which counts bottom up
+    var targetSpot = boardArr[row][col];
+    //if the target drop spot cell is not already occupied
+    if(targetSpot.occupied === null)
+    {
+      //if its the current players turn add a new piece at the target spot
+      if(playerId == turn){
+        numPieces++;
+        var piece = new Piece('game_'+gameId,playerId,row,col,'Checker',numPieces);
+        ajax_changeBoard('/app/controllers/gameController.php',targetSpot.id,row,col,'changeBoard',gameId);
+        changeTurn();
+      }else{// if its not your turn throw a not your turn error at the top of the game board
+        var hit=false;
+        nytwarning();
+      }
+      break;
+    }
+  }
 }
 
 
 ///////////////////////////////Utilities////////////////////////////////////////
 ////get Piece/////
-//	get the piece (object) from the id and return it...
+//  get the piece (object) from the id and return it...
 ////////////////
 function getPiece(which){
-	return pieceArr[parseInt(which.substr((which.search(/\_/)+1),1))][parseInt(which.substring((which.search(/\|/)+1),which.length))];
+  return pieceArr[parseInt(which.substr((which.search(/\_/)+1),1))][parseInt(which.substring((which.search(/\|/)+1),which.length))];
 }
 
 ////get Transform/////
-//	look at the id of the piece sent in and work on it's transform
+//  look at the id of the piece sent in and work on it's transform
 ////////////////
 function getTransform(which){
-	var hold=document.getElementById(which).getAttributeNS(null,'transform');
-	var retVal=new Array();
-	retVal[0]=hold.substring((hold.search(/\(/) + 1),hold.search(/,/));			//x value
-	retVal[1]=hold.substring((hold.search(/,/) + 1),hold.search(/\)/));;		//y value
-	return retVal;
+  var hold=document.getElementById(which).getAttributeNS(null,'transform');
+  var retVal=new Array();
+  retVal[0]=hold.substring((hold.search(/\(/) + 1),hold.search(/,/));     //x value
+  retVal[1]=hold.substring((hold.search(/,/) + 1),hold.search(/\)/));;    //y value
+  return retVal;
 }
 
 ////set Transform/////
-//	look at the id, x, y of the piece sent in and set it's translate
+//  look at the id, x, y of the piece sent in and set it's translate
 ////////////////
 function setTransform(which,x,y){
-	document.getElementById(which).setAttributeNS(null,'transform','translate('+x+','+y+')');
+  document.getElementById(which).setAttributeNS(null,'transform','translate('+x+','+y+')');
 }
 
 ////change turn////
-//	change who's turn it is
+//  change who's turn it is
 //////////////////
 function changeTurn(){
-	//locally, for the name color
-	if(turn == 0){
-		turn=1;
-	}else{
-		turn=0;
-	}
-	//how about for the server (and other player)?
-	//send JSON message to server, have both clients monitor server to know who's turn it is...
-	document.getElementById('output2').firstChild.data='playerId '+playerId+ ' turn '+turn;
-	ajax_changeServerTurn('/app/controllers/gameController.php','changeTurn',gameId);
+  //locally, for the name color
+  if(turn == 0){
+    turn=1;
+  }else{
+    turn=0;
+  }
+  //how about for the server (and other player)?
+  //send JSON message to server, have both clients monitor server to know who's turn it is...
+  document.getElementById('output2').firstChild.data='playerId '+playerId+ ' turn '+turn;
+  ajax_changeServerTurn('/app/controllers/gameController.php','changeTurn',gameId);
 }
 
 /////////////////////////////////Messages to user/////////////////////////////////
 ////nytwarning (not your turn)/////
-//	tell player it isn't his turn!
+//  tell player it isn't his turn!
 ////////////////
 function nytwarning(){
-	var $alert = $(".js-turn-alert");
-	if(!$alert.is(':visible')){
-		$alert.slideDown();
-		setTimeout('nytwarning()',3000);
-	}else{
-		$alert.slideUp();
-	}
+  var $alert = $(".js-turn-alert");
+  if(!$alert.is(':visible')){
+    $alert.slideDown();
+    setTimeout('nytwarning()',3000);
+  }else{
+    $alert.slideUp();
+  }
 }
 
 function gameEnd(player, msg){
-	$('.js-game-end-msg').html("<p>Player "+player+" "+ msg+"</p>");
-	$('.js-game-end-modal').modal();
+  $('.js-game-end-msg').html("<p>Player "+player+" "+ msg+"</p>");
+  $('.js-game-end-modal').modal();
 }
