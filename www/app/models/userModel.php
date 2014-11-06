@@ -93,17 +93,17 @@ class userModel{
 
 
   //inserts a new chat message to the database
-  public function setChat($message, $game_Id){
+  public function setChat($message){
     $time = time();
-    if($stmt = $this->link->prepare("INSERT INTO chat VALUES('NULL', ?, ?, ?, ?)")){
-      $stmt->bind_param("isii",$_SESSION['user_Id'],$message, $time, $game_Id);
+    if($stmt = $this->link->prepare("INSERT INTO chat VALUES('NULL', ?, ?, ?)")){
+      $stmt->bind_param("isi",$_SESSION['user_Id'],$message, $time);
       $stmt->execute();
       $stmt->close();
     }
   }
 
   //gets chat messages from database
-  public function getChat($game_Id,$time){
+  public function getChat($time){
     if($stmt = $this->link->prepare("SELECT u.username, c.message, c.time, c.chat_Id FROM chat c INNER JOIN users u ON c.user_Id=u.user_Id WHERE c.time>=? ORDER BY c.chat_Id ASC")){
       $stmt->bind_param("i",$time);
       $data = returnAssocArray($stmt);
