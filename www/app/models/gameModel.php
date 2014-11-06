@@ -37,20 +37,20 @@ class gameModel{
   public function getChallenges($user_Id){
     if($stmt = $this->link->prepare("SELECT u.username, g.game_Id FROM game g INNER JOIN users u ON g.player1_Id=u.user_Id WHERE player0_Id=?")) {
       $stmt->bind_param("i",$user_Id);
-      $data = returnAssArray($stmt);
+      $data = returnAssocArray($stmt);
       $stmt->close();
     }
     header('Content-Type: text/plain');
-    return $data;
+    return json_encode($data);
   }
   public function getChallengers($user_Id){
     if($stmt = $this->link->prepare("SELECT u.username, g.game_Id FROM game g INNER JOIN users u ON g.player0_Id=u.user_Id WHERE player1_Id=?")) {
       $stmt->bind_param("i", $user_Id);
-      $data = returnAssArray($stmt);
+      $data = returnAssocArray($stmt);
       $stmt->close();
+      header('Content-Type: text/plain');
+      return json_encode($data);
     }
-    header('Content-Type: text/plain');
-    return $data;
   }
   public function start($game_Id){
     if($stmt = $this->link->prepare("UPDATE game SET player0_pieceId=null, player0_boardR=null, player0_boardC=null, player1_pieceId=null, player1_boardR=null, player1_boardC=null WHERE game_Id=?")){
@@ -60,11 +60,11 @@ class gameModel{
     }
     if($stmt = $this->link->prepare("SELECT * FROM game WHERE game_Id=?")){
       $stmt->bind_param("s",$game_Id);
-      $data = returnAssArray($stmt);
+      $data = returnAssocArray($stmt);
       $stmt->close();
     }
     header('Content-Type: text/plain');
-    return $data;
+    return json_encode($data);
   }
   public function changeTurn($game_Id){
     if($stmt = $this->link->prepare("UPDATE game SET whoseTurn=ABS(whoseTurn-1) WHERE game_Id=?")){
@@ -76,11 +76,11 @@ class gameModel{
   public function checkTurn($game_Id){
     if($stmt = $this->link->prepare("SELECT whoseTurn FROM game WHERE game_Id=?")){
       $stmt->bind_param("s",$game_Id);
-      $data = returnAssArray($stmt);
+      $data = returnAssocArray($stmt);
       $stmt->close();
       }
     header('Content-Type: text/plain');
-    return $data;
+    return json_encode($data);
   }
   public function changeBoard($game_Id, $playerId, $pieceId, $boardR, $boardC){
     if($stmt = $this->link->prepare("UPDATE game SET player".$playerId."_pieceId=?, player".$playerId."_boardR=?, player".$playerId."_boardC=? WHERE game_Id=?")){
@@ -92,11 +92,11 @@ class gameModel{
   public function getMove($game_Id){
     if($stmt = $this->link->prepare("SELECT * FROM game WHERE game_Id=?")){
       $stmt->bind_param("s",$game_Id);
-      $data = returnAssArray($stmt);
+      $data = returnAssocArray($stmt);
       $stmt->close();
     }
     header('Content-Type: text/plain');
-    return $data;
+    return json_encode($data);
   }
 }//end class
 
