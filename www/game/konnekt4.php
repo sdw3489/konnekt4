@@ -45,7 +45,6 @@
         </div>
         <div class="modal-body js-game-end-msg"></div>
         <div class="modal-footer">
-          <!-- <a href="#" class="btn btn-default js-restart-game" data-dismiss="modal">Restart</a> -->
           <a href="/" class="btn btn-primary">End Game</a>
         </div>
       </div>
