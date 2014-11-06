@@ -5,28 +5,16 @@
 ///////////////////////////////////////
 require_once "../../_db/dbInfo.php";
 require_once "../commHelpers.php";
+require_once "./baseModel.php";
 
-class userModel{
-
-  private $link;
+class userModel extends baseModel{
 
   public function __construct(){
-    // session_start();
-    $this->link = $this->mkLink();
+    parent::__construct();
   }
 
   public function __destruct(){
-
-  }
-
-  public function mkLink(){
-
-    $link = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-    if(mysqli_connect_errno()){
-      print('connection failed: '. mysqli_connect_error());
-      exit();
-    }
-    return $link;
+    parent::__destruct();
   }
 
   //checks a users login to see if they exist in the database
