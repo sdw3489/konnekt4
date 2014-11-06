@@ -37,11 +37,11 @@ function ajax_checkTurn(whatURL,whatFUNCT,whatVALUE){ //good to also check for n
       url: whatURL,
       data: whatFUNCT+"="+whatVALUE,
       success: function(jsonText){
-        var obj = JSON.parse(jsonText);
-        if(obj[0].whoseTurn == playerId){
+        var obj = JSON.parse(jsonText)[0];
+        if(obj.whoseTurn == playerId){
           //switch turns
-          turn=obj[0].whoseTurn;
-          document.getElementById('output2').firstChild.nodeValue='playerId '+playerId+ ' turn '+turn;
+          turn=obj.whoseTurn;
+          $("#turnInfo").html("Your Turn").addClass('list-group-item-success').removeClass('list-group-item-danger');
           //get the data from the last guys move
           ajax_getMove('/app/controllers/gameController.php','getMove',gameId);
         }
@@ -97,12 +97,13 @@ function ajax_getMove(whatURL,whatFUNCT,whatVALUE){
 }
 
 function ajax_getUserInfo(){
+  var userGameId = arguments[3];
   $.ajax({
     type: "GET",
     url: arguments[0],
     data: arguments[1]+"=true&user_Id="+arguments[2],
     success: function(data){
-      return JSON.parse(data);
+      userInfo(data, userGameId);
     }
   });
 }
