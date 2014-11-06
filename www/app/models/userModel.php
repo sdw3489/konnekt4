@@ -129,6 +129,15 @@ class userModel{
       return json_encode($data);
     }
   }
+
+  public function getUserInfo($user_Id){
+    if($stmt = $this->link->prepare("SELECT user_Id, username FROM users WHERE user_Id=?")){
+      $stmt->bind_param("i",$user_Id);
+      $data = returnAssocArray($stmt);
+      $stmt->close();
+      return json_encode($data);
+    }
+  }
 }//end class
 
 ?>

@@ -113,3 +113,14 @@ function ajax_getMove(whatURL,whatFUNCT,whatVALUE){
     }
   });
 }
+
+function ajax_getUserInfo(){
+  $.ajax({
+    type: "GET",
+    url: arguments[0],
+    data: arguments[1]+"=true&user_Id="+arguments[2],
+    success: function(data){
+      return JSON.parse(data);
+    }
+  });
+}
