@@ -55,7 +55,7 @@ function ajax_checkTurn(whatURL,whatFUNCT,whatVALUE){ //good to also check for n
       url: whatURL,
       data: whatFUNCT+"="+whatVALUE,
       success: function(jsonText){
-        var obj = eval(jsonText);
+        var obj = JSON.parse(jsonText);
         if(obj[0].whoseTurn == playerId){
           //switch turns
           turn=obj[0].whoseTurn;
@@ -76,7 +76,7 @@ function ajax_getMove(whatURL,whatFUNCT,whatVALUE){
     data: whatFUNCT+"="+whatVALUE+"&playerId="+playerId,
     success: function(jsonText){
 
-      var obj = eval(jsonText);
+      var obj = JSON.parse(jsonText);
       //shortcuts
       var ppiece=obj[0]['player'+Math.abs(playerId-1)+'_pieceID'];
       var pbR=obj[0]['player'+Math.abs(playerId-1)+'_boardR'];
@@ -85,7 +85,7 @@ function ajax_getMove(whatURL,whatFUNCT,whatVALUE){
       var temp = new Piece('game_'+gameId,Math.abs(playerId-1),pbR,pbC,'Checker',1);
 
     /*
-      var obj = eval(jsonText);
+      var obj = JSON.parse(jsonText);
       //shortcuts
       var ppiece=obj[0]['player'+Math.abs(playerId-1)+'_pieceID'];
       var pbi=obj[0]['player'+Math.abs(playerId-1)+'_boardI'];

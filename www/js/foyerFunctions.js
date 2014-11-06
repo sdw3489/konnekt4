@@ -18,7 +18,7 @@ function getChat(){
     url: '/app/controllers/userController.php',
     data: theQuery,
     success: function(jsonText) {
-      var obj = eval(jsonText);
+      var obj = JSON.parse(jsonText);
       var html='';
       for(i in obj){
         html+=obj[i].username+": "+obj[i].message+"<br>";
@@ -40,7 +40,7 @@ function sendChat(){
     url: '/app/controllers/userController.php',
     data: theQuery,
     success: function(jsonText) {
-      var obj = eval(jsonText);
+      var obj = JSON.parse(jsonText);
       var html='';
       for(i in obj){
         html+=obj[i].username+": "+obj[i].message+"<br />";
@@ -59,7 +59,7 @@ function getLoggedInUsers(){
     success: function(jsonText) {
       var html='';
       if(jsonText !== ''){
-        var obj = eval(jsonText);
+        var obj = JSON.parse(jsonText);
         for(i in obj){
           html+='<li class="list-group-item">';
           html+='<form class="user-form" action="/app/controllers/gameController.php" method="GET" onsubmit="">';
@@ -85,8 +85,8 @@ function getChallenges(){
     data: 'getChallenges=true',
     success: function(jsonText){
       var html='';
-      if(jsonText !== ''){
-        var obj = eval(jsonText);
+      if(jsonText != 'null'){
+        var obj = JSON.parse(jsonText);
         for(i in obj){
           html+='<li class="list-group-item clearfix">You challenged '+obj[i].username+'! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
         }
@@ -106,12 +106,12 @@ function getChallengers(){
     data: 'getChallengers=true',
     success: function(jsonText){
       var html='';
-      if(jsonText !== ''){
-      var obj = eval(jsonText);
-      for(i in obj){
-        html+='<li class="list-group-item clearfix">'+obj[i].username+' challenged you! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
-      }
-     }else{
+      if(jsonText != 'null'){
+        var obj = JSON.parse(jsonText);
+        for(i in obj){
+          html+='<li class="list-group-item clearfix">'+obj[i].username+' challenged you! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
+        }
+      }else{
         html+='<li class="list-group-item">Noone has challenged you.</li>';
       }
       $('#games-avail2').html(html);
