@@ -43,6 +43,12 @@ else if(isset($_GET['getLoggedIn'])){
   echo $who;
   unset($userModel);
 }
+else if(isset($_GET['getUserInfo'])){
+  $userModel = new userModel();
+  $data = $userModel->getUserInfo($_GET['user_Id']);
+  echo $data;
+  unset($userModel);
+}
 else{
   header("Location:/");
 }

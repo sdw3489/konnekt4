@@ -30,7 +30,55 @@ var myY;            //hold my last pos.
 var numPieces=0;          //hold the number of pieces
 
 function gameInit(){
+  ajax_getInfo("/app/controllers/gameController.php",'start', gameId);
+}
+function gameInfo(data){
+  var gameData = JSON.parse(data),
+      game = gameData[0];
+  turn = game.whoseTurn;
 
+  //compare the session name to the player name to find out my playerId;
+  playerId = player2Id = null;
+  if(player == game.player0_Id){
+    player2 = game.player1_Id;
+    playerId = 0;
+    player2Id = 1;
+  }else{
+    player2 = game.player0_Id;
+    playerId = 1;
+    player2Id = 0;
+  }
+
+  ajax_getUserInfo("/app/controllers/userController.php",'getUserInfo', player, playerId);
+  ajax_getUserInfo("/app/controllers/userController.php",'getUserInfo', player2, player2Id);
+
+  //start building the game (board and piece)
+  createBoard();
+}
+
+function userInfo(data, whichUser){
+   var userData = JSON.parse(data)[0],
+    username = userData.username;
+
+  if(whichUser === playerId){
+    $('#youPlayer').html('You are: '+username);
+  }else{
+    $('#opponentPlayer').html('Opponent is: '+username);
+  }
+
+  //put the player in the text
+  if(playerId === turn){
+    $("#turnInfo").html("Your Turn")
+      .addClass('list-group-item-success')
+      .removeClass('list-group-item-danger');
+  }else{
+    $("#turnInfo").html("Opponents Turn")
+      .addClass('list-group-item-danger')
+      .removeClass('list-group-item-success');
+  }
+}
+
+function createBoard(){
   //create a parent to stick board in...
   var gEle=document.createElementNS(svgns,'g');
 
@@ -50,12 +98,7 @@ function gameInit(){
       boardArr[i][j]=new Cell(document.getElementById("game_1"),'cell_'+j+i,75,j,i);
     }
   }
-
-  //put the player in the text
-  document.getElementById('youPlayer').firstChild.data+=player;
-  document.getElementById('opponentPlayer').firstChild.data+=player2;
   ajax_checkTurn('/app/controllers/gameController.php','checkTurn',gameId);
-
 }
 
 //************************ NEW FUNCTION ***********************/
@@ -123,7 +166,15 @@ function changeTurn(){
   }
   //how about for the server (and other player)?
   //send JSON message to server, have both clients monitor server to know who's turn it is...
-  document.getElementById('output2').firstChild.data='playerId '+playerId+ ' turn '+turn;
+   if(playerId === turn){
+    $("#turnInfo").html("Your Turn")
+      .addClass('list-group-item-success')
+      .removeClass('list-group-item-danger');
+  }else{
+    $("#turnInfo").html("Opponents Turn")
+      .addClass('list-group-item-danger')
+      .removeClass('list-group-item-success');
+  }
   ajax_changeServerTurn('/app/controllers/gameController.php','changeTurn',gameId);
 }
 

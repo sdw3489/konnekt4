@@ -34,23 +34,7 @@ class userModel{
     $encrypted_password = sha1($password);
     if($stmt = $this->link->prepare("SELECT user_Id, username, password FROM users WHERE username=? AND password=? ")){
       $stmt->bind_param("ss", $name, $encrypted_password);
-      $stmt->execute();
-      $meta = $stmt->result_metadata();
-      while ($field = $meta->fetch_field())
-      {
-        $params[] = &$row[$field->name];
-      }
-
-      call_user_func_array(array($stmt, 'bind_result'), $params);
-
-      while ($stmt->fetch()) {
-        foreach($row as $key => $val)
-        {
-          $c[$key] = $val;
-        }
-        $result[] = $c;
-      }
-      $stmt->close();
+      $result = returnAssocArray($stmt);
     }
 
     if(!$result || (count($result) == 0 )){
@@ -120,10 +104,10 @@ class userModel{
 
   //gets chat messages from database
   public function getChat($game_Id,$time){
-    if($stmt = $this->link->prepare("SELECT u.username, c.message, c.time, c.chat_Id FROM chat c INNER JOIN users u ON c.user_Id=u.user_Id WHERE c.game_Id=? AND c.time>=? ORDER BY c.chat_Id ASC")){
-      $stmt->bind_param("ii", $game_Id,$time);
-      $data = returnAssArray($stmt);
-      $data = stripslashes($data);
+    if($stmt = $this->link->prepare("SELECT u.username, c.message, c.time, c.chat_Id FROM chat c INNER JOIN users u ON c.user_Id=u.user_Id WHERE c.time>=? ORDER BY c.chat_Id ASC")){
+      $stmt->bind_param("i",$time);
+      $data = returnAssocArray($stmt);
+      $data = stripslashes(json_encode($data));
       $stmt->close();
     }
     //next 5 lines will clear the cache
@@ -140,27 +124,18 @@ class userModel{
   public function getLoggedInUsers(){
     if($stmt = $this->link->prepare("SELECT * FROM users WHERE logged_In=1 AND user_Id<>?")){
       $stmt->bind_param("i",$_SESSION['user_Id']);
-      $stmt->execute();
-      $stmt->store_result();
-      if($stmt->num_rows > 0){
-        $meta = $stmt->result_metadata();
-        while ($field = $meta->fetch_field())
-        {
-          $params[] = &$row[$field->name];
-        }
+      $data = returnAssocArray($stmt);
+      $stmt->close();
+      return json_encode($data);
+    }
+  }
 
-        call_user_func_array(array($stmt, 'bind_result'), $params);
-
-        while ($stmt->fetch()) {
-          foreach($row as $key => $val)
-          {
-            $c[$key] = $val;
-          }
-          $result[] = $c;
-        }
-        $stmt->close();
-        return  json_encode($result);
-      }
+  public function getUserInfo($user_Id){
+    if($stmt = $this->link->prepare("SELECT user_Id, username FROM users WHERE user_Id=?")){
+      $stmt->bind_param("i",$user_Id);
+      $data = returnAssocArray($stmt);
+      $stmt->close();
+      return json_encode($data);
     }
   }
 }//end class

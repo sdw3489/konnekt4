@@ -15,9 +15,9 @@
         <div class="panel panel-primary">
           <div class="panel-heading">Game Info</div>
           <ul class="list-group">
-            <li id="youPlayer" class="list-group-item">You Are: </li>
-            <li id="opponentPlayer" class="list-group-item">Opponent Is: </li>
-            <li id="output2" class="list-group-item">Turn: </li>
+            <li id="youPlayer" class="list-group-item"></li>
+            <li id="opponentPlayer" class="list-group-item"></li>
+            <li id="turnInfo" class="list-group-item"></li>
           </ul>
         </div>
       </div>
@@ -63,7 +63,7 @@
     var gameId=<?php echo $_GET['gameId'] ?>;
     var player=<?php echo $_GET['player']?>;
     $(document).ready(function(){
-      ajax_getInfo("/app/controllers/gameController.php",'start', gameId);
+      gameInit();
     });
   </script>
 </body>

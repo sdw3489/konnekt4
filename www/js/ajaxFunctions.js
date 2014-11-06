@@ -5,25 +5,7 @@ function ajax_getInfo(whatURL,whatFUNCT,whatVALUE){
     type: "GET",
     url: whatURL,
     data: whatFUNCT+"="+whatVALUE,
-    success: function(jsonText) {
-
-      var obj = eval(jsonText);
-      //compare the session name to the player name to find out my playerId;
-      turn = obj[0].whoseTurn;
-      playerId = null;
-      if(player == obj[0].player1_Id){
-        player2 = obj[0].player0_Id;
-        playerId = 1;
-      }else{
-        player2 = obj[0].player1_Id;
-        playerId = 0;
-
-      }
-      document.getElementById('output2').firstChild.nodeValue='playerId '+playerId+ ' turn '+turn;
-      //start building the game (board and piece)
-      gameInit();
-
-    }
+    success: gameInfo
   });
 }
 
@@ -55,11 +37,11 @@ function ajax_checkTurn(whatURL,whatFUNCT,whatVALUE){ //good to also check for n
       url: whatURL,
       data: whatFUNCT+"="+whatVALUE,
       success: function(jsonText){
-        var obj = eval(jsonText);
-        if(obj[0].whoseTurn == playerId){
+        var obj = JSON.parse(jsonText)[0];
+        if(obj.whoseTurn == playerId){
           //switch turns
-          turn=obj[0].whoseTurn;
-          document.getElementById('output2').firstChild.nodeValue='playerId '+playerId+ ' turn '+turn;
+          turn=obj.whoseTurn;
+          $("#turnInfo").html("Your Turn").addClass('list-group-item-success').removeClass('list-group-item-danger');
           //get the data from the last guys move
           ajax_getMove('/app/controllers/gameController.php','getMove',gameId);
         }
@@ -76,7 +58,7 @@ function ajax_getMove(whatURL,whatFUNCT,whatVALUE){
     data: whatFUNCT+"="+whatVALUE+"&playerId="+playerId,
     success: function(jsonText){
 
-      var obj = eval(jsonText);
+      var obj = JSON.parse(jsonText);
       //shortcuts
       var ppiece=obj[0]['player'+Math.abs(playerId-1)+'_pieceID'];
       var pbR=obj[0]['player'+Math.abs(playerId-1)+'_boardR'];
@@ -85,7 +67,7 @@ function ajax_getMove(whatURL,whatFUNCT,whatVALUE){
       var temp = new Piece('game_'+gameId,Math.abs(playerId-1),pbR,pbC,'Checker',1);
 
     /*
-      var obj = eval(jsonText);
+      var obj = JSON.parse(jsonText);
       //shortcuts
       var ppiece=obj[0]['player'+Math.abs(playerId-1)+'_pieceID'];
       var pbi=obj[0]['player'+Math.abs(playerId-1)+'_boardI'];
@@ -110,6 +92,18 @@ function ajax_getMove(whatURL,whatFUNCT,whatVALUE){
       }
       */
 
+    }
+  });
+}
+
+function ajax_getUserInfo(){
+  var userGameId = arguments[3];
+  $.ajax({
+    type: "GET",
+    url: arguments[0],
+    data: arguments[1]+"=true&user_Id="+arguments[2],
+    success: function(data){
+      userInfo(data, userGameId);
     }
   });
 }

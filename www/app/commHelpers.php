@@ -4,7 +4,7 @@
     -parameters already bound
   returns: json encoded multi-dimensional associative array
 */
-function returnAssArray ($stmt){
+function returnAssocArray ($stmt){
   $stmt->execute();
   $stmt->store_result();
   if($stmt->num_rows > 0){
@@ -27,7 +27,7 @@ function returnAssArray ($stmt){
       }
       $data[] = $clone;
     }
-    return json_encode($data);
+    return $data;
   }
 }
 ?>
