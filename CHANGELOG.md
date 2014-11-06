@@ -17,3 +17,6 @@
 
 ### 1.3: 11-05-2014
   - Game Winning Logic fixed
+
+### 1.4: 11-06-2014
+  - Game Info Panel updated with more relevant information
