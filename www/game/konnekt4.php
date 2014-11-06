@@ -63,7 +63,7 @@
     var gameId=<?php echo $_GET['gameId'] ?>;
     var player=<?php echo $_GET['player']?>;
     $(document).ready(function(){
-      ajax_getInfo("/app/controllers/gameController.php",'start', gameId);
+      gameInit();
     });
   </script>
 </body>

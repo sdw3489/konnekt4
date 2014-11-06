@@ -30,7 +30,33 @@ var myY;            //hold my last pos.
 var numPieces=0;          //hold the number of pieces
 
 function gameInit(){
+  ajax_getInfo("/app/controllers/gameController.php",'start', gameId);
+}
+function gameInfo(data){
+  var gameData = JSON.parse(data),
+      game = gameData[0];
+  turn = game.whoseTurn;
 
+  //compare the session name to the player name to find out my playerId;
+  playerId = null;
+  if(player == game.player0_Id){
+    player2 = game.player1_Id;
+    playerId = 0;
+  }else{
+    player2 = game.player0_Id;
+    playerId = 1;
+  }
+
+  //put the player in the text
+  document.getElementById('output2').firstChild.data='playerId '+playerId+ ' turn '+turn;
+  document.getElementById('youPlayer').firstChild.data+=player;
+  document.getElementById('opponentPlayer').firstChild.data+=player2;
+
+  //start building the game (board and piece)
+  createBoard();
+}
+
+function createBoard(){
   //create a parent to stick board in...
   var gEle=document.createElementNS(svgns,'g');
 
@@ -50,12 +76,7 @@ function gameInit(){
       boardArr[i][j]=new Cell(document.getElementById("game_1"),'cell_'+j+i,75,j,i);
     }
   }
-
-  //put the player in the text
-  document.getElementById('youPlayer').firstChild.data+=player;
-  document.getElementById('opponentPlayer').firstChild.data+=player2;
   ajax_checkTurn('/app/controllers/gameController.php','checkTurn',gameId);
-
 }
 
 //************************ NEW FUNCTION ***********************/

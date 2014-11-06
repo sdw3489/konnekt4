@@ -5,25 +5,7 @@ function ajax_getInfo(whatURL,whatFUNCT,whatVALUE){
     type: "GET",
     url: whatURL,
     data: whatFUNCT+"="+whatVALUE,
-    success: function(jsonText) {
-
-      var obj = eval(jsonText);
-      //compare the session name to the player name to find out my playerId;
-      turn = obj[0].whoseTurn;
-      playerId = null;
-      if(player == obj[0].player1_Id){
-        player2 = obj[0].player0_Id;
-        playerId = 1;
-      }else{
-        player2 = obj[0].player1_Id;
-        playerId = 0;
-
-      }
-      document.getElementById('output2').firstChild.nodeValue='playerId '+playerId+ ' turn '+turn;
-      //start building the game (board and piece)
-      gameInit();
-
-    }
+    success: gameInfo
   });
 }
 
