@@ -12,7 +12,7 @@ function scrollBox(){ //auto scroll of box\
 
 
 function getChat(){
-  var theQuery='getChat=true&game_Id=0';
+  var theQuery='getChat=true';
   $.ajax({
     type: "GET",
     url: '/app/controllers/userController.php',
@@ -32,7 +32,7 @@ function getChat(){
 
 function sendChat(){
   if(arguments[0]){
-    theQuery='setChat=true&message='+arguments[0]+'&game_Id=0';
+    theQuery='setChat=true&message='+arguments[0];
     var inputDiv = document.getElementById("chat-input").value="";
   }
   $.ajax({

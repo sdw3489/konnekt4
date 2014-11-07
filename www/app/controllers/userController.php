@@ -26,14 +26,14 @@ else if(isset($_GET['logout'])){
 }
 else if(isset($_GET['setChat'])){
   $userModel = new userModel();
-  $userModel->setChat($_GET['message'],$_GET['game_Id']);
-  $chat = $userModel->getChat($_GET['game_Id'],$_SESSION['time']);
+  $userModel->setChat($_GET['message']);
+  $chat = $userModel->getChat($_SESSION['time']);
   echo $chat;
   unset($userModel);
 }
 else if(isset($_GET['getChat'])){
   $userModel = new userModel();
-  $chat = $userModel->getChat($_GET['game_Id'],$_SESSION['time']);
+  $chat = $userModel->getChat($_SESSION['time']);
   echo $chat;
   unset($userModel);
 }

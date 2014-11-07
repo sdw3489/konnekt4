@@ -6,25 +6,16 @@
 ///////////////////////////////////
 require_once "../../_db/dbInfo.php";
 require_once "../commHelpers.php";
+require_once "baseModel.php";
 
-class gameModel{
 
-  private $link;
+class gameModel extends baseModel{
 
   public function __construct(){
-    // session_start();
-    $this->link = $this->mkLink();
+     parent::__construct();
   }
   public function __destruct(){
-
-  }
-  public function mkLink(){
-    $link = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-    if(mysqli_connect_errno()){
-      print('connection failed: '. mysqli_connect_error());
-      exit();
-    }
-    return $link;
+     parent::__destruct();
   }
   public function newGame($user_Id, $challenged){
     $time=time();

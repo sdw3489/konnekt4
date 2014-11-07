@@ -5,28 +5,16 @@
 ///////////////////////////////////////
 require_once "../../_db/dbInfo.php";
 require_once "../commHelpers.php";
+require_once "baseModel.php";
 
-class userModel{
-
-  private $link;
+class userModel extends baseModel{
 
   public function __construct(){
-    // session_start();
-    $this->link = $this->mkLink();
+    parent::__construct();
   }
 
   public function __destruct(){
-
-  }
-
-  public function mkLink(){
-
-    $link = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
-    if(mysqli_connect_errno()){
-      print('connection failed: '. mysqli_connect_error());
-      exit();
-    }
-    return $link;
+    parent::__destruct();
   }
 
   //checks a users login to see if they exist in the database
@@ -93,17 +81,17 @@ class userModel{
 
 
   //inserts a new chat message to the database
-  public function setChat($message, $game_Id){
+  public function setChat($message){
     $time = time();
-    if($stmt = $this->link->prepare("INSERT INTO chat VALUES('NULL', ?, ?, ?, ?)")){
-      $stmt->bind_param("isii",$_SESSION['user_Id'],$message, $time, $game_Id);
+    if($stmt = $this->link->prepare("INSERT INTO chat VALUES('NULL', ?, ?, ?)")){
+      $stmt->bind_param("isi",$_SESSION['user_Id'],$message, $time);
       $stmt->execute();
       $stmt->close();
     }
   }
 
   //gets chat messages from database
-  public function getChat($game_Id,$time){
+  public function getChat($time){
     if($stmt = $this->link->prepare("SELECT u.username, c.message, c.time, c.chat_Id FROM chat c INNER JOIN users u ON c.user_Id=u.user_Id WHERE c.time>=? ORDER BY c.chat_Id ASC")){
       $stmt->bind_param("i",$time);
       $data = returnAssocArray($stmt);
