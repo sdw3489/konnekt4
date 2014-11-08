@@ -15,11 +15,17 @@ class Game_model extends CI_Model {
   }
 
   public function start($game_Id){
-    $query = $this->db->get_where($this->table, array('game_Id'=> $game_Id));
-    if($query->num_rows() > 0){
-      $results =  $query->result();
-      return $results;
-    }
+    $data = array(
+      "player0_pieceId"=> null,
+      "player0_boardR" => null,
+      "player0_boardC" => null,
+      "player1_pieceId"=> null,
+      "player1_boardR" => null,
+      "player1_boardC" => null
+    );
+    $query = $this->db->where("game_Id", $game_Id)->update('game', $data);
+
+    return $this->getMove($game_Id);
   }
 
   public function getChallenges($user_Id){
@@ -61,7 +67,11 @@ class Game_model extends CI_Model {
   }
 
   public function getMove($game_Id){
-    return $this->start($game_Id);
+    $query = $this->db->get_where($this->table, array('game_Id'=> $game_Id));
+    if($query->num_rows() > 0){
+      $results =  $query->result();
+      return $results;
+    }
   }
 }
 ?>
