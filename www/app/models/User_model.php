@@ -36,5 +36,14 @@ class User_model extends CI_Model {
       return false;
     }
   }
+
+   //register a new user into the database
+  public function register(){
+    $data = array(
+      'username' => $this->input->post('username'),
+      'password' => sha1($this->input->post('password')),
+    );
+    $this->db->insert('users', $data);
+  }//end register
 }
 ?>

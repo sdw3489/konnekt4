@@ -38,7 +38,21 @@ class User extends CI_Controller {
     }else{
       header("Location:/");
     }
-
   }
+
+  //Sign up page
+  public function signup(){
+    $data['title'] = 'Signup';
+    $this->load->view('global/head', $data);
+    $this->load->view('signup', $data);
+  }//end register
+
+
+  //register a new user into the database
+  public function register(){
+    $this->User->register();
+    header("Location:/");
+  }//end register
+
 }
 ?>
