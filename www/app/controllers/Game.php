@@ -7,8 +7,13 @@ class Game extends CI_Controller {
     $this->load->driver('session');
   }
 
-  public function index(){
-
+  public function index($game_Id){
+    $data['title'] = 'Game Board';
+    $data['gameId'] = $game_Id;
+    $data['player'] = $this->session->userdata('user_Id');
+    $this->load->view('global/head', $data);
+    $this->load->view('global/nav', $data);
+    $this->load->view('game', $data);
   }
 
   public function challenge($user_Id){
@@ -24,6 +29,14 @@ class Game extends CI_Controller {
   public function getChallengers(){
     $data = $this->Game->getChallengers($_SESSION['user_Id']);
     echo json_encode($data);
+  }
+
+  public function _remap($method){
+    if (method_exists($this, $method)){
+      $this->$method();
+    } else {
+      $this->index($method);
+    }
   }
 
 }

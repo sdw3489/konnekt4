@@ -1,9 +1,3 @@
-<?php
-  session_start();
-  $title="Game Board";
-  require_once "../_includes/head.php";
-?>
-  <?php require_once "../_includes/nav.php"; ?>
   <div class="container">
 
     <p><img src="/images/title.png"/></p>
@@ -59,8 +53,8 @@
   <script src="/js/gameFunctions.js" type="text/javascript"></script>
   <script src="/js/ajaxFunctions.js" type="text/javascript"></script>
   <script type="text/javascript">
-    var gameId=<?php echo $_GET['gameId'] ?>;
-    var player=<?php echo $_GET['player']?>;
+    var gameId=<?= $gameId; ?>;
+    var player=<?= $player; ?>;
     $(document).ready(function(){
       gameInit();
     });

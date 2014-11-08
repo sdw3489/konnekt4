@@ -86,7 +86,7 @@ function getChallenges(){
       if(jsonText != 'null'){
         var obj = JSON.parse(jsonText);
         for(i in obj){
-          html+='<li class="list-group-item clearfix">You challenged '+obj[i].username+'! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
+          html+='<li class="list-group-item clearfix">You challenged '+obj[i].username+'! <a href="/game/'+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
         }
       }else{
         html+='<li class="list-group-item">You haven\'t challenged anyone.</li>';
@@ -106,7 +106,7 @@ function getChallengers(){
       if(jsonText != 'null'){
         var obj = JSON.parse(jsonText);
         for(i in obj){
-          html+='<li class="list-group-item clearfix">'+obj[i].username+' challenged you! <a href="/game/konnekt4.php?player='+userId+'&gameId='+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
+          html+='<li class="list-group-item clearfix">'+obj[i].username+' challenged you! <a href="/game/'+obj[i].game_Id+'" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game '+obj[i].game_Id+'</a></li>';
         }
       }else{
         html+='<li class="list-group-item">Noone has challenged you.</li>';
