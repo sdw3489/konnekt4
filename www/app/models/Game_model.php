@@ -5,6 +5,11 @@ class Game_model extends CI_Model {
     parent::__construct();
   }
 
+  public function newGame($user_Id, $challenged){
+    $time=time();
+    $this->db->insert('game', array('player0_id' => $user_Id, 'player1_id' => $challenged, 'last_updated' => $time ));
+  }
+
   public function getChallenges($user_Id){
     $query = $this->db->select('username, game_Id')->from('game')->join('users','game.player1_Id=users.user_Id', 'inner')->where('player0_Id',$user_Id)->get();
     if($query->num_rows() > 0){

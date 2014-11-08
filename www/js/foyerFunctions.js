@@ -61,8 +61,8 @@ function getLoggedInUsers(){
         var obj = JSON.parse(jsonText);
         for(i in obj){
           html+='<li class="list-group-item">';
-          html+='<form class="user-form" action="/app/controllers/gameController.php" method="GET" onsubmit="">';
-          html+='<input type="hidden" name="user_Id" value="'+obj[i].user_Id+'"/>';
+          html+='<form class="user-form" action="/game/challenge/'+obj[i].user_Id+'" method="POST" onsubmit="">';
+          // html+='<input type="hidden" name="user_Id" value="'+obj[i].user_Id+'"/>';
           html+='<span class="glyphicon glyphicon-user"></span><span class="username">'+obj[i].username+'</span>';
           html+='<input type="submit" class="btn btn-primary btn-sm pull-right" name="challenge" value="Challenge"/>';
           html+='</form>';

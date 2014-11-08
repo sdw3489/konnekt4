@@ -11,6 +11,11 @@ class Game extends CI_Controller {
 
   }
 
+  public function challenge($user_Id){
+    $data = $this->Game->newGame($_SESSION['user_Id'], $user_Id);
+    header("Location:/");
+  }
+
   public function getChallenges(){
     $data = $this->Game->getChallenges($_SESSION['user_Id']);
     echo json_encode($data);
