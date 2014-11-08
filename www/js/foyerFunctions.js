@@ -1,8 +1,8 @@
 function init(){
   // getChat(); // initializes the chat system
   getLoggedInUsers(); // grabs logged in users
-  // getChallenges(); // retrieves games current user has challenged other users
-  // getChallengers(); //retrieves games which the current user has been challenged in
+  getChallenges(); // retrieves games current user has challenged other users
+  getChallengers(); //retrieves games which the current user has been challenged in
 }
 
 function scrollBox(){ //auto scroll of box\
@@ -80,8 +80,7 @@ function getLoggedInUsers(){
 function getChallenges(){
   $.ajax({
     type: "GET",
-    url: '/app/controllers/gameController.php',
-    data: 'getChallenges=true',
+    url: '/game/getChallenges/',
     success: function(jsonText){
       var html='';
       if(jsonText != 'null'){
@@ -101,8 +100,7 @@ function getChallenges(){
 function getChallengers(){
   $.ajax({
     type: "GET",
-    url: '/app/controllers/gameController.php',
-    data: 'getChallengers=true',
+    url: '/game/getChallengers/',
     success: function(jsonText){
       var html='';
       if(jsonText != 'null'){
