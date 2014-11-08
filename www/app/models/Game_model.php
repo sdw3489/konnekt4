@@ -36,5 +36,32 @@ class Game_model extends CI_Model {
     }
 
   }
+
+  public function getTurn($game_Id){
+    $query = $this->db->select('whoseTurn')->where('game_Id', $game_Id)->get('game');
+    if($query->num_rows() > 0){
+      return $query->result();
+    }
+  }
+
+  public function changeTurn($game_Id){
+    // $query = $this->db->where('game_Id', $game_Id)->update('game', array('whoseTurn'=>ABS('whoseTurn-1')));
+
+    $stmt = "UPDATE game SET whoseTurn=ABS(whoseTurn-1) WHERE game_Id=?";
+    $this->db->query($stmt, array($game_Id));
+  }
+
+  public function changeBoard($game_Id, $playerId, $pieceId, $r, $c){
+    $data = array(
+      "player".$playerId."_pieceId"=> $pieceId,
+      "player".$playerId."_boardR" => $r,
+      "player".$playerId."_boardC" => $c
+    );
+    $query = $this->db->where('game_Id', $game_Id)->update('game', $data);
+  }
+
+  public function getMove($game_Id){
+    return $this->start($game_Id);
+  }
 }
 ?>
