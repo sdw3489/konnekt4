@@ -66,7 +66,7 @@
   <script type="text/javascript">
     var userId = <?php echo $_SESSION['user_Id']; ?>;
     $(document).ready(function(){
-      init();
+      // init();
     });
   </script>
 </body>
