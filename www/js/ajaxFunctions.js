@@ -97,13 +97,20 @@ function ajax_getMove(whatURL,whatFUNCT,whatVALUE){
 }
 
 function ajax_getUserInfo(){
-  var userGameId = arguments[3];
+  var userGameId = arguments[1];
   $.ajax({
     type: "GET",
     url: arguments[0],
-    data: arguments[1]+"=true&user_Id="+arguments[2],
     success: function(data){
       userInfo(data, userGameId);
     }
+  });
+}
+
+function ajax_utility(){
+  $.ajax({
+    type: "GET",
+    url: arguments[0],
+    success: arguments[1]
   });
 }

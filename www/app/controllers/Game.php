@@ -7,13 +7,18 @@ class Game extends CI_Controller {
     $this->load->driver('session');
   }
 
-  public function index($game_Id){
+  public function play($game_Id){
     $data['title'] = 'Game Board';
     $data['gameId'] = $game_Id;
     $data['player'] = $this->session->userdata('user_Id');
     $this->load->view('global/head', $data);
     $this->load->view('global/nav', $data);
     $this->load->view('game', $data);
+  }
+
+  public function start($game_Id){
+    $data = $this->Game->start($game_Id);
+    echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 
   public function challenge($user_Id){

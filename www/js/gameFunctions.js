@@ -30,7 +30,7 @@ var myY;            //hold my last pos.
 var numPieces=0;          //hold the number of pieces
 
 function gameInit(){
-  ajax_getInfo("/app/controllers/gameController.php",'start', gameId);
+  ajax_utility("/game/start/"+gameId, gameInfo);
 }
 function gameInfo(data){
   var gameData = JSON.parse(data),
@@ -49,8 +49,8 @@ function gameInfo(data){
     player2Id = 0;
   }
 
-  ajax_getUserInfo("/app/controllers/userController.php",'getUserInfo', player, playerId);
-  ajax_getUserInfo("/app/controllers/userController.php",'getUserInfo', player2, player2Id);
+  ajax_getUserInfo("/user/getUserInfo/"+player, playerId);
+  ajax_getUserInfo("/user/getUserInfo/"+player2, player2Id);
 
   //start building the game (board and piece)
   createBoard();
