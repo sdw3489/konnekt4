@@ -11,13 +11,14 @@ class Main extends CI_Controller {
 	}
 
 	public function index()	{
-		$data['title'] = 'Login';
-		$this->load->view('global/head', $data);
-
 		if($this->session_id){
+			$data['title'] = 'Foyer';
+			$this->load->view('global/head', $data);
 			$this->load->view('global/nav', $data);
 			$this->load->view('foyer', $data);
 		}else{
+			$data['title'] = 'Login';
+			$this->load->view('global/head', $data);
 			$this->load->view('login', $data);
 		}
 	}
