@@ -16,8 +16,7 @@ class User_model extends CI_Model {
     $username = $this->input->post('name');
     $query = $this->db->get_where('users', array('username'=>$username, 'password'=>$encrypted_password));
     $result = $query->result();
-    $num = count($result);
-    if($num > 0){
+    if($query->num_rows() > 0){
       $id=$result[0]->user_Id;
       $this->db->where('user_Id',$id);
       $this->db->update('users', array('logged_In'=>1));
