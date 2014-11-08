@@ -54,5 +54,11 @@ class User extends CI_Controller {
     header("Location:/");
   }//end register
 
+  //Get list of logged in Users
+  public function getLoggedIn(){
+    $data = $this->User->getLoggedIn();
+    echo json_encode($data);
+  }
+
 }
 ?>

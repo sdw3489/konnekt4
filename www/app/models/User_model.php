@@ -45,5 +45,15 @@ class User_model extends CI_Model {
     );
     $this->db->insert('users', $data);
   }//end register
+
+  public function getLoggedIn(){
+    $query = $this->db->where('logged_In', 1)->where_not_in('user_Id',$_SESSION['user_Id'])->get('users');
+    $result= $query->result();
+    if($query->num_rows() > 0){
+      return $result;
+    }else{
+      return false;
+    }
+  }
 }
 ?>
