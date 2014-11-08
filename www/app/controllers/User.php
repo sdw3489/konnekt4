@@ -60,5 +60,10 @@ class User extends CI_Controller {
     echo json_encode($data);
   }
 
+  public function getUserInfo($user_Id){
+    $data = $this->User->getUserInfo($user_Id);
+    echo json_encode($data);
+  }
+
 }
 ?>
