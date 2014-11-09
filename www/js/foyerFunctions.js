@@ -1,5 +1,5 @@
 function init(){
-  // getChat(); // initializes the chat system
+  getChat(); // initializes the chat system
   getLoggedInUsers(); // grabs logged in users
   getChallenges(); // retrieves games current user has challenged other users
   getChallengers(); //retrieves games which the current user has been challenged in
@@ -12,11 +12,9 @@ function scrollBox(){ //auto scroll of box\
 
 
 function getChat(){
-  var theQuery='getChat=true';
   $.ajax({
     type: "GET",
-    url: '/app/controllers/userController.php',
-    data: theQuery,
+    url: '/chat/getChat/',
     success: function(jsonText) {
       var obj = JSON.parse(jsonText);
       var html='';
@@ -32,13 +30,12 @@ function getChat(){
 
 function sendChat(){
   if(arguments[0]){
-    theQuery='setChat=true&message='+arguments[0];
     var inputDiv = document.getElementById("chat-input").value="";
   }
   $.ajax({
-    type: "GET",
-    url: '/app/controllers/userController.php',
-    data: theQuery,
+    type: "POST",
+    url: '/chat/sendChat/',
+    data: { message : arguments[0] },
     success: function(jsonText) {
       var obj = JSON.parse(jsonText);
       var html='';
