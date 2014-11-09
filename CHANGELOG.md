@@ -20,3 +20,10 @@
 
 ### 1.4: 11-06-2014
   - Game Info Panel updated with more relevant information
+
+### 1.4.1: 11-06-2014
+  - Chat fixes
+  - Model abstraction
+
+### 1.5: 11-09-2014
+  - Port Backend/DB to CodeIgniter framework
