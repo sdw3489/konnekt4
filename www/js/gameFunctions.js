@@ -99,13 +99,7 @@ function createBoard(){
     }
   }
 
-  if(turn!=playerId){
-    ajax_utility('/game/getTurn/'+gameId, onGetTurn);
-  }else{
-    setTimeout(function(){
-      ajax_utility('/game/getTurn/'+gameId, onGetTurn);
-    }, 3000);
-  }
+  ajax_getTurn('/game/getTurn/'+gameId, onGetTurn);
 }
 
 function onGetTurn(jsonText){
@@ -117,9 +111,6 @@ function onGetTurn(jsonText){
     //get the data from the last guys move
     ajax_utility('/game/getMove/'+gameId, onGetMove);
   }
-  setTimeout(function(){
-    ajax_utility('/game/getTurn/'+gameId, onGetTurn);
-  }, 3000);
 }
 
 function onGetMove(jsonText){
@@ -132,6 +123,32 @@ function onGetMove(jsonText){
   if(pbC != null || pbR != null){
     var temp = new Piece("game_"+gameId,Math.abs(playerId-1),pbR,pbC,'Checker',1);
   }
+
+  /*
+  var obj = JSON.parse(jsonText);
+  //shortcuts
+  var ppiece=obj[0]['player'+Math.abs(playerId-1)+'_pieceID'];
+  var pbi=obj[0]['player'+Math.abs(playerId-1)+'_boardI'];
+  var pbj=obj[0]['player'+Math.abs(playerId-1)+'_boardJ'];
+
+  //make the other guys piece move to the location
+  //first, clear the other guy's cell
+  var toMove=getPiece(ppiece);
+  toMove.current_cell.notOccupied();
+  //now, actually move it!
+  var x=boardArr[pbi][pbj].getCenterX();
+  var y=boardArr[pbi][pbj].getCenterY();
+  setTransform(ppiece,x,y);
+
+  //now, for me, make the new cell occupied!
+  //Piece.prototype.changeCell = function(newCell,row,col){
+  getPiece(ppiece).changeCell('cell_'+pbi+pbj,pbi,pbj);
+
+  //change my piece to be a king if at end of board... (and I'm not already a king)
+  if(((playerId == 0 && pbi==0) || (playerId==1 && pbi==7)) && !getPiece(ppiece).object.isKing ){
+    getPiece(ppiece).kingMe();
+  }
+  */
 }
 
 //************************ NEW FUNCTION ***********************/
