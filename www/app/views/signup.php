@@ -1,11 +1,6 @@
-<?php
-  session_start();
-  $title="Signup";
-  require_once "../_includes/head.php";
-?>
   <div class="container">
     <p class="text-center"><img src="/images/title.png"/></p>
-    <form class="form-signin"  id="signup_form" name="signup_form" action="/app/controllers/userController.php" method="POST">
+    <form class="form-signin"  id="signup_form" name="signup_form" action="/user/register/" method="POST">
       <h1>Sign Up</h1>
       <p>Already Signed up? <a href="/login">Login</a></p>
       <input type="text" name="username" class="signin-name form-control" placeholder="Username" required autofocus>

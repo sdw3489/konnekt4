@@ -26,13 +26,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
- * @since	Version 1.0.0
+ * @package CodeIgniter
+ * @author  EllisLab Dev Team
+ * @copyright Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
+ * @copyright Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license http://opensource.org/licenses/MIT  MIT License
+ * @link  http://codeigniter.com
+ * @since Version 1.0.0
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | URL to your CodeIgniter root. Typically this will be your base URL,
 | WITH a trailing slash:
 |
-|	http://example.com/
+| http://example.com/
 |
 | If this is not set then CodeIgniter will try guess the protocol, domain
 | and path to your installation. However, you should always configure this
@@ -76,14 +76,14 @@ $config['index_page'] = 'index.php';
 | URI string.  The default setting of 'AUTO' works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 |
-| 'AUTO'		Default - auto detects
-| 'CLI' or 'argv'	Uses $_SERVER['argv'] (for php-cli only)
-| 'PATH_INFO'		Uses $_SERVER['PATH_INFO']
-| 'REQUEST_URI'		Uses $_SERVER['REQUEST_URI']
-| 'QUERY_STRING'	Uses $_SERVER['QUERY_STRING']
+| 'AUTO'    Default - auto detects
+| 'CLI' or 'argv' Uses $_SERVER['argv'] (for php-cli only)
+| 'PATH_INFO'   Uses $_SERVER['PATH_INFO']
+| 'REQUEST_URI'   Uses $_SERVER['REQUEST_URI']
+| 'QUERY_STRING'  Uses $_SERVER['QUERY_STRING']
 |
 */
-$config['uri_protocol']	= 'AUTO';
+$config['uri_protocol'] = 'AUTO';
 
 /*
 |--------------------------------------------------------------------------
@@ -108,7 +108,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
+$config['language'] = 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -156,17 +156,17 @@ $config['subclass_prefix'] = 'MY_';
 | Enabling this setting will tell CodeIgniter to look for a Composer
 | package auto-loader script in application/vendor/autoload.php.
 |
-|	$config['composer_autoload'] = TRUE;
+| $config['composer_autoload'] = TRUE;
 |
 | Or if you have your vendor/ directory located somewhere else, you
 | can opt to set a specific path as well:
 |
-|	$config['composer_autoload'] = '/path/to/vendor/autoload.php';
+| $config['composer_autoload'] = '/path/to/vendor/autoload.php';
 |
 | For more information about Composer, please visit http://getcomposer.org/
 |
 | Note: This will NOT disable or override the CodeIgniter-specific
-|	autoloading (application/config/autoload.php)
+| autoloading (application/config/autoload.php)
 */
 $config['composer_autoload'] = FALSE;
 
@@ -218,11 +218,11 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['allow_get_array']		= TRUE;
+$config['allow_get_array']    = TRUE;
 $config['enable_query_strings'] = FALSE;
-$config['controller_trigger']	= 'c';
-$config['function_trigger']		= 'm';
-$config['directory_trigger']	= 'd'; // experimental not currently in use
+$config['controller_trigger'] = 'c';
+$config['function_trigger']   = 'm';
+$config['directory_trigger']  = 'd'; // experimental not currently in use
 
 /*
 |--------------------------------------------------------------------------
@@ -234,15 +234,15 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | You can enable error logging by setting a threshold over zero. The
 | threshold determines what gets logged. Threshold options are:
 |
-|	0 = Disables logging, Error logging TURNED OFF
-|	1 = Error Messages (including PHP errors)
-|	2 = Debug Messages
-|	3 = Informational Messages
-|	4 = All Messages
+| 0 = Disables logging, Error logging TURNED OFF
+| 1 = Error Messages (including PHP errors)
+| 2 = Debug Messages
+| 3 = Informational Messages
+| 4 = All Messages
 |
 | You can also pass in a array with threshold levels to show individual error types
 |
-| 	array(2) = Debug Messages, without Error Messages
+|   array(2) = Debug Messages, without Error Messages
 |
 | For a live site you'll usually only enable Errors (1) to be logged otherwise
 | your log files will fill up very fast.
@@ -339,33 +339,33 @@ $config['encryption_key'] = '';
 | Session Variables
 |--------------------------------------------------------------------------
 |
-| 'sess_driver'				= the driver to load: cookie (Classic), native (PHP sessions),
-|	or your custom driver name
-| 'sess_valid_drivers'		= additional valid drivers which may be loaded
-| 'sess_cookie_name'		= the name you want for the cookie, must contain only [0-9a-z_-] characters
-| 'sess_expiration'			= the number of SECONDS you want the session to last.
+| 'sess_driver'       = the driver to load: cookie (Classic), native (PHP sessions),
+| or your custom driver name
+| 'sess_valid_drivers'    = additional valid drivers which may be loaded
+| 'sess_cookie_name'    = the name you want for the cookie, must contain only [0-9a-z_-] characters
+| 'sess_expiration'     = the number of SECONDS you want the session to last.
 |   by default sessions last 7200 seconds (two hours).  Set to zero for no expiration.
-| 'sess_expire_on_close'	= Whether to cause the session to expire automatically
+| 'sess_expire_on_close'  = Whether to cause the session to expire automatically
 |   when the browser window is closed
-| 'sess_encrypt_cookie'		= Whether to encrypt the cookie
-| 'sess_use_database'		= Whether to save the session data to a database
-| 'sess_table_name'			= The name of the session database table
-| 'sess_match_ip'			= Whether to match the user's IP address when reading the session data
-| 'sess_match_useragent'	= Whether to match the User Agent when reading the session data
-| 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
+| 'sess_encrypt_cookie'   = Whether to encrypt the cookie
+| 'sess_use_database'   = Whether to save the session data to a database
+| 'sess_table_name'     = The name of the session database table
+| 'sess_match_ip'     = Whether to match the user's IP address when reading the session data
+| 'sess_match_useragent'  = Whether to match the User Agent when reading the session data
+| 'sess_time_to_update'   = how many seconds between CI refreshing Session Information
 |
 */
-$config['sess_driver']			= 'cookie';
-$config['sess_valid_drivers']	= array();
-$config['sess_cookie_name']		= 'ci_session';
-$config['sess_expiration']		= 7200;
-$config['sess_expire_on_close']	= FALSE;
-$config['sess_encrypt_cookie']	= FALSE;
-$config['sess_use_database']	= FALSE;
-$config['sess_table_name']		= 'ci_sessions';
-$config['sess_match_ip']		= FALSE;
-$config['sess_match_useragent']	= TRUE;
-$config['sess_time_to_update']	= 300;
+$config['sess_driver']      = 'native';
+$config['sess_valid_drivers'] = array('native');
+$config['sess_cookie_name']   = 'ci_session';
+$config['sess_expiration']    = 7200;
+$config['sess_expire_on_close'] = FALSE;
+$config['sess_encrypt_cookie']  = FALSE;
+$config['sess_use_database']  = FALSE;
+$config['sess_table_name']    = 'ci_sessions';
+$config['sess_match_ip']    = FALSE;
+$config['sess_match_useragent'] = TRUE;
+$config['sess_time_to_update']  = 300;
 
 /*
 |--------------------------------------------------------------------------
@@ -379,11 +379,11 @@ $config['sess_time_to_update']	= 300;
 | 'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript)
 |
 */
-$config['cookie_prefix']	= '';
-$config['cookie_domain']	= '';
-$config['cookie_path']		= '/';
-$config['cookie_secure']	= FALSE;
-$config['cookie_httponly'] 	= FALSE;
+$config['cookie_prefix']  = '';
+$config['cookie_domain']  = '';
+$config['cookie_path']    = '/';
+$config['cookie_secure']  = FALSE;
+$config['cookie_httponly']  = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -505,8 +505,8 @@ $config['rewrite_short_tags'] = FALSE;
 | You can use both an array or a comma-separated list of proxy addresses,
 | as well as specifying whole subnets. Here are a few examples:
 |
-| Comma-separated:	'10.0.1.200,192.168.5.0/24'
-| Array:		array('10.0.1.200', '192.168.5.0/24')
+| Comma-separated:  '10.0.1.200,192.168.5.0/24'
+| Array:    array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
 

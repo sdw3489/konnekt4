@@ -122,5 +122,19 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
+switch (ENVIRONMENT)
+{
+	case 'development':
+		 $db['default']['username'] = 'root';
+		 $db['default']['database'] = 'sethwhi1_konnekt4';
+  break;
+
+  default:
+		 $db['default']['username'] = 'sethwhi1_admin';
+		 $db['default']['password'] = 'Carr1349';
+		 $db['default']['database'] = 'sethwhi1_konnekt4';
+  break;
+
+}
 /* End of file database.php */
 /* Location: ./application/config/database.php */

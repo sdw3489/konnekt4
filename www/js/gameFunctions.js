@@ -30,7 +30,7 @@ var myY;            //hold my last pos.
 var numPieces=0;          //hold the number of pieces
 
 function gameInit(){
-  ajax_getInfo("/app/controllers/gameController.php",'start', gameId);
+  ajax_utility("/game/start/"+gameId, gameInfo);
 }
 function gameInfo(data){
   var gameData = JSON.parse(data),
@@ -49,8 +49,8 @@ function gameInfo(data){
     player2Id = 0;
   }
 
-  ajax_getUserInfo("/app/controllers/userController.php",'getUserInfo', player, playerId);
-  ajax_getUserInfo("/app/controllers/userController.php",'getUserInfo', player2, player2Id);
+  ajax_getUserInfo("/user/getUserInfo/"+player, playerId);
+  ajax_getUserInfo("/user/getUserInfo/"+player2, player2Id);
 
   //start building the game (board and piece)
   createBoard();
@@ -98,7 +98,40 @@ function createBoard(){
       boardArr[i][j]=new Cell(document.getElementById("game_1"),'cell_'+j+i,75,j,i);
     }
   }
-  ajax_checkTurn('/app/controllers/gameController.php','checkTurn',gameId);
+
+  if(turn!=playerId){
+    ajax_utility('/game/getTurn/'+gameId, onGetTurn);
+  }else{
+    setTimeout(function(){
+      ajax_utility('/game/getTurn/'+gameId, onGetTurn);
+    }, 3000);
+  }
+}
+
+function onGetTurn(jsonText){
+  var obj = JSON.parse(jsonText)[0];
+  if(obj.whoseTurn == playerId){
+    //switch turns
+    turn=obj.whoseTurn;
+    $("#turnInfo").html("Your Turn").addClass('list-group-item-success').removeClass('list-group-item-danger');
+    //get the data from the last guys move
+    ajax_utility('/game/getMove/'+gameId, onGetMove);
+  }
+  setTimeout(function(){
+    ajax_utility('/game/getTurn/'+gameId, onGetTurn);
+  }, 3000);
+}
+
+function onGetMove(jsonText){
+  var obj = JSON.parse(jsonText);
+  //shortcuts
+  var ppiece=obj[0]['player'+Math.abs(playerId-1)+'_pieceID'];
+  var pbR=obj[0]['player'+Math.abs(playerId-1)+'_boardR'];
+  var pbC=obj[0]['player'+Math.abs(playerId-1)+'_boardC'];
+
+  if(pbC != null || pbR != null){
+    var temp = new Piece("game_"+gameId,Math.abs(playerId-1),pbR,pbC,'Checker',1);
+  }
 }
 
 //************************ NEW FUNCTION ***********************/
@@ -116,7 +149,7 @@ function placePiece(col)
       if(playerId == turn){
         numPieces++;
         var piece = new Piece('game_'+gameId,playerId,row,col,'Checker',numPieces);
-        ajax_changeBoard('/app/controllers/gameController.php',targetSpot.id,row,col,'changeBoard',gameId);
+        ajax_utility('/game/changeBoard/'+gameId+'/'+playerId+'/'+targetSpot.id+'/'+row+'/'+col, onChangeBoard);
         changeTurn();
       }else{// if its not your turn throw a not your turn error at the top of the game board
         var hit=false;
@@ -126,6 +159,7 @@ function placePiece(col)
     }
   }
 }
+function onChangeBoard(){}
 
 
 ///////////////////////////////Utilities////////////////////////////////////////
@@ -175,8 +209,9 @@ function changeTurn(){
       .addClass('list-group-item-danger')
       .removeClass('list-group-item-success');
   }
-  ajax_changeServerTurn('/app/controllers/gameController.php','changeTurn',gameId);
+  ajax_utility('/game/changeTurn/'+gameId, onChangeServerTurn);
 }
+function onChangeServerTurn(){}
 
 /////////////////////////////////Messages to user/////////////////////////////////
 ////nytwarning (not your turn)/////
