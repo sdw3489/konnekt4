@@ -20,7 +20,8 @@ class User extends CI_Controller {
       $theuser = $data['query'][0];
       $this->session->set_userdata(array(
         'username'=>$theuser->username,
-        'user_Id'=>$theuser->user_Id
+        'user_Id'=>$theuser->user_Id,
+        'time'=> time()
       ));
       header("Location:/");
     }else{
