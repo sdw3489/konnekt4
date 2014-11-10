@@ -41,6 +41,7 @@
           return;
         }
       }
+      this.connections=0;
     }
 
     // return this piece object
@@ -56,7 +57,6 @@
     if(this.connections >= 3){
       return true;
     } else{
-      this.connections=0;
       return false;
     }
   }
