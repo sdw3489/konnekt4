@@ -27,3 +27,6 @@
 
 ### 1.5: 11-09-2014
   - Port Backend/DB to CodeIgniter framework
+
+### 1.5.1: 11-10-2014
+  - Hotfix for count connections.
