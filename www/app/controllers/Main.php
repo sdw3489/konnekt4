@@ -20,6 +20,7 @@ class Main extends CI_Controller {
 			$data['title'] = 'Login';
 			$this->load->view('global/head', $data);
 			$this->load->view('login', $data);
+			$this->load->view('global/footer', $data);
 		}
 	}
 }
