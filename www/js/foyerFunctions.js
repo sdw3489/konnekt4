@@ -65,6 +65,8 @@ function getLoggedInUsers(){
           html+='</form>';
           html+='</li>';
         }
+      }else{
+        html+='<li class="list-group-item">Unfortunately you are alone, and no one is online.</li>';
       }
       $('.js-logged-in-users').html(html);
     }
