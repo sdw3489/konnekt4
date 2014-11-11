@@ -35,3 +35,6 @@
   - Added Sticky Footer
   - Hid Stats Panel till further development
   - Added default state for no logged in users
+
+### 1.7: 11-11-2014
+  - Converted CSS to SASS
