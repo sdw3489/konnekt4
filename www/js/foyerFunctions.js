@@ -54,7 +54,7 @@ function getLoggedInUsers(){
     url: '/user/getLoggedIn/',
     success: function(jsonText) {
       var html='';
-      if(jsonText === 'false'){
+      if(jsonText === false){
         var obj = JSON.parse(jsonText);
         for(i in obj){
           html+='<li class="list-group-item">';
