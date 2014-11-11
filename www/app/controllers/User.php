@@ -44,8 +44,10 @@ class User extends CI_Controller {
   //Sign up page
   public function signup(){
     $data['title'] = 'Signup';
+    $data['bodyClass'] = 'signup';
     $this->load->view('global/head', $data);
     $this->load->view('signup', $data);
+    $this->load->view('global/footer', $data);
   }//end register
 
 

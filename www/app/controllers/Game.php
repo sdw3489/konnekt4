@@ -9,11 +9,13 @@ class Game extends CI_Controller {
 
   public function play($game_Id){
     $data['title'] = 'Game Board';
+    $data['bodyClass'] = 'game';
     $data['gameId'] = $game_Id;
     $data['player'] = $this->session->userdata('user_Id');
     $this->load->view('global/head', $data);
     $this->load->view('global/nav', $data);
     $this->load->view('game', $data);
+    $this->load->view('global/footer', $data);
   }
 
   public function start($game_Id){

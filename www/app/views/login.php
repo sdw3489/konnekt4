@@ -8,11 +8,3 @@
       <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login"/>
     </form>
   </div> <!-- /container -->
-
-  <script src="/js/vendor/jquery-1.11.1.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function(){});
-  </script>
-</body>
-</html>

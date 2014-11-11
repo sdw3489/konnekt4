@@ -10,4 +10,4 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
   <link type="text/css" rel="stylesheet" href="/css/styles.css" />
 </head>
-<body>
+<body class="<?= $bodyClass; ?>">
