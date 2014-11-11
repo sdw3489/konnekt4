@@ -30,3 +30,8 @@
 
 ### 1.5.1: 11-10-2014
   - Hotfix for count connections.
+
+### 1.6: 11-11-2014
+  - Added Sticky Footer
+  - Hid Stats Panel till further development
+  - Added default state for no logged in users
