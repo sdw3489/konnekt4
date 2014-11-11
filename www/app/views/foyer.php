@@ -59,15 +59,3 @@
   </div>
 
 
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="/js/vendor/jquery-1.11.1.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="/js/foyerFunctions.js"></script>
-  <script type="text/javascript">
-    var userId = <?php echo $_SESSION['user_Id']; ?>;
-    $(document).ready(function(){
-      init();
-    });
-  </script>
-</body>
-</html>
