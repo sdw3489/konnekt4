@@ -54,7 +54,7 @@ function getLoggedInUsers(){
     url: '/user/getLoggedIn/',
     success: function(jsonText) {
       var html='';
-      if(jsonText !== ''){
+      if(jsonText === 'false'){
         var obj = JSON.parse(jsonText);
         for(i in obj){
           html+='<li class="list-group-item">';
@@ -66,7 +66,7 @@ function getLoggedInUsers(){
           html+='</li>';
         }
       }else{
-        html+='<li class="list-group-item">Unfortunately you are alone, and no one is online.</li>';
+        html+='<li class="list-group-item">Sorry boo, no one is online.</li>';
       }
       $('.js-logged-in-users').html(html);
     }
