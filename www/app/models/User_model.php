@@ -51,8 +51,6 @@ class User_model extends CI_Model {
     $result= $query->result();
     if($query->num_rows() > 0){
       return $result;
-    }else{
-      return false;
     }
   }
 
@@ -61,8 +59,6 @@ class User_model extends CI_Model {
     $result= $query->result();
     if($query->num_rows() > 0){
       return $result;
-    }else{
-      return false;
     }
   }
 }
