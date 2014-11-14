@@ -9,7 +9,7 @@ define([
   // 'views/statsView'
 ], function($, _, Backbone, chatView, loggedInUsersView, challengesView, challengersView ){
 
-  var baseView = Backbone.View.extend({
+  var foyerView = Backbone.View.extend({
     initialize: function () {
       new chatView();
       new challengesView();
@@ -17,6 +17,6 @@ define([
     }
   });
 
-  return baseView;
+  return foyerView;
 
 });

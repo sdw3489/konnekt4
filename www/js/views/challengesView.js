@@ -10,13 +10,13 @@ define([
     template:_.template(challengesTemplate),
     events: {},
     data:null,
+    prevData:'',
 
     initialize: function () {
       this.getChallenges();
     },
     render: function (data) {
-      this.$el.html(this.template(data));
-      return this;
+      return this.template(data);
     },
     getChallenges: function(){
       $.ajax({
@@ -31,13 +31,20 @@ define([
     },
     onGetChallenges:function(jsonText){
       this.data = JSON.parse(jsonText);
-      if(this.data != null){
-        for(i in this.data){
-          this.render(this.data[i]);
+      if(!_.isEqual(this.data, this.prevData)){
+        this.prevData = this.data;
+        this.$el.html('');
+        if(this.data != null){
+          for(i in this.data){
+            this.addOne(this.data[i]);
+          }
+        }else{
+          this.addOne({username:'', game_Id:''});
         }
-      }else{
-        this.render({username:'', game_Id:''});
       }
+    },
+    addOne : function(data){
+      this.$el.append(this.render(data));
     }
   });
 
