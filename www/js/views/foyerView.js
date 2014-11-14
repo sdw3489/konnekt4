@@ -7,11 +7,13 @@ define([
   'views/challengesView',
   'views/challengersView'
   // 'views/statsView'
-], function($, _, Backbone, ChatView, LoggedInUsersView, ChallengesView, ChallengersView ){
+], function($, _, Backbone, chatView, loggedInUsersView, challengesView, challengersView ){
 
   var baseView = Backbone.View.extend({
     initialize: function () {
-      new ChatView();
+      new chatView();
+      new challengesView();
+      new challengersView();
     }
   });
 
