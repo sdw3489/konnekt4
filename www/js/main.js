@@ -49,10 +49,10 @@ require([
   'jquery',
   'underscore',
   'backbone',
-  'views/_templateView',
+  'views/baseView',
   'bootstrap'
-], function($, _, Backbone, _templateView){
+], function($, _, Backbone, BaseView){
     // Pass in our Router module and call it's initialize function
-    new _templateView();
+    new BaseView();
     // Router.initialize();
 });

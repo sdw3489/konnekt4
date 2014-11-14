@@ -13,8 +13,5 @@
   <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
   <link type="text/css" rel="stylesheet" href="/css/styles.css" />
 
-  <!-- Scripts -->
-  <script src="/js/libs/modernizr-2.8.3-respond-1.1.0.min.js"></script>
-  <script data-main="/js/main" src="/js/libs/require.js"></script>
 </head>
 <body class="<?= $bodyClass; ?>">

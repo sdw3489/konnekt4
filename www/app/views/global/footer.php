@@ -4,16 +4,18 @@
   	</div>
   </div>
 
-  <!-- Latest compiled and minified JavaScript -->
+  <!-- Scripts -->
   <script type="text/javascript" src="/js/plugins.js"></script>
+  <script src="/js/libs/modernizr-2.8.3-respond-1.1.0.min.js"></script>
+  <script data-main="/js/main" src="/js/libs/require.js"></script>
 
 <?php if($bodyClass === 'foyer'):?>
-  <script type="text/javascript" src="/js/foyerFunctions.js"></script>
+   <!-- <script type="text/javascript" src="/js/foyerFunctions.js"></script> -->
   <script type="text/javascript">
     var userId = <?php echo $_SESSION['user_Id']; ?>;
-    $(document).ready(function(){
-      init();
-    });
+    // $(document).ready(function(){
+      // init();
+    // });
   </script>
 <?php endif; ?>
 
@@ -25,9 +27,9 @@
   <script type="text/javascript">
     var gameId=<?= $gameId; ?>;
     var player=<?= $player; ?>;
-    $(document).ready(function(){
-      gameInit();
-    });
+    // $(document).ready(function(){
+      // gameInit();
+    // });
   </script>
 <?php endif; ?>
 </body>
