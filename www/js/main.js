@@ -53,6 +53,6 @@ require([
   'bootstrap'
 ], function($, _, Backbone, _templateView){
     // Pass in our Router module and call it's initialize function
-    // new ApplicationView();
+    new _templateView();
     // Router.initialize();
 });
