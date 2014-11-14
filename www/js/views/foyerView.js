@@ -14,6 +14,7 @@ define([
       new chatView();
       new challengesView();
       new challengersView();
+      new loggedInUsersView();
     }
   });
 
