@@ -7,7 +7,7 @@ define([
 ], function($, _, Backbone, challengesTemplate, EventsChannel ){
 
   var challengesView = Backbone.View.extend({
-    el:'#games-avail',
+    el:'.challenges-view',
     template:_.template(challengesTemplate),
     events: {},
     data:null,

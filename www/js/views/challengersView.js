@@ -6,7 +6,7 @@ define([
 ], function($, _, Backbone, challengersTemplate ){
 
   var challengersView = Backbone.View.extend({
-    el:'#games-avail2',
+    el:'.challengers-view',
     template:_.template(challengersTemplate),
     events: {},
     data:null,

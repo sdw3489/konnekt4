@@ -24,11 +24,11 @@
 
             <div class="panel panel-primary">
               <div class="panel-heading">Challenges</div>
-              <ul id="games-avail" class="list-group"></ul>
+              <ul class="challenges-view list-group"></ul>
             </div>
             <div class="panel panel-primary">
               <div class="panel-heading">Challengers</div>
-              <ul id="games-avail2" class="list-group"></ul>
+              <ul class="challengers-view list-group"></ul>
             </div>
 
           </div>
