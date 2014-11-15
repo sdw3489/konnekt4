@@ -2,12 +2,15 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'views/chatBoxView',
   'text!templates/ChatTemplate.html',
-], function($, _, Backbone, ChatTemplate ){
+], function($, _, Backbone, ChatBoxView, ChatTemplate ){
 
-  var chatView = Backbone.View.extend({
+  var ChatView = Backbone.View.extend({
     el: '.chat-container',
     template: _.template(ChatTemplate),
+    data:null,
+    prevData:'',
     events: {
       'change .chat-input' : 'sendChat'
     },
@@ -32,15 +35,20 @@ define([
       });
       setTimeout(_.bind(function(){
         this.getChat();
-      },this), 1500);
+      },this), 2000);
     },
     onGetChat:function(jsonText) {
-      var obj = JSON.parse(jsonText);
-      var html='';
-      for(i in obj){
-        html+=obj[i].username+": "+obj[i].message+"<br>";
+      this.data = JSON.parse(jsonText);
+      if(!_.isEqual(this.data, this.prevData)){
+        this.prevData = this.data;
+        this.$chatBox.html('');
+        if(this.data != null){
+          for(i in this.data){
+            var view = new ChatBoxView();
+            this.$chatBox.append(view.render(this.data[i]).el);
+          }
+        }
       }
-      this.$chatBox.html(html);
       this.scrollBox();
     },
     sendChat: function(event){
@@ -52,20 +60,11 @@ define([
         type: "POST",
         url: '/chat/sendChat/',
         data: { message :val },
-        success: _.bind(this.onSendChat, this)
+        success: _.bind(this.onGetChat, this)
       });
-    },
-    onSendChat: function(jsonText) {
-      var obj = JSON.parse(jsonText);
-      var html='';
-      for(i in obj){
-        html+=obj[i].username+": "+obj[i].message+"<br />";
-      }
-      this.$chatBox.html(html);
-      this.scrollBox();
     }
   });
 
-  return chatView;
+  return ChatView;
 
 });
