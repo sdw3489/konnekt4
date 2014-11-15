@@ -12,6 +12,7 @@ define([
     data:null,
     prevData:'',
     $btn:null,
+    timer :null,
     events: {
       'click .js-challenge': 'challengeUser'
     },
@@ -32,7 +33,8 @@ define([
         url: '/user/getLoggedIn/',
         success: _.bind(this.onGetLoggedInUsers, this)
       });
-      setTimeout(_.bind(function(){
+      clearTimeout(this.timer);
+      this.timer=setTimeout(_.bind(function(){
         this.getLoggedInUsers()
       },this), 5000);
     },

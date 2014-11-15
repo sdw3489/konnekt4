@@ -11,6 +11,7 @@ define([
     events: {},
     data:null,
     prevData:'',
+    timer:null,
 
     initialize: function () {
       this.getChallengers();
@@ -24,8 +25,8 @@ define([
         url: '/game/getChallengers/',
         success: _.bind(this.onGetChallengers, this)
       });
-
-      setTimeout(_.bind(function(){
+      clearTimeout(this.timer);
+      this.timer = setTimeout(_.bind(function(){
         this.getChallengers()
       },this), 4000);
     },

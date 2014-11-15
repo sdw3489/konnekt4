@@ -11,6 +11,7 @@ define([
     template: _.template(ChatTemplate),
     data:null,
     prevData:'',
+    timer:null,
     events: {
       'change .chat-input' : 'sendChat'
     },
@@ -33,7 +34,8 @@ define([
         url: '/chat/getChat/',
         success: $.proxy(this.onGetChat, this)
       });
-      setTimeout(_.bind(function(){
+      clearTimeout(this.timer);
+      this.timer = setTimeout(_.bind(function(){
         this.getChat();
       },this), 2000);
     },
