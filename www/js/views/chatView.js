@@ -3,7 +3,7 @@ define([
   'underscore',
   'backbone',
   'views/chatBoxView',
-  'text!templates/ChatTemplate.html',
+  'text!templates/chatTemplate.html',
 ], function($, _, Backbone, ChatBoxView, ChatTemplate ){
 
   var ChatView = Backbone.View.extend({

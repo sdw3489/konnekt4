@@ -7,17 +7,17 @@ define([
   'views/challengesView',
   'views/challengersView'
   // 'views/statsView'
-], function($, _, Backbone, chatView, loggedInUsersView, challengesView, challengersView ){
+], function($, _, Backbone, ChatView, LoggedInUsersView, ChallengesView, ChallengersView ){
 
-  var foyerView = Backbone.View.extend({
+  var FoyerView = Backbone.View.extend({
     initialize: function () {
-      new chatView();
-      new challengesView();
-      new challengersView();
-      new loggedInUsersView();
+      new ChatView();
+      new ChallengesView();
+      new ChallengersView();
+      new LoggedInUsersView();
     }
   });
 
-  return foyerView;
+  return FoyerView;
 
 });

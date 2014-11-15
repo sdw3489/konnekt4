@@ -6,7 +6,7 @@ define([
   'views/gameView'
 ], function($, _, Backbone, FoyerView, GameView ){
 
-  var baseView = Backbone.View.extend({
+  var BaseView = Backbone.View.extend({
     initialize: function () {
       var bodyClass = $('body').attr('class');
       if(bodyClass==='foyer'){
@@ -17,6 +17,6 @@ define([
     }
   });
 
-  return baseView;
+  return BaseView;
 
 });

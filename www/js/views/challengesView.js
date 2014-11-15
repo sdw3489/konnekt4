@@ -4,11 +4,11 @@ define([
   'backbone',
   'text!templates/challengesTemplate.html',
   'events/Channel'
-], function($, _, Backbone, challengesTemplate, EventsChannel ){
+], function($, _, Backbone, ChallengesTemplate, EventsChannel ){
 
-  var challengesView = Backbone.View.extend({
+  var ChallengesView = Backbone.View.extend({
     el:'.challenges-view',
-    template:_.template(challengesTemplate),
+    template:_.template(ChallengesTemplate),
     events: {},
     data:null,
     prevData:'',
@@ -52,6 +52,6 @@ define([
     }
   });
 
-  return challengesView;
+  return ChallengesView;
 
 });

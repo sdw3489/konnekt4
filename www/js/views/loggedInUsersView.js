@@ -4,11 +4,11 @@ define([
   'backbone',
   'text!templates/loggedInUsersTemplate.html',
   'events/Channel'
-], function($, _, Backbone, loggedInUsersTemplate, EventsChannel ){
+], function($, _, Backbone, LoggedInUsersTemplate, EventsChannel ){
 
-  var loggedInUsersView = Backbone.View.extend({
+  var LoggedInUsersView = Backbone.View.extend({
     el:'.js-logged-in-users',
-    template:_.template(loggedInUsersTemplate),
+    template:_.template(LoggedInUsersTemplate),
     data:null,
     prevData:'',
     $btn:null,
@@ -79,6 +79,6 @@ define([
 
   });
 
-  return loggedInUsersView;
+  return LoggedInUsersView;
 
 });

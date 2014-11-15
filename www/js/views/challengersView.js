@@ -3,11 +3,11 @@ define([
   'underscore',
   'backbone',
   'text!templates/challengersTemplate.html'
-], function($, _, Backbone, challengersTemplate ){
+], function($, _, Backbone, ChallengersTemplate ){
 
-  var challengersView = Backbone.View.extend({
+  var ChallengersView = Backbone.View.extend({
     el:'.challengers-view',
-    template:_.template(challengersTemplate),
+    template:_.template(ChallengersTemplate),
     events: {},
     data:null,
     prevData:'',
@@ -49,6 +49,6 @@ define([
     }
   });
 
-  return challengersView;
+  return ChallengersView;
 
 });
