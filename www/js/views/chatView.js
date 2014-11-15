@@ -25,8 +25,7 @@ define([
       return this;
     },
     scrollBox: function(){
-      var $objDiv = $(".js-chat");
-      $objDiv[0].scrollTop = $objDiv[0].scrollHeight;
+      this.$chatBox[0].scrollTop = this.$chatBox[0].scrollHeight;
     },
     getChat: function(){
       $.ajax({
