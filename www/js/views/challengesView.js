@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!templates/challengesTemplate.html'
-], function($, _, Backbone, challengesTemplate ){
+  'text!templates/challengesTemplate.html',
+  'events/Channel'
+], function($, _, Backbone, challengesTemplate, EventsChannel ){
 
   var challengesView = Backbone.View.extend({
     el:'#games-avail',
@@ -14,6 +15,7 @@ define([
 
     initialize: function () {
       this.getChallenges();
+      EventsChannel.on('challengeUser', this.getChallenges, this);
     },
     render: function (data) {
       return this.template(data);
@@ -32,6 +34,7 @@ define([
     onGetChallenges:function(jsonText){
       this.data = JSON.parse(jsonText);
       if(!_.isEqual(this.data, this.prevData)){
+        EventsChannel.trigger('updateChallenges');
         this.prevData = this.data;
         this.$el.html('');
         if(this.data != null){

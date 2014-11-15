@@ -2,21 +2,29 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!templates/loggedInUsersTemplate.html'
-], function($, _, Backbone, loggedInUsersTemplate ){
+  'text!templates/loggedInUsersTemplate.html',
+  'events/Channel'
+], function($, _, Backbone, loggedInUsersTemplate, EventsChannel ){
 
   var loggedInUsersView = Backbone.View.extend({
     el:'.js-logged-in-users',
     template:_.template(loggedInUsersTemplate),
     data:null,
     prevData:'',
-    events: {},
+    $btn:null,
+    events: {
+      'click .js-challenge': 'challengeUser'
+    },
 
     initialize: function () {
       this.getLoggedInUsers();
+      EventsChannel.on('updateChallenges', this.onUpadteChallenges, this);
     },
     render: function (data) {
       return this.template(data);
+    },
+    addOne : function(data){
+      this.$el.append(this.render(data));
     },
     getLoggedInUsers : function(){
       $.ajax({
@@ -42,9 +50,31 @@ define([
         }
       }
     },
-    addOne : function(data){
-      this.$el.append(this.render(data));
+    challengeUser : function(event){
+      event.preventDefault();
+      this.$btn = $(event.target),
+        id = this.$btn.data('id');
+
+      this.$btn.addClass('disabled');
+      this.$btn.text('Please Wait...');
+      EventsChannel.trigger('challengeUser');
+
+      $.ajax({
+        type: "POST",
+        url: '/game/challenge/'+id,
+        success: _.bind(function(event){
+          this.$btn.blur();
+        }, this)
+      });
+    },
+    onUpadteChallenges : function(){
+      if(this.$btn){
+        this.$btn.text('Challenge');
+        this.$btn.removeClass('disabled');
+        this.$btn = null;
+      }
     }
+
   });
 
   return loggedInUsersView;

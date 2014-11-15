@@ -1,9 +1,7 @@
 <% if(user_Id) { %>
   <li class="list-group-item">
-    <form class="user-form" action="/game/challenge/<%= user_Id %>" method="POST" onsubmit="">
-      <span class="glyphicon glyphicon-user"></span><span class="username"><%= username %></span>
-      <input type="submit" class="btn btn-primary btn-sm pull-right" name="challenge" value="Challenge"/>
-    </form>
+    <span class="glyphicon glyphicon-user"></span><span class="username"><%= username %></span>
+    <a href="#" data-id="<%= user_Id %>" class="js-challenge btn btn-primary btn-sm pull-right">Challenge</a>
   </li>
 <% } else { %>
   <li class="list-group-item">Sorry boo, no one is online.</li>
