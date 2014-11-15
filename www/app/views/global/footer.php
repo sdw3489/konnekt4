@@ -9,16 +9,6 @@
   <script src="/js/libs/modernizr-2.8.3-respond-1.1.0.min.js"></script>
   <script data-main="/js/main" src="/js/libs/require.js"></script>
 
-<?php if($bodyClass === 'foyer'):?>
-   <!-- <script type="text/javascript" src="/js/foyerFunctions.js"></script> -->
-  <script type="text/javascript">
-    var userId = <?php echo $_SESSION['user_Id']; ?>;
-    // $(document).ready(function(){
-      // init();
-    // });
-  </script>
-<?php endif; ?>
-
 <?php if($bodyClass === 'game'):?>
   <script src="/js/Cell.js" type="text/javascript"></script>
   <script src="/js/Piece.js" type="text/javascript"></script>
