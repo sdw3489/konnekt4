@@ -2,16 +2,16 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'module',
   'views/foyerView',
   'views/gameView'
-], function($, _, Backbone, FoyerView, GameView ){
+], function($, _, Backbone, module, FoyerView, GameView ){
 
   var BaseView = Backbone.View.extend({
     initialize: function () {
-      var bodyClass = $('body').attr('class');
-      if(bodyClass==='foyer'){
+      if(module.config().page === 'foyer'){
         new FoyerView();
-      }else if(bodyClass === 'game'){
+      }else if(module.config().page === 'game'){
         new GameView();
       }
     }

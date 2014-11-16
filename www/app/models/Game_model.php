@@ -28,6 +28,16 @@ class Game_model extends CI_Model {
     return $this->getMove($game_Id);
   }
 
+  public function getGameData($game_Id){
+    $query = $this->db->select('u1.username AS player0_name, u1.user_Id AS player0_Id, u2.username AS player1_name, u2.user_Id player1_Id, g.game_Id, g.whoseTurn')
+    ->from('game g')->where("g.game_Id", $game_Id)
+    ->join('users u1','g.player0_Id=u1.user_Id','inner')
+    ->join('users u2','g.player1_Id=u2.user_Id','inner')->get();
+    if($query->num_rows() > 0){
+      return $query->result();
+    }
+ }
+
   public function getChallenges($user_Id){
     $query = $this->db->select('username, game_Id')->from('game')->join('users','game.player1_Id=users.user_Id', 'inner')->where('player0_Id',$user_Id)->get();
     if($query->num_rows() > 0){

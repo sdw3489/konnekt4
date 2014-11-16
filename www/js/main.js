@@ -43,16 +43,6 @@ requirejs.config({
 });
 
 
-
-require([
-  // Load our app module and pass it to our definition function
-  'jquery',
-  'underscore',
-  'backbone',
-  'views/baseView',
-  'bootstrap'
-], function($, _, Backbone, BaseView){
-    // Pass in our Router module and call it's initialize function
-    new BaseView();
-    // Router.initialize();
+require( ['app'], function(App) {
+  new App();
 });
