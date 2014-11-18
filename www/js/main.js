@@ -23,7 +23,9 @@ requirejs.config({
     'underscore': 'libs/underscore.min',
     'bootstrap': 'libs/bootstrap.min',
     'text': 'libs/text',
-    'templates': '../templates'
+    'templates': '../templates',
+    'gv': 'views/game',
+    'fv': 'views/foyer'
   },
 
   // @see http://requirejs.org/docs/api.html#config-shim

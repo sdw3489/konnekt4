@@ -3,8 +3,8 @@ define([
   'underscore',
   'backbone',
   'module',
-  'views/foyerView',
-  'views/gameView'
+  'fv/foyerView',
+  'gv/gameView'
 ], function($, _, Backbone, module, FoyerView, GameView ){
 
   var BaseView = Backbone.View.extend({

@@ -2,8 +2,8 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'views/chatBoxView',
-  'text!templates/chatTemplate.html',
+  'fv/chatBoxView',
+  'text!templates/chatTemplate.html'
 ], function($, _, Backbone, ChatBoxView, ChatTemplate ){
 
   var ChatView = Backbone.View.extend({
