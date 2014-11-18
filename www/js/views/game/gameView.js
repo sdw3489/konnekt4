@@ -5,9 +5,10 @@ define([
   'models/gameBoard',
   'classes/cell',
   'classes/piece',
+  'gv/gameInfoView',
   'events/Channel',
   'module'
-], function($, _, Backbone, gameBoard, Cell, Piece, EventsChannel, module){
+], function($, _, Backbone, gameBoard, Cell, Piece, GameInfoView, EventsChannel, module){
 
   var GameView = Backbone.View.extend({
 
@@ -30,17 +31,13 @@ define([
         this.player2Id = 0;
       }
 
-      this.userInfo();
+      var infoView = new GameInfoView({
+        attributes: this.game
+      });
+      this.updateTurn();
       this.render();
     },
-    userInfo: function(){
-      if(this.game.current_player === this.game.player0_Id){
-        $('#youPlayer').html('You are: '+this.game.player0_name);
-        $('#opponentPlayer').html('Opponent is: '+this.game.player1_name);
-      }else{
-        $('#youPlayer').html('You are: '+this.game.player1_name);
-        $('#opponentPlayer').html('Opponent is: '+this.game.player0_name);
-      }
+    updateTurn: function(){
 
       //put the player in the text
       if(this.playerId === this.turn){
@@ -180,15 +177,7 @@ define([
       }
       //how about for the server (and other player)?
       //send JSON message to server, have both clients monitor server to know who's turn it is...
-       if(this.playerId === this.turn){
-        $("#turnInfo").html("Your Turn")
-          .addClass('list-group-item-success')
-          .removeClass('list-group-item-danger');
-      }else{
-        $("#turnInfo").html("Opponents Turn")
-          .addClass('list-group-item-danger')
-          .removeClass('list-group-item-success');
-      }
+      this.updateTurn();
       this.ajax_utility('/game/changeTurn/'+this.game.game_Id, this.onChangeServerTurn);
     },
     onChangeServerTurn: function(){},
