@@ -3,7 +3,7 @@ define([
   'underscore',
   'backbone',
   'text!templates/challengesTemplate.html',
-  'events/Channel'
+  'events/channel'
 ], function($, _, Backbone, ChallengesTemplate, EventsChannel ){
 
   var ChallengesView = Backbone.View.extend({

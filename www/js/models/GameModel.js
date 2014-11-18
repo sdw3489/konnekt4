@@ -2,7 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'events/Channel'
+  'events/channel'
 ], function($, _, Backbone, EventsChannel ){
 
   var GameModel = Backbone.Model.extend({

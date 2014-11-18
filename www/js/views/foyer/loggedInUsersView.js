@@ -3,7 +3,7 @@ define([
   'underscore',
   'backbone',
   'text!templates/loggedInUsersTemplate.html',
-  'events/Channel'
+  'events/channel'
 ], function($, _, Backbone, LoggedInUsersTemplate, EventsChannel ){
 
   var LoggedInUsersView = Backbone.View.extend({

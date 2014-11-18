@@ -2,12 +2,12 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'models/GameModel',
-  'classes/cell',
-  'classes/piece',
+  'models/gameModel',
+  'classes/Cell',
+  'classes/Piece',
   'gv/gamePlayerView',
   'gv/gameTurnView',
-  'events/Channel',
+  'events/channel',
   'module'
 ], function($, _, Backbone, GameModel, Cell, Piece, GamePlayerView, GameTurnView, EventsChannel, module){
 

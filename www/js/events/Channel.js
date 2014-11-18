@@ -2,6 +2,6 @@
 define([
   'backbone'
 ], function(Backbone) {
-    var channel = _.extend({}, Backbone.Events);
-    return channel;
+    var Channel = _.extend({}, Backbone.Events);
+    return Channel;
 });
