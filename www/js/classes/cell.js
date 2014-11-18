@@ -1,8 +1,6 @@
 define([
-  'jquery',
-  'models/gameBoard',
-  'events/Channel'
-], function($, gameBoard, EventsChannel ){
+  'jquery'
+], function($){
 
   //////////////////////////////////////////////////////
   // Class: Cell                    //
@@ -15,7 +13,7 @@ define([
 
 
   // Cell constructor
-  var Cell = function(myParent,id,size,col,row) {
+  var Cell = function(myParent,id,size,col,row, GameView) {
     this.parent = myParent;
     this.id = id;
     this.size = size;
@@ -34,7 +32,7 @@ define([
 
     //******* Moving to Game View *********/
     this.object.onclick = function() {
-      EventsChannel.trigger('click:cell', col);
+      GameView.placePiece(col);
     }
     this.parent.appendChild(this.object);
     this.myBBox = this.getMyBBox();

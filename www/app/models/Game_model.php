@@ -34,7 +34,55 @@ class Game_model extends CI_Model {
     ->join('users u1','g.player0_Id=u1.user_Id','inner')
     ->join('users u2','g.player1_Id=u2.user_Id','inner')->get();
     if($query->num_rows() > 0){
-      return $query->result();
+      $cur = $this->session->userdata('user_Id');
+      $row = $query->row();
+      $r['game_Id'] = $row->game_Id;
+      $r['whoseTurn'] = $row->whoseTurn;
+      if($row->player0_Id === $cur){
+        //Flat Format
+        $r['current_player']['id'] = $row->player0_Id;
+        $r['current_player']['playerId'] = 0;
+        $r['current_player']['username'] = $row->player0_name;
+        $r['current_player']['name'] = ucfirst($row->player0_name);
+        $r['opponent_player']['id'] = $row->player1_Id;
+        $r['opponent_player']['playerId'] = 1;
+        $r['opponent_player']['username'] = $row->player1_name;
+        $r['opponent_player']['name'] = ucfirst($row->player1_name);
+        //Array Format
+        $r['players'][0]['id'] = $row->player0_Id;
+        $r['players'][0]['playerId'] = 0;
+        $r['players'][0]['username'] = $row->player0_name;
+        $r['players'][0]['name'] = ucfirst($row->player0_name);
+        $r['players'][0]['current'] = TRUE;
+        $r['players'][1]['id'] = $row->player1_Id;
+        $r['players'][1]['playerId'] = 1;
+        $r['players'][1]['username'] = $row->player1_name;
+        $r['players'][1]['name'] = ucfirst($row->player1_name);
+        $r['players'][1]['current'] = FALSE;
+      }else{
+        //Flat Format
+        $r['current_player']['id'] = $row->player1_Id;
+        $r['current_player']['playerId'] = 1;
+        $r['current_player']['username'] = $row->player1_name;
+        $r['current_player']['name'] = ucfirst($row->player1_name);
+        $r['opponent_player']['id'] = $row->player0_Id;
+        $r['opponent_player']['playerId'] = 0;
+        $r['opponent_player']['username'] = $row->player0_name;
+        $r['opponent_player']['name'] = ucfirst($row->player0_name);
+        //Array Format
+        $r['players'][0]['id'] = $row->player1_Id;
+        $r['players'][0]['playerId'] = 1;
+        $r['players'][0]['username'] = $row->player1_name;
+        $r['players'][0]['name'] = ucfirst($row->player1_name);
+        $r['players'][0]['current'] = TRUE;
+        $r['players'][1]['id'] = $row->player0_Id;
+        $r['players'][1]['playerId'] = 0;
+        $r['players'][1]['username'] = $row->player0_name;
+        $r['players'][1]['name'] = ucfirst($row->player0_name);
+        $r['players'][1]['current'] = FALSE;
+      }
+
+      return $r;
     }
  }
 

@@ -8,11 +8,7 @@
       <div class="col-sm-4">
         <div class="panel panel-primary">
           <div class="panel-heading">Game Info</div>
-          <ul class="list-group">
-            <li id="youPlayer" class="list-group-item"></li>
-            <li id="opponentPlayer" class="list-group-item"></li>
-            <li id="turnInfo" class="list-group-item"></li>
-          </ul>
+          <ul class="list-group js-info-view"></ul>
         </div>
       </div>
 

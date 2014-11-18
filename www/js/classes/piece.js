@@ -1,8 +1,6 @@
 define([
-  'jquery',
-  'models/gameBoard',
-  'events/Channel'
-], function($, gameBoard, EventChannel ){
+  'jquery'
+], function($){
 
   //////////////////////////////////////////////////////
   // Class: Piece                   //
@@ -15,11 +13,12 @@ define([
 
   // Piece constructor
   // creates and initializes each Piece object
-  var Piece = function(board,player,cellRow,cellCol,type,num){
+  var Piece = function(board,player,cellRow,cellCol,num, GameView){
+    this.model = GameView.model.attributes;
     this.board = board;     // piece needs to know the svg board object so that it can be attached to it.
     this.player = player;   // piece needs to know what player it belongs to.
-    this.type = type;     // piece needs to know what type of piece it is. (put in so it could be something besides a checker!)
-    this.current_cell = gameBoard.boardArr[cellRow][cellCol]; // piece needs to know what its current cell/location is.
+    // this.type = type;     // piece needs to know what type of piece it is. (put in so it could be something besides a checker!)
+    this.current_cell = this.model.boardArr[cellRow][cellCol]; // piece needs to know what its current cell/location is.
     this.number = num;      // piece needs to know what number piece it is.
     //this.isCaptured = false;  // a boolean to know whether the piece has been captured yet or not.
     this.cellRow = cellRow;
@@ -65,11 +64,14 @@ define([
     this.setAtt("id",this.id);            // make sure the SVG object has the correct id value (make sure it can be dragged)
     document.getElementsByTagName('svg')[0].appendChild(this.piece);
 
-    gameBoard.boardArr[cellRow][cellCol].occupied = Array(player,cellRow, cellCol);
-    for (var i = 0; i <= gameBoard.directionArr.length-1; i++) {
-      for (var k = 0; k <= gameBoard.directionArr[i].direction.length-1; k++) {
-        if(this.countDirection(gameBoard.directionArr[i].direction[k])){
-          EventChannel.trigger('end:game', {'player':this.player, 'msg':gameBoard.directionArr[i].message});
+    this.model.boardArr[cellRow][cellCol].occupied = Array(player,cellRow, cellCol);
+    for (var i = 0; i <= this.model.directionArr.length-1; i++) {
+      for (var k = 0; k <= this.model.directionArr[i].direction.length-1; k++) {
+        if(this.countDirection(this.model.directionArr[i].direction[k])){
+          GameView.gameEnd({
+            'player' : this.player,
+            'msg'    : this.model.directionArr[i].message
+          });
           return;
         }
       }
@@ -97,7 +99,7 @@ define([
 
 
     countConnections: function(direction){
-      var checkedCell = gameBoard.boardArr[checkerRow][checkerCol];
+      var checkedCell = this.model.boardArr[checkerRow][checkerCol];
       if(checkedCell.occupied != null){
         var checkedCellArr = checkedCell.occupied;
         if(checkedCellArr[0] == this.player){
@@ -111,17 +113,17 @@ define([
     checkDirection: function(direction){
       switch(direction) {
         case 'below':
-          if(checkerRow >= gameBoard.BOARDHEIGHT-1) return;
+          if(checkerRow >= this.model.BOARDHEIGHT-1) return;
           checkerRow++;
-          if (typeof gameBoard.boardArr[checkerRow][checkerCol] != "undefined")
+          if (typeof this.model.boardArr[checkerRow][checkerCol] != "undefined")
           {
             this.countConnections(direction);
           }
           break;
         case 'right':
-          if(checkerCol >= gameBoard.BOARDWIDTH-1) return;
+          if(checkerCol >= this.model.BOARDWIDTH-1) return;
           checkerCol++;
-          if (typeof gameBoard.boardArr[checkerRow][checkerCol] != "undefined")
+          if (typeof this.model.boardArr[checkerRow][checkerCol] != "undefined")
           {
             this.countConnections(direction);
           }
@@ -129,16 +131,16 @@ define([
         case 'left':
           if(checkerCol === 0) return;
           checkerCol--;
-          if (typeof gameBoard.boardArr[checkerRow][checkerCol] != "undefined")
+          if (typeof this.model.boardArr[checkerRow][checkerCol] != "undefined")
           {
             this.countConnections(direction);
           }
           break;
         case 'aboveRight':
-          if(checkerCol >= gameBoard.BOARDWIDTH-1 || checkerRow === 0) return;
+          if(checkerCol >= this.model.BOARDWIDTH-1 || checkerRow === 0) return;
           checkerRow--;
           checkerCol++;
-          if (typeof gameBoard.boardArr[checkerRow][checkerCol] != "undefined")
+          if (typeof this.model.boardArr[checkerRow][checkerCol] != "undefined")
           {
             this.countConnections(direction);
           }
@@ -147,25 +149,25 @@ define([
           if(checkerCol === 0 || checkerRow === 0) return;
           checkerRow--;
           checkerCol--;
-          if (typeof gameBoard.boardArr[checkerRow][checkerCol] != "undefined")
+          if (typeof this.model.boardArr[checkerRow][checkerCol] != "undefined")
           {
             this.countConnections(direction);
           }
           break;
         case 'belowRight':
-          if(checkerRow >= gameBoard.BOARDHEIGHT-1 || checkerCol >= gameBoard.BOARDWIDTH-1) return;
+          if(checkerRow >= this.model.BOARDHEIGHT-1 || checkerCol >= this.model.BOARDWIDTH-1) return;
           checkerRow++;
           checkerCol++;
-          if (typeof gameBoard.boardArr[checkerRow][checkerCol] != "undefined")
+          if (typeof this.model.boardArr[checkerRow][checkerCol] != "undefined")
           {
             this.countConnections(direction);
           }
           break;
         case 'belowLeft':
-          if(checkerRow >= gameBoard.BOARDHEIGHT-1 || checkerCol === 0) return;
+          if(checkerRow >= this.model.BOARDHEIGHT-1 || checkerCol === 0) return;
           checkerRow++;
           checkerCol--;
-          if (typeof gameBoard.boardArr[checkerRow][checkerCol] != "undefined")
+          if (typeof this.model.boardArr[checkerRow][checkerCol] != "undefined")
           {
             this.countConnections(direction);
           }

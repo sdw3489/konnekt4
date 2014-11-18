@@ -19,8 +19,7 @@ class Game extends CI_Controller {
 
   public function getGameData($game_Id){
     $data = $this->Game->getGameData($game_Id);
-    $data[0]->current_player = $this->session->userdata('user_Id');
-    return json_encode($data[0], JSON_NUMERIC_CHECK);
+    return json_encode($data, JSON_NUMERIC_CHECK);
   }
 
   public function challenge($user_Id){
