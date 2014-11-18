@@ -2,49 +2,25 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'models/gameBoard',
   'classes/cell',
   'classes/piece',
+  'events/Channel',
   'module'
-], function($, _, Backbone, Cell, Piece, module){
+], function($, _, Backbone, gameBoard, Cell, Piece, EventsChannel, module){
 
   var GameView = Backbone.View.extend({
 
-    xhtmlns : "http://www.w3.org/1999/xhtml",
-    svgns : "http://www.w3.org/2000/svg",
-    // BOARDX : 0,               //starting pos of board
-    // BOARDY : 0,               //look above
-    boardArr : [],   //2d array [row][col]
-    pieceArr : [],   //2d array [player][piece] (player is either 0 or 1)
-    directionArr : [
-      {
-        direction: ['right','left'],
-        message:'Won with 4 Across.'
-      },
-      {
-        direction: ['below'],
-        message:'Won with 4 Stacked.'
-      },
-      {
-        direction: ['aboveRight','belowLeft'],
-        message:'Won with 4 Diagonal Right.'
-      },
-      {
-        direction: ['aboveLeft','belowRight'],
-        message:'Won with 4 Diagonal Left.'
-      }
-    ],
-    BOARDWIDTH : 7,       //how many squares across
-    BOARDHEIGHT : 6,      //how many squares down
-    myX:null,                  //hold my last pos.
-    myY:null,                  //hold my last pos.
-    numPieces:0,          //hold the number of pieces
-    game: module.config(),
-    turn:module.config().whoseTurn,
-    playerId:null,
-    player2Id:null,
+    game : module.config(),
+    turn :module.config().whoseTurn,
+    playerId : null,
+    player2Id : null,
 
     initialize: function () {
       console.log(JSON.stringify(this.game));
+
+      EventsChannel.on('click:cell', this.placePiece, this);
+      EventsChannel.on('end:game', this.gameEnd, this);
 
       if(this.game.current_player == this.game.player0_Id){
         this.playerId = 0;
@@ -55,7 +31,7 @@ define([
       }
 
       this.userInfo();
-      this.createBoard();
+      this.render();
     },
     userInfo: function(){
       if(this.game.current_player === this.game.player0_Id){
@@ -77,9 +53,9 @@ define([
           .removeClass('list-group-item-success');
       }
     },
-    createBoard: function(){
+    render: function(){
       //create a parent to stick board in...
-      var gEle=document.createElementNS(this.svgns,'g');
+      var gEle=document.createElementNS(gameBoard.svgns,'g');
       // gEle.setAttributeNS(null,'transform','translate('+this.BOARDX+','+this.BOARDY+')');
       gEle.setAttributeNS(null,"id","game_1");
       gEle.setAttributeNS(null,'stroke','blue');
@@ -88,17 +64,10 @@ define([
       document.getElementsByTagName('svg')[0].insertBefore(gEle,document.getElementsByTagName('svg')[0].childNodes[4]);
 
       //create the board...
-      for(i=0;i<this.BOARDHEIGHT;i++){//rows i
-        this.boardArr[i]=new Array();
-        for(j=0;j<this.BOARDWIDTH;j++){//cols j
-          this.boardArr[i][j]=new Cell(document.getElementById("game_1"),'cell_'+j+i,75,j,i);
-
-          console.log(this.boardArr[i][j]);
-          $(this.boardArr[i][j].object).bind('click', _.bind(function(event) {
-            console.log(j);
-            this.placePiece(3);
-          }, this));
-
+      for(i=0;i<gameBoard.BOARDHEIGHT;i++){//rows i
+        gameBoard.boardArr[i]=new Array();
+        for(j=0;j<gameBoard.BOARDWIDTH;j++){//cols j
+          gameBoard.boardArr[i][j]=new Cell(document.getElementById("game_1"),'cell_'+j+i,75,j,i);
         }
       }
 
@@ -110,14 +79,14 @@ define([
         $.ajax({
           type: "GET",
           url: arguments[0],
-          success: arguments[1]
+          success: _.bind(arguments[1], this)
         });
       }
       setTimeout(_.bind(function(){
         this.ajax_getTurn('/game/getTurn/'+this.game.game_Id, this.onGetTurn);
       },this), 3000);
     },
-    onGetTurn:function(){
+    onGetTurn:function(jsonText){
       var obj = JSON.parse(jsonText)[0];
       if(obj.whoseTurn == this.playerId){
         //switch turns
@@ -148,29 +117,16 @@ define([
     //************************ NEW FUNCTION ***********************/
     placePiece: function(col){
       //checks from the bottom of the board up.
-      for(var row=this.boardArr.length-1; row >= 0; row--){
+      for(var row=gameBoard.boardArr.length-1; row >= 0; row--){
         //get the target cell based on the col passed into the function and the i variable which counts bottom up
-        var targetSpot = this.boardArr[row][col];
+        var targetSpot = gameBoard.boardArr[row][col];
         //if the target drop spot cell is not already occupied
         if(targetSpot.occupied === null)
         {
           //if its the current players turn add a new piece at the target spot
           if(this.playerId == this.turn){
-            this.numPieces++;
-            var piece = new Piece('game_'+this.game.game_Id,this.playerId,row,col,'Checker',this.numPieces);
-
-            /* Moved from Piece class */
-            this.boardArr[row][col].occupied = Array(this.playerId,row, col);
-            for (var i = 0; i <= this.directionArr.length-1; i++) {
-              for (var k = 0; k <= this.directionArr[i].direction.length-1; k++) {
-                if(piece.countDirection(this.directionArr[i].direction[k])){
-                  this.gameEnd(this.playerId, this.directionArr[i].message);
-                  return;
-                }
-              }
-              piece.connections=0;
-            }
-
+            gameBoard.numPieces++;
+            var piece = new Piece('game_'+this.game.game_Id,this.playerId,row,col,'Checker',gameBoard.numPieces);
 
             this.ajax_utility('/game/changeBoard/'+this.game.game_Id+'/'+this.playerId+'/'+targetSpot.id+'/'+row+'/'+col, this.onChangeBoard);
             this.changeTurn();
@@ -191,7 +147,7 @@ define([
     //  get the piece (object) from the id and return it...
     ////////////////
     getPiece: function(which){
-      return this.pieceArr[parseInt(which.substr((which.search(/\_/)+1),1))][parseInt(which.substring((which.search(/\|/)+1),which.length))];
+      return gameBoard.pieceArr[parseInt(which.substr((which.search(/\_/)+1),1))][parseInt(which.substring((which.search(/\|/)+1),which.length))];
     },
 
     ////get Transform/////
@@ -251,8 +207,8 @@ define([
       }
     },
 
-    gameEnd: function(player, msg){
-      $('.js-game-end-msg').html("<p>Player "+player+" "+ msg+"</p>");
+    gameEnd: function(data){
+      $('.js-game-end-msg').html("<p>Player "+data.player+" "+data.msg+"</p>");
       $('.js-game-end-modal').modal();
     },
 
