@@ -18,6 +18,8 @@ define([
     $alert : $('.js-turn-alert'),
     $infoView : $('.js-info-view'),
     $gameBoard : $('.js-game-svg'),
+    $endMsg : $('.js-game-end-msg'),
+    $endModal : $('.js-game-end-modal'),
 
     initialize: function () {
 
@@ -177,8 +179,8 @@ define([
     },
 
     gameEnd: function(data){
-      $('.js-game-end-msg').html("<p>Player "+data.player+" "+data.msg+"</p>");
-      $('.js-game-end-modal').modal();
+      this.$endMsg.html("<p>Player "+data.player+" "+data.msg+"</p>");
+      this.$endModal.modal();
     },
 
     ajax_utility:function(){
