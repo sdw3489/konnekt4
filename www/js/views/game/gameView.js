@@ -94,14 +94,14 @@ define([
       }
     },
     onGetMove: function(jsonText){
-      var obj = JSON.parse(jsonText);
-      //shortcuts
-      var ppiece=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_pieceID'];
-      var pbR=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_boardR'];
-      var pbC=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_boardC'];
+      var obj = JSON.parse(jsonText),
+          pieceID=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_pieceID'],
+          boardR=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_boardR'],
+          boardC=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_boardC'];
 
-      if(pbC != null || pbR != null){
-        var temp = new Piece("game_"+this.model.get('game_Id'),Math.abs(this.model.get('playerId')-1),pbR,pbC,this.model.get('numPieces'), this);
+      if(boardC != null || boardR != null){
+        var piece = new Piece("game_"+this.model.get('game_Id'),Math.abs(this.model.get('playerId')-1),boardR,boardC,this.model.get('numPieces'), this);
+        this.model.get('pieceArr').push(piece);
       }
 
     },
@@ -120,6 +120,7 @@ define([
           if(this.model.get('playerId') == this.model.get('turn')){
             this.model.set('numPieces', this.model.get('numPieces')+1);
             var piece = new Piece('game_'+this.model.get('game_Id'),this.model.get('playerId'),row,col,this.model.get('numPieces'), this);
+            this.model.get('pieceArr').push(piece);
 
             this.ajax_utility('/game/changeBoard/'+this.model.get('game_Id')+'/'+this.model.get('playerId')+'/'+targetSpot.id+'/'+row+'/'+col, this.onChangeBoard);
             this.ajax_utility('/game/changeTurn/'+this.model.get('game_Id'), this.onChangeServerTurn);
