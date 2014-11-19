@@ -19,7 +19,7 @@
             <div class="alert alert-danger js-turn-alert" role="alert">Not Your Turn!</div>
           </div>
           <div class="svg-container">
-            <svg class="svg-content" viewBox="0 0 525 450" preserveAspectRatio="xMinYMin meet"></svg>
+            <svg class="js-game-svg svg-content" viewBox="0 0 525 450" preserveAspectRatio="xMinYMin meet"></svg>
           </div>
         </div>
       </div>

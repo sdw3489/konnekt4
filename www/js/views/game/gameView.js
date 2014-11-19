@@ -17,6 +17,7 @@ define([
     turnTimer : null,
     $alert : $('.js-turn-alert'),
     $infoView : $('.js-info-view'),
+    $gameBoard : $('.js-game-svg'),
 
     initialize: function () {
 
@@ -49,18 +50,16 @@ define([
     render: function(){
       //create a parent to stick board in...
       var gEle=document.createElementNS(this.model.get('svgns'),'g');
-      // gEle.setAttributeNS(null,'transform','translate('+this.BOARDX+','+this.BOARDY+')');
-      gEle.setAttributeNS(null,"id","game_1");
+      gEle.setAttributeNS(null,'id','game-board');
       gEle.setAttributeNS(null,'stroke','blue');
       //stick g on board
-
-      document.getElementsByTagName('svg')[0].insertBefore(gEle,document.getElementsByTagName('svg')[0].childNodes[4]);
+      this.$gameBoard.append(gEle);
 
       //create the board...
       for(i=0;i<this.model.get('BOARDHEIGHT');i++){//rows i
         this.model.get('boardArr')[i]=new Array();
         for(j=0;j<this.model.get('BOARDWIDTH');j++){//cols j
-          this.model.get('boardArr')[i][j]=new Cell(document.getElementById("game_1"),'cell_'+j+i,75,j,i,this);
+          this.model.get('boardArr')[i][j]=new Cell($('#game-board')[0],'cell_'+j+i,75,j,i,this);
         }
       }
 
