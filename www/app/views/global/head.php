@@ -7,7 +7,11 @@
   <title><?= $title; ?> | Konnekt4</title>
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+  <!-- CSS -->
+  <link type="text/css" rel="stylesheet" href="/css/normalize.css">
+  <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css">
   <link type="text/css" rel="stylesheet" href="/css/styles.css" />
+
 </head>
 <body class="<?= $bodyClass; ?>">

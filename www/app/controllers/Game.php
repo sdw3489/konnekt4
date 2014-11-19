@@ -10,22 +10,21 @@ class Game extends CI_Controller {
   public function play($game_Id){
     $data['title'] = 'Game Board';
     $data['bodyClass'] = 'game';
-    $data['gameId'] = $game_Id;
-    $data['player'] = $this->session->userdata('user_Id');
+    $data['gameData'] = $this->getGameData($game_Id);
     $this->load->view('global/head', $data);
     $this->load->view('global/nav', $data);
     $this->load->view('game', $data);
     $this->load->view('global/footer', $data);
   }
 
-  public function start($game_Id){
-    $data = $this->Game->start($game_Id);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
+  public function getGameData($game_Id){
+    $data = $this->Game->getGameData($game_Id);
+    return json_encode($data, JSON_NUMERIC_CHECK);
   }
 
   public function challenge($user_Id){
     $data = $this->Game->newGame($_SESSION['user_Id'], $user_Id);
-    header("Location:/");
+    echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 
   public function getChallenges(){

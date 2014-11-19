@@ -1,0 +1,7 @@
+<% if(username){ %>
+  <li class="list-group-item clearfix"><%= username %> challenged you!
+    <a href="/game/play/<%= game_Id %>" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game <%= game_Id %></a>
+  </li>
+<%}else{%>
+   <li class="list-group-item">Noone has challenged you.</li>
+<% } %>

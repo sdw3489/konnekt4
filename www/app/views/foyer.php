@@ -24,11 +24,11 @@
 
             <div class="panel panel-primary">
               <div class="panel-heading">Challenges</div>
-              <ul id="games-avail" class="list-group"></ul>
+              <ul class="challenges-view list-group"></ul>
             </div>
             <div class="panel panel-primary">
               <div class="panel-heading">Challengers</div>
-              <ul id="games-avail2" class="list-group"></ul>
+              <ul class="challengers-view list-group"></ul>
             </div>
 
           </div>
@@ -37,17 +37,7 @@
             <div class="panel panel-primary">
               <div class="panel-heading">Chat</div>
               <div class="panel-body">
-                <div class="chat-container">
-                  <div class="chat-inner well well-lg">
-                    <div class="chat-box js-chat"></div>
-                  </div>
-                  <form id="chat-form" class="" method="" action="" onSubmit="return false">
-                    <div class="form-group">
-                      <input id="chat-input" class="form-control" placeholder="Type Message (Hit Enter to Send)" type="text" name="message" onChange="sendChat(this.value)" />
-                      <!-- <input type="submit" class="btn btn-default disabled" name="chatSubmit"/> -->
-                    </div>
-                  </form>
-                </div>
+                <div class="chat-container"></div>
               </div>
             </div>
 

@@ -25,3 +25,12 @@ compass watch
 ```
 
 This will begin watching the sass partials located in `/www/css/sass/` folder and compile the css and css source maps on modification.
+
+#### Scripts
+
+The scripts in this project are written with BackboneJS models, views & collections. Each view & model is wrapped in a RequireJS AMD module format.
+
+Each view, model, collection, event channel, router, classes & utilities are located in their respective folder within the `/www/js/` folder.
+UnderscoreJS templates are located in `/www/templates/`. They are loaded in the AMD modules as dependencies using the RequireJS text plugin.
+
+Third Party javascript libraries are located in `/www/js/libs/`

@@ -4,32 +4,20 @@
   	</div>
   </div>
 
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="/js/vendor/jquery-1.11.1.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-
-<?php if($bodyClass === 'foyer'):?>
-  <script type="text/javascript" src="/js/foyerFunctions.js"></script>
+  <!-- Scripts -->
+  <script type="text/javascript" src="/js/plugins.js"></script>
+  <script src="/js/libs/modernizr-2.8.3-respond-1.1.0.min.js"></script>
   <script type="text/javascript">
-    var userId = <?php echo $_SESSION['user_Id']; ?>;
-    $(document).ready(function(){
-      init();
-    });
+    var require = {
+      config: {
+        'views/baseView':{
+          page: "<?= $bodyClass; ?>"
+        },
+        'fv/foyerView': {},
+        'gv/gameView': <?= (isset($gameData))? "$gameData" : "null"; ?>
+      }
+    };
   </script>
-<?php endif; ?>
-
-<?php if($bodyClass === 'game'):?>
-  <script src="/js/Cell.js" type="text/javascript"></script>
-  <script src="/js/Piece.js" type="text/javascript"></script>
-  <script src="/js/gameFunctions.js" type="text/javascript"></script>
-  <script src="/js/ajaxFunctions.js" type="text/javascript"></script>
-  <script type="text/javascript">
-    var gameId=<?= $gameId; ?>;
-    var player=<?= $player; ?>;
-    $(document).ready(function(){
-      gameInit();
-    });
-  </script>
-<?php endif; ?>
+  <script data-main="/js/main" src="/js/libs/require.js"></script>
 </body>
 </html>
