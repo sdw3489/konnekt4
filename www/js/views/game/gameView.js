@@ -65,19 +65,15 @@ define([
         }
       }
 
-      this.ajax_getTurn('/game/getTurn/'+this.model.get('game_Id'), this.onGetTurn);
+      this.getTurn();
     },
-    ajax_getTurn: function(){
+    getTurn: function(){
       if(this.model.get('turn')!=this.model.get('playerId')){
-        $.ajax({
-          type: "GET",
-          url: arguments[0],
-          success: _.bind(arguments[1], this)
-        });
+        this.ajax_utility('/game/getTurn/'+this.model.get('game_Id'), this.onGetTurn);
       }
       clearTimeout(this.turnTimer);
       this.turnTimer = setTimeout(_.bind(function(){
-        this.ajax_getTurn('/game/getTurn/'+this.model.get('game_Id'), this.onGetTurn);
+        this.getTurn();
       },this), 3000);
     },
     onGetTurn:function(jsonText){
@@ -86,11 +82,7 @@ define([
         //switch turns
         this.model.set('turn', obj.whoseTurn);
         //get the data from the last guys move
-        $.ajax({
-          type: "GET",
-          url: '/game/getMove/'+this.model.get('game_Id'),
-          success: _.bind(this.onGetMove, this)
-        });
+        this.ajax_utility('/game/getMove/'+this.model.get('game_Id'), this.onGetMove);
       }
     },
     onGetMove: function(jsonText){
