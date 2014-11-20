@@ -15,6 +15,7 @@ define([
     events: {},
 
     initialize: function () {
+      EventsChannel.on('getMove', this.getMove, this);
       this.render();
     },
     render: function () {

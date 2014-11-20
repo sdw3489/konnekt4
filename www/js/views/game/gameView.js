@@ -13,7 +13,6 @@ define([
   var GameView = Backbone.View.extend({
 
     game : module.config(),
-    turnTimer : null,
     $infoView : $('.js-info-view'),
     $endMsg : $('.js-game-end-msg'),
     $endModal : $('.js-game-end-modal'),
@@ -35,6 +34,10 @@ define([
         players         : this.game.players
       });
 
+      this.render();
+    },
+    render: function(){
+
       _.each(this.model.get('players'), _.bind(function(player){
         var v = new GamePlayerView({
           model:player
@@ -47,48 +50,15 @@ define([
       });
       this.$infoView.append(this.turnView.render().el);
 
-      this.render();
-      this.getTurn();
-    },
-    render: function(){
-
       this.boardView = new GameBoardView({
         model:this.model
       });
-
-    },
-    getTurn: function(){
-      if(this.model.get('turn')!=this.model.get('playerId')){
-        this.ajax_utility('/game/getTurn/'+this.model.get('game_Id'), this.onGetTurn);
-      }
-      clearTimeout(this.turnTimer);
-      this.turnTimer = setTimeout(_.bind(function(){
-        this.getTurn();
-      },this), 3000);
-    },
-    onGetTurn:function(jsonText){
-      var obj = JSON.parse(jsonText)[0];
-      if(obj.whoseTurn == this.model.get('playerId')){
-        //switch turns
-        this.model.set('turn', obj.whoseTurn);
-        //get the data from the last guys move
-        this.boardView.getMove();
-      }
     },
 
     gameEnd: function(data){
       this.$endMsg.html("<p>Player "+data.player+" "+data.msg+"</p>");
       this.$endModal.modal();
-    },
-
-    ajax_utility:function(){
-      $.ajax({
-        type: "GET",
-        url: arguments[0],
-        success: _.bind(arguments[1], this)
-      });
     }
-
 
   });
 
