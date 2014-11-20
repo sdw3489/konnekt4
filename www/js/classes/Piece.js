@@ -1,6 +1,7 @@
 define([
-  'jquery'
-], function($){
+  'jquery',
+  'events/channel'
+], function($, EventsChannel){
 
   //////////////////////////////////////////////////////
   // Class: Piece                   //
@@ -68,7 +69,7 @@ define([
     for (var i = 0; i <= this.model.directionArr.length-1; i++) {
       for (var k = 0; k <= this.model.directionArr[i].direction.length-1; k++) {
         if(this.countDirection(this.model.directionArr[i].direction[k])){
-          GameView.gameEnd({
+          EventsChannel.trigger('gameEnd', {
             'player' : this.player,
             'msg'    : this.model.directionArr[i].message
           });
