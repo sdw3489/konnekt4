@@ -7,7 +7,7 @@ define([
 
   var GameEndView = Backbone.View.extend({
     el: '.js-game-end-msg',
-    template: _.template("<p>Player <%= player %> <%= msg %></p>"),
+    template: _.template("<p><%= player %> <%= msg %></p>"),
     $endModal : $('.js-game-end-modal'),
     events: {},
 

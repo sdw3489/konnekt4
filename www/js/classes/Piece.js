@@ -69,8 +69,15 @@ define([
     for (var i = 0; i <= this.model.directionArr.length-1; i++) {
       for (var k = 0; k <= this.model.directionArr[i].direction.length-1; k++) {
         if(this.countDirection(this.model.directionArr[i].direction[k])){
+          var winner;
+          $.each(this.model.players, $.proxy(function(i, player){
+            if(player.playerId == this.player){
+              winner = player.name;
+              return;
+            }
+          },this));
           EventsChannel.trigger('gameEnd', {
-            'player' : this.player,
+            'player' : winner,
             'msg'    : this.model.directionArr[i].message
           });
           return;
