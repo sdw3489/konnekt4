@@ -1,5 +1,10 @@
 # Changelog History
 
+### 1.8.1: 11-19-2014
+  - Modularize Gameboard view
+  - Reorganize turn swapping code
+  - Move end game to view module & replace player ID with name
+
 ### 1.8: 11-18-2014
   - Backbone front-end refactor
   - Ajax Challenge button
