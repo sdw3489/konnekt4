@@ -6,21 +6,20 @@ define([
   'gv/gameBoardView',
   'gv/gamePlayerView',
   'gv/gameTurnView',
+  'gv/gameEndView',
   'events/channel',
   'module'
-], function($, _, Backbone, GameModel, GameBoardView, GamePlayerView, GameTurnView, EventsChannel, module){
+], function($, _, Backbone, GameModel, GameBoardView, GamePlayerView, GameTurnView, GameEndView, EventsChannel, module){
 
   var GameView = Backbone.View.extend({
 
     game : module.config(),
-    $infoView : $('.js-info-view'),
-    $endMsg : $('.js-game-end-msg'),
-    $endModal : $('.js-game-end-modal'),
     boardView : null,
-    infoView : null,
+    infoView  : null,
+    endView   : null,
+    infoView  : null,
 
     initialize: function () {
-      EventsChannel.on('gameEnd', this.gameEnd, this);
 
       this.model = new GameModel({
         game_Id         : this.game.game_Id,
@@ -34,30 +33,28 @@ define([
         players         : this.game.players
       });
 
+      this.infoView = $('.js-info-view');
       this.render();
     },
     render: function(){
 
       _.each(this.model.get('players'), _.bind(function(player){
-        var v = new GamePlayerView({
+        var playerView = new GamePlayerView({
           model:player
         });
-        this.$infoView.append(v.render().el);
+        this.infoView.append(playerView.render().el);
       }, this));
 
       this.turnView = new GameTurnView({
         model:this.model
       });
-      this.$infoView.append(this.turnView.render().el);
+      this.infoView.append(this.turnView.render().el);
 
       this.boardView = new GameBoardView({
         model:this.model
       });
-    },
 
-    gameEnd: function(data){
-      this.$endMsg.html("<p>Player "+data.player+" "+data.msg+"</p>");
-      this.$endModal.modal();
+      this.endView = new GameEndView();
     }
 
   });
