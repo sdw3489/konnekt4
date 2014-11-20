@@ -48,6 +48,7 @@ define([
       this.$infoView.append(turnView.render().el);
 
       this.render();
+      this.getTurn();
     },
     render: function(){
       //create a parent to stick board in...
@@ -64,8 +65,6 @@ define([
           this.model.get('boardArr')[i][j]=new Cell($('#game-board')[0],'cell_'+j+i,75,j,i,this);
         }
       }
-
-      this.getTurn();
     },
     getTurn: function(){
       if(this.model.get('turn')!=this.model.get('playerId')){
