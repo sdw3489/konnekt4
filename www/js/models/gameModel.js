@@ -34,8 +34,10 @@ define([
       BOARDHEIGHT : 6,     //how many squares down
       numPieces:0          //hold the number of pieces
     },
+    turnTimer : null,
 
     initialize: function(){
+      this.getTurn();
       this.on("change", function() {
         if (this.hasChanged("turn")) {}
       });
@@ -46,6 +48,31 @@ define([
       }else{
         this.set('turn', 0);
       }
+    },
+    getTurn: function(){
+      if(this.get('turn')!=this.get('playerId')){
+        this.ajax_utility('/game/getTurn/'+this.get('game_Id'), this.onGetTurn);
+      }
+      clearTimeout(this.turnTimer);
+      this.turnTimer = setTimeout(_.bind(function(){
+        this.getTurn();
+      },this), 3000);
+    },
+    onGetTurn:function(jsonText){
+      var obj = JSON.parse(jsonText)[0];
+      if(obj.whoseTurn == this.get('playerId')){
+        //switch turns
+        this.set('turn', obj.whoseTurn);
+        //get the data from the last guys move
+        EventsChannel.trigger('getMove');
+      }
+    },
+    ajax_utility:function(){
+      $.ajax({
+        type: "GET",
+        url: arguments[0],
+        success: _.bind(arguments[1], this)
+      });
     }
 
   });
