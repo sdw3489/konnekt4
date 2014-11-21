@@ -19,11 +19,7 @@ class Main extends CI_Controller {
 			$this->load->view('foyer', $data);
 			$this->load->view('global/footer', $data);
 		}else{
-			$data['title'] = 'Login';
-			$data['bodyClass'] = 'login';
-			$this->load->view('global/head', $data);
-			$this->load->view('login', $data);
-			$this->load->view('global/footer', $data);
+			header("Location:/login/");
 		}
 	}
 }

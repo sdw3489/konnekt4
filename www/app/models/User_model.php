@@ -26,6 +26,19 @@ class User_model extends CI_Model {
     }
   }
 
+  //Check username is valid
+  public function validUser($username){
+    $encrypted_password = sha1($this->input->post('password'));
+    $username = $this->input->post('name');
+    $query = $this->db->get_where('users', array('username'=>$username, 'password'=>$encrypted_password));
+    $result = $query->result();
+    if($query->num_rows() > 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   //Logout Function
   public function logout($id){
     if ($id){
