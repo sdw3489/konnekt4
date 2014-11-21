@@ -62,6 +62,14 @@ body {
   border-top-right-radius: 0;
 }
 
+input:focus:required:invalid {
+  border: 1px solid red;
+}
+
+input:required:valid {
+  border: 1px solid green;
+}
+
 /* Foyer */
 .chat-box {
   color: #666;
