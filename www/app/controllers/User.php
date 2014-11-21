@@ -15,17 +15,41 @@ class User extends CI_Controller {
 
   //checks a users login to see if they exist in the database
   public function login() {
-    $data['query'] = $this->User->login();
-    if(count($data['query']) > 0 ){
-      $theuser = $data['query'][0];
-      $this->session->set_userdata(array(
-        'username'=>$theuser->username,
-        'user_Id'=>$theuser->user_Id,
-        'time'=> time()
-      ));
-      header("Location:/");
-    }else{
-      return false;
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules('name', 'Username', array(
+      'trim',
+      'required',
+      'xss_clean'
+    ));
+    $this->form_validation->set_rules('password', 'Password', array(
+      'trim',
+      'required',
+      array('user_callable', array($this->User, 'validUser'))
+    ));
+
+    $this->form_validation->set_message('user_callable', 'Username or Password is not correct.');
+
+    if ($this->form_validation->run() == FALSE) {
+      $data['title'] = 'Login';
+      $data['bodyClass'] = 'login';
+      $this->load->view('global/head', $data);
+      $this->load->view('login', $data);
+      $this->load->view('global/footer', $data);
+
+    } else{
+      $data['query'] = $this->User->login();
+      if(count($data['query']) > 0 ){
+        $theuser = $data['query'][0];
+        $this->session->set_userdata(array(
+          'username'=>$theuser->username,
+          'user_Id'=>$theuser->user_Id,
+          'time'=> time()
+        ));
+        header("Location:/");
+      }else{
+        return false;
+      }
     }
   }
 
@@ -43,18 +67,26 @@ class User extends CI_Controller {
 
   //Sign up page
   public function signup(){
-    $data['title'] = 'Signup';
-    $data['bodyClass'] = 'signup';
-    $this->load->view('global/head', $data);
-    $this->load->view('signup', $data);
-    $this->load->view('global/footer', $data);
-  }//end register
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules(
+     'username', 'Username', 'trim|required|min_length[3]|max_length[12]|is_unique[users.username]|xss_clean',
+        array(
+                'required'      => 'You have not provided a %s.',
+                'is_unique'     => 'This %s already exists.'
+        ));
+    $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]');
 
-
-  //register a new user into the database
-  public function register(){
-    $this->User->register();
-    header("Location:/");
+    if ($this->form_validation->run() == FALSE) {
+      $data['title'] = 'Signup';
+      $data['bodyClass'] = 'signup';
+      $this->load->view('global/head', $data);
+      $this->load->view('signup', $data);
+      $this->load->view('global/footer', $data);
+    } else{
+      $this->User->register();
+      header("Location:/");
+    }
   }//end register
 
   //Get list of logged in Users
