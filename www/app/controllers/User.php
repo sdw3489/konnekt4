@@ -43,18 +43,26 @@ class User extends CI_Controller {
 
   //Sign up page
   public function signup(){
-    $data['title'] = 'Signup';
-    $data['bodyClass'] = 'signup';
-    $this->load->view('global/head', $data);
-    $this->load->view('signup', $data);
-    $this->load->view('global/footer', $data);
-  }//end register
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
+    $this->form_validation->set_rules(
+     'username', 'Username', 'trim|required|min_length[3]|max_length[12]|is_unique[users.username]|xss_clean',
+        array(
+                'required'      => 'You have not provided a %s.',
+                'is_unique'     => 'This %s already exists.'
+        ));
+    $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]');
 
-
-  //register a new user into the database
-  public function register(){
-    $this->User->register();
-    header("Location:/");
+    if ($this->form_validation->run() == FALSE) {
+      $data['title'] = 'Signup';
+      $data['bodyClass'] = 'signup';
+      $this->load->view('global/head', $data);
+      $this->load->view('signup', $data);
+      $this->load->view('global/footer', $data);
+    } else{
+      $this->User->register();
+      header("Location:/");
+    }
   }//end register
 
   //Get list of logged in Users
