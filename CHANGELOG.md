@@ -1,5 +1,11 @@
 # Changelog History
 
+### 1.9: 11-21-2014
+  - Login/Sign Up Form Validation
+    - Server-side
+    - Client-side
+  - Tweaked body background color.
+
 ### 1.8.1: 11-19-2014
   - Modularize Gameboard view
   - Reorganize turn swapping code
