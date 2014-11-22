@@ -36,12 +36,19 @@ DROP TABLE user;
 -- Created by Vertabelo (http://vertabelo.com)
 -- Script type: create
 -- Scope: [tables, references]
--- Generated at Sat Nov 22 21:39:02 UTC 2014
+-- Generated at Sat Nov 22 22:03:52 UTC 2014
 
 
 
 
 -- tables
+-- Table: challenge_type
+CREATE TABLE challenge_type (
+    id int    NOT NULL  AUTO_INCREMENT,
+    type varchar(16)    NOT NULL ,
+    CONSTRAINT challenge_type_pk PRIMARY KEY (id)
+);
+
 -- Table: chat
 CREATE TABLE chat (
     id int    NOT NULL  AUTO_INCREMENT,
@@ -76,6 +83,7 @@ CREATE TABLE game_user (
     game_id int    NOT NULL ,
     user_id int    NOT NULL ,
     stat_type_id int    NULL ,
+    challenge_type_id int    NOT NULL ,
     CONSTRAINT game_user_pk PRIMARY KEY (id)
 );
 
@@ -118,6 +126,11 @@ ALTER TABLE chat ADD CONSTRAINT chat_users FOREIGN KEY chat_users (user_id)
     REFERENCES user (id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE;
+-- Reference:  game_user_challenge_type (table: game_user)
+
+
+ALTER TABLE game_user ADD CONSTRAINT game_user_challenge_type FOREIGN KEY game_user_challenge_type (challenge_type_id)
+    REFERENCES challenge_type (id);
 -- Reference:  games_end_type (table: game)
 
 
@@ -162,3 +175,19 @@ ALTER TABLE stat ADD CONSTRAINT stats_users FOREIGN KEY stats_users (user_id)
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `logged_in`) VALUES
 (1, 'seth', NULL, '25a3b6cc85a8cde49f8b0f9aa21c050bc04072d4', 1),
 (2, 'bob', NULL, '48181acd22b3edaebc8a447868a7df7ce629920a', 1);
+
+INSERT INTO `challenge_type` (`id`, `type`) VALUES
+(1, 'challenger'),
+(2, 'challenged');
+
+INSERT INTO `stat_type` (`id`, `type`) VALUES
+(1, 'win'),
+(2, 'loss'),
+(3, 'tie');
+
+INSERT INTO `end_type` (`id`, `type`) VALUES
+(1, 'active'),
+(2, 'across'),
+(3, 'stacked'),
+(4, 'diagonal_right'),
+(5, 'diagonal_left');
