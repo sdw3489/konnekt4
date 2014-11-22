@@ -28,12 +28,12 @@ class Game extends CI_Controller {
   }
 
   public function getChallenges(){
-    $data = $this->Game->getChallenges($_SESSION['user_Id']);
+    $data = $this->Game->getChallenges($_SESSION['id']);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 
   public function getChallengers(){
-    $data = $this->Game->getChallengers($_SESSION['user_Id']);
+    $data = $this->Game->getChallengers($_SESSION['id']);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 

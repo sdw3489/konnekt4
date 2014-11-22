@@ -19,11 +19,13 @@ class Game_model extends CI_Model {
     $insert_id = $this->db->insert_id();
     $this->db->insert('game_user', array(
       'game_id'=> $insert_id,
-      'user_id'=> $user_id
+      'user_id'=> $user_id,
+      'challenge_type_id'=>1
     ));
     $this->db->insert('game_user', array(
       'game_id'=> $insert_id,
-      'user_id'=> $challenged_id
+      'user_id'=> $challenged_id,
+      'challenge_type_id'=>2
     ));
   }
 
@@ -99,17 +101,59 @@ class Game_model extends CI_Model {
     }
  }
 
-  public function getChallenges($user_Id){
-    $query = $this->db->select('username, game_Id')->from('game')->join('users','game.player1_Id=users.user_Id', 'inner')->where('player0_Id',$user_Id)->get();
-    if($query->num_rows() > 0){
-      return $query->result();
+  public function getChallenges($user_id){
+    $games = $this->db->select('game_id')->from('game_user')
+      ->where('user_id', $user_id)
+      ->where('challenge_type_id', 1)
+      ->get();
+
+    if($games->num_rows() > 0){
+      $result = []; $i = 0;
+      foreach ($games->result() as $game){
+        $game_id = $game->game_id;
+        $query = $this->db->select('u.username, gu.game_id')
+          ->from('game_user gu')
+          ->join('user u','gu.user_id=u.id', 'inner')
+          ->where('gu.game_id',$game_id)
+          ->where_not_in('gu.user_id', $user_id)
+          ->get();
+        if($query->num_rows() > 0){
+          foreach($query->result() as $challenge){
+            $result[$i]['username'] = $challenge->username;
+            $result[$i]['game_id'] = $challenge->game_id;
+            $i++;
+          }
+        }
+      }
+      return $result;
     }
   }
 
-  public function getChallengers($user_Id){
-    $query = $this->db->select('username, game_Id')->from('game')->join('users','game.player0_Id=users.user_Id', 'inner')->where('player1_Id',$user_Id)->get();
-    if($query->num_rows() > 0){
-      return $query->result();
+  public function getChallengers($user_id){
+    $games = $this->db->select('game_id')->from('game_user')
+      ->where('user_id', $user_id)
+      ->where('challenge_type_id',2)
+      ->get();
+
+    if($games->num_rows() > 0){
+      $result = []; $i = 0;
+      foreach ($games->result() as $game){
+        $game_id = $game->game_id;
+        $query = $this->db->select('u.username, gu.game_id')
+          ->from('game_user gu')
+          ->join('user u','gu.user_id=u.id', 'inner')
+          ->where('gu.game_id',$game_id)
+          ->where_not_in('gu.user_id', $user_id)
+          ->get();
+        if($query->num_rows() > 0){
+          foreach($query->result() as $challenge){
+            $result[$i]['username'] = $challenge->username;
+            $result[$i]['game_id'] = $challenge->game_id;
+            $i++;
+          }
+        }
+      }
+      return $result;
     }
 
   }
