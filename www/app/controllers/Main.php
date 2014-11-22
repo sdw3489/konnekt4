@@ -7,7 +7,7 @@ class Main extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->driver('session');
-		$this->session_id = $this->session->userdata('user_Id');
+		$this->session_id = $this->session->userdata('id');
 	}
 
 	public function index()	{

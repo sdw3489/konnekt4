@@ -14,12 +14,12 @@ class User_model extends CI_Model {
   public function login(){
     $encrypted_password = sha1($this->input->post('password'));
     $username = $this->input->post('name');
-    $query = $this->db->get_where('users', array('username'=>$username, 'password'=>$encrypted_password));
+    $query = $this->db->get_where('user', array('username'=>$username, 'password'=>$encrypted_password));
     $result = $query->result();
     if($query->num_rows() > 0){
-      $id=$result[0]->user_Id;
-      $this->db->where('user_Id',$id);
-      $this->db->update('users', array('logged_In'=>1));
+      $id=$result[0]->id;
+      $this->db->where('id',$id);
+      $this->db->update('user', array('logged_in'=>1));
       return $result;
     }else{
       return false;
@@ -30,7 +30,7 @@ class User_model extends CI_Model {
   public function validUser($username){
     $encrypted_password = sha1($this->input->post('password'));
     $username = $this->input->post('name');
-    $query = $this->db->get_where('users', array('username'=>$username, 'password'=>$encrypted_password));
+    $query = $this->db->get_where('user', array('username'=>$username, 'password'=>$encrypted_password));
     $result = $query->result();
     if($query->num_rows() > 0){
       return true;
@@ -42,8 +42,8 @@ class User_model extends CI_Model {
   //Logout Function
   public function logout($id){
     if ($id){
-      $this->db->where('user_Id',$id);
-      $this->db->update('users', array('logged_In'=>0));
+      $this->db->where('id',$id);
+      $this->db->update('user', array('logged_in'=>0));
       return true;
     }else{
       return false;
@@ -56,19 +56,19 @@ class User_model extends CI_Model {
       'username' => $this->input->post('username'),
       'password' => sha1($this->input->post('password')),
     );
-    $this->db->insert('users', $data);
+    $this->db->insert('user', $data);
   }//end register
 
   public function getLoggedIn(){
-    $query = $this->db->where('logged_In', 1)->where_not_in('user_Id',$_SESSION['user_Id'])->get('users');
+    $query = $this->db->where('logged_in', 1)->where_not_in('id',$_SESSION['id'])->get('user');
     $result= $query->result();
     if($query->num_rows() > 0){
       return $result;
     }
   }
 
-  public function getUserInfo($user_Id){
-    $query = $this->db->select('user_Id, username')->where('user_Id', $user_Id)->get('users');
+  public function getUserInfo($id){
+    $query = $this->db->select('id, username')->where('id', $id)->get('user');
     $result= $query->result();
     if($query->num_rows() > 0){
       return $result;
