@@ -22,8 +22,8 @@ class Game extends CI_Controller {
     return json_encode($data, JSON_NUMERIC_CHECK);
   }
 
-  public function challenge($user_Id){
-    $data = $this->Game->newGame($_SESSION['user_Id'], $user_Id);
+  public function challenge($id){
+    $data = $this->Game->newGame($_SESSION['id'], $id);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 

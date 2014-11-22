@@ -9,9 +9,22 @@ class Game_model extends CI_Model {
     $this->table = 'game';
   }
 
-  public function newGame($user_Id, $challenged){
+  public function newGame($user_id, $challenged_id){
     $time=time();
-    $this->db->insert($this->table, array('player0_id' => $user_Id, 'player1_id' => $challenged, 'last_updated' => $time ));
+    $this->db->insert($this->table, array(
+      'whose_turn' => 0,
+      'active'=>1,
+      'last_updated' => $time
+    ));
+    $insert_id = $this->db->insert_id();
+    $this->db->insert('game_user', array(
+      'game_id'=> $insert_id,
+      'user_id'=> $user_id
+    ));
+    $this->db->insert('game_user', array(
+      'game_id'=> $insert_id,
+      'user_id'=> $challenged_id
+    ));
   }
 
   public function start($game_Id){
