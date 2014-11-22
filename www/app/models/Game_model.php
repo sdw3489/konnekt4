@@ -51,8 +51,9 @@ class Game_model extends CI_Model {
     if($query->num_rows() > 0){
       $cur = $this->session->userdata('user_Id');
       $row = $query->row();
-      $r['game_Id'] = $row->game_Id;
-      $r['whoseTurn'] = $row->whoseTurn;
+      $r['id'] = $row->id;
+      $r['whose_turn'] = $row->whose_turn;
+
       if($row->player0_Id === $cur){
         //Flat Format
         $r['current_player']['id'] = $row->player0_Id;
@@ -155,21 +156,20 @@ class Game_model extends CI_Model {
       }
       return $result;
     }
-
   }
 
-  public function getTurn($game_Id){
-    $query = $this->db->select('whoseTurn')->where('game_Id', $game_Id)->get('game');
+  public function getTurn($id){
+    $query = $this->db->select('whose_turn')->where('id', $id)->get('game');
     if($query->num_rows() > 0){
       return $query->result();
     }
   }
 
-  public function changeTurn($game_Id){
-    // $query = $this->db->where('game_Id', $game_Id)->update('game', array('whoseTurn'=>ABS('whoseTurn-1')));
+  public function changeTurn($id){
+    // $query = $this->db->where('id', $id)->update('game', array('whose_turn'=>ABS('whose_turn-1')));
 
-    $stmt = "UPDATE game SET whoseTurn=ABS(whoseTurn-1) WHERE game_Id=?";
-    $this->db->query($stmt, array($game_Id));
+    $stmt = "UPDATE game SET whose_turn=ABS(whose_turn-1) WHERE id=?";
+    $this->db->query($stmt, array($id));
   }
 
   public function changeBoard($game_Id, $playerId, $pieceId, $r, $c){
@@ -181,8 +181,8 @@ class Game_model extends CI_Model {
     $query = $this->db->where('game_Id', $game_Id)->update('game', $data);
   }
 
-  public function getMove($game_Id){
-    $query = $this->db->get_where($this->table, array('game_Id'=> $game_Id));
+  public function getMove($id){
+    $query = $this->db->get_where($this->table, array('id'=> $id));
     if($query->num_rows() > 0){
       $results =  $query->result();
       return $results;
