@@ -14,7 +14,7 @@ class Chat_model extends CI_Model {
   public function setChat($message){
     $time = time();
     $data = array(
-        'user_Id' => $_SESSION['user_Id'],
+        'user_id' => $_SESSION['id'],
         'message' => $message,
         'time' => $time
     );
@@ -23,7 +23,11 @@ class Chat_model extends CI_Model {
 
   //gets chat messages from database
   public function getChat($time){
-    $query = $this->db->select('u.username, c.message, c.time, c.chat_Id, c.user_Id')->from('chat c')->join('users u','c.user_Id=u.user_Id', 'inner')->where('time>=',$time)->order_by('chat_Id', 'ASC')->get();
+    $query = $this->db->select('u.username, c.message, c.time, c.id, c.user_id')
+    ->from('chat c')
+    ->join('user u','c.user_id=u.id', 'inner')
+    ->where('time>=',$time)
+    ->order_by('c.user_id', 'ASC')->get();
 
     // print_r($query);
     if($query->num_rows()>0){
