@@ -22,8 +22,8 @@ define([
     initialize: function () {
 
       this.model = new GameModel({
-        game_Id         : this.game.game_Id,
-        turn            : this.game.whoseTurn,
+        game_id         : this.game.game_id,
+        turn            : this.game.whose_turn,
         playerId        : this.game.current_player.playerId,
         player2Id       : this.game.opponent_player.playerId,
         current_player  : this.game.current_player.name,

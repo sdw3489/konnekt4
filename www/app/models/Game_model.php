@@ -43,64 +43,51 @@ class Game_model extends CI_Model {
     return $this->getMove($game_Id);
   }
 
-  public function getGameData($game_Id){
-    $query = $this->db->select('u1.username AS player0_name, u1.user_Id AS player0_Id, u2.username AS player1_name, u2.user_Id player1_Id, g.game_Id, g.whoseTurn')
-    ->from('game g')->where("g.game_Id", $game_Id)
-    ->join('users u1','g.player0_Id=u1.user_Id','inner')
-    ->join('users u2','g.player1_Id=u2.user_Id','inner')->get();
-    if($query->num_rows() > 0){
-      $cur = $this->session->userdata('user_Id');
-      $row = $query->row();
-      $r['id'] = $row->id;
-      $r['whose_turn'] = $row->whose_turn;
+  public function getGameData($id){
+    $result = [];
+    $game_query = $this->db->select('id AS game_id, whose_turn, board, last_move, last_updated')
+     ->from('game')
+     ->where('id', $id)
+     ->get();
+    $result = $game_query->row_array();
 
-      if($row->player0_Id === $cur){
-        //Flat Format
-        $r['current_player']['id'] = $row->player0_Id;
-        $r['current_player']['playerId'] = 0;
-        $r['current_player']['username'] = $row->player0_name;
-        $r['current_player']['name'] = ucfirst($row->player0_name);
-        $r['opponent_player']['id'] = $row->player1_Id;
-        $r['opponent_player']['playerId'] = 1;
-        $r['opponent_player']['username'] = $row->player1_name;
-        $r['opponent_player']['name'] = ucfirst($row->player1_name);
-        //Array Format
-        $r['players'][0]['id'] = $row->player0_Id;
-        $r['players'][0]['playerId'] = 0;
-        $r['players'][0]['username'] = $row->player0_name;
-        $r['players'][0]['name'] = ucfirst($row->player0_name);
-        $r['players'][0]['current'] = TRUE;
-        $r['players'][1]['id'] = $row->player1_Id;
-        $r['players'][1]['playerId'] = 1;
-        $r['players'][1]['username'] = $row->player1_name;
-        $r['players'][1]['name'] = ucfirst($row->player1_name);
-        $r['players'][1]['current'] = FALSE;
-      }else{
-        //Flat Format
-        $r['current_player']['id'] = $row->player1_Id;
-        $r['current_player']['playerId'] = 1;
-        $r['current_player']['username'] = $row->player1_name;
-        $r['current_player']['name'] = ucfirst($row->player1_name);
-        $r['opponent_player']['id'] = $row->player0_Id;
-        $r['opponent_player']['playerId'] = 0;
-        $r['opponent_player']['username'] = $row->player0_name;
-        $r['opponent_player']['name'] = ucfirst($row->player0_name);
-        //Array Format
-        $r['players'][0]['id'] = $row->player1_Id;
-        $r['players'][0]['playerId'] = 1;
-        $r['players'][0]['username'] = $row->player1_name;
-        $r['players'][0]['name'] = ucfirst($row->player1_name);
-        $r['players'][0]['current'] = TRUE;
-        $r['players'][1]['id'] = $row->player0_Id;
-        $r['players'][1]['playerId'] = 0;
-        $r['players'][1]['username'] = $row->player0_name;
-        $r['players'][1]['name'] = ucfirst($row->player0_name);
-        $r['players'][1]['current'] = FALSE;
+    if($game_query->num_rows() > 0){
+      $game_query->free_result();
+
+      $players_query = $this->db->select('u.id AS user_id, challenge_type_id, u.username')
+       ->from('game_user gu')
+       ->where('gu.game_id', $id)
+       ->join('user u', 'u.id = gu.user_id', 'inner')
+       ->get();
+      $players = $players_query->result();
+      $players_query->free_result();
+
+      $current = $this->session->userdata('id');
+      $i = 0;
+      foreach($players as $player){
+        $result['players'][$i]['id'] = $player->user_id;
+        $result['players'][$i]['username'] = $player->username;
+        $result['players'][$i]['name'] = ucfirst($player->username);
+        $result['players'][$i]['challenge_type_id'] = $player->challenge_type_id;
+        $result['players'][$i]['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
+        $result['players'][$i]['current'] = ($player->user_id == $current)? TRUE : FALSE;
+
+        if($player->user_id == $current){
+          $result['current_player']['id'] = $player->user_id;
+          $result['current_player']['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
+          $result['current_player']['username'] = $player->username;
+          $result['current_player']['name'] = ucfirst($player->username);
+        }else{
+          $result['opponent_player']['id'] = $player->user_id;
+          $result['opponent_player']['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
+          $result['opponent_player']['username'] = $player->username;
+          $result['opponent_player']['name'] = ucfirst($player->username);
+        }
+        $i++;
       }
-
-      return $r;
+      return $result;
     }
- }
+  }
 
   public function getChallenges($user_id){
     $games = $this->db->select('game_id')->from('game_user')

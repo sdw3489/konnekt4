@@ -51,7 +51,7 @@ define([
     },
     getTurn: function(){
       if(this.get('turn')!=this.get('playerId')){
-        this.ajax_utility('/game/getTurn/'+this.get('game_Id'), this.onGetTurn);
+        this.ajax_utility('/game/getTurn/'+this.get('game_id'), this.onGetTurn);
       }
       clearTimeout(this.turnTimer);
       this.turnTimer = setTimeout(_.bind(function(){
@@ -60,9 +60,9 @@ define([
     },
     onGetTurn:function(jsonText){
       var obj = JSON.parse(jsonText)[0];
-      if(obj.whoseTurn == this.get('playerId')){
+      if(obj.whose_turn == this.get('playerId')){
         //switch turns
-        this.set('turn', obj.whoseTurn);
+        this.set('turn', obj.whose_turn);
         //get the data from the last guys move
         EventsChannel.trigger('getMove');
       }

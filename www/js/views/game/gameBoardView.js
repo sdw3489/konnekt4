@@ -46,11 +46,11 @@ define([
           //if its the current players turn add a new piece at the target spot
           if(this.model.get('playerId') == this.model.get('turn')){
             this.model.set('numPieces', this.model.get('numPieces')+1);
-            var piece = new Piece('game_'+this.model.get('game_Id'),this.model.get('playerId'),row,col,this.model.get('numPieces'), this);
+            var piece = new Piece('game_'+this.model.get('game_id'),this.model.get('playerId'),row,col,this.model.get('numPieces'), this);
             this.model.get('pieceArr').push(piece);
 
-            this.ajax_utility('/game/changeBoard/'+this.model.get('game_Id')+'/'+this.model.get('playerId')+'/'+targetSpot.id+'/'+row+'/'+col, this.onChangeBoard);
-            this.ajax_utility('/game/changeTurn/'+this.model.get('game_Id'), this.onChangeServerTurn);
+            this.ajax_utility('/game/changeBoard/'+this.model.get('game_id')+'/'+this.model.get('playerId')+'/'+targetSpot.id+'/'+row+'/'+col, this.onChangeBoard);
+            this.ajax_utility('/game/changeTurn/'+this.model.get('game_id'), this.onChangeServerTurn);
             this.model.changeTurn();
 
           }else{// if its not your turn throw a not your turn error at the top of the game board
@@ -62,7 +62,7 @@ define([
       }
     },
     getMove:function(){
-      this.ajax_utility('/game/getMove/'+this.model.get('game_Id'), this.onGetMove);
+      this.ajax_utility('/game/getMove/'+this.model.get('game_id'), this.onGetMove);
     },
     onGetMove: function(jsonText){
       var obj = JSON.parse(jsonText),
@@ -71,7 +71,7 @@ define([
           boardC=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_boardC'];
 
       if(boardC != null || boardR != null){
-        var piece = new Piece("game_"+this.model.get('game_Id'),Math.abs(this.model.get('playerId')-1),boardR,boardC,this.model.get('numPieces'), this);
+        var piece = new Piece("game_"+this.model.get('game_id'),Math.abs(this.model.get('playerId')-1),boardR,boardC,this.model.get('numPieces'), this);
         this.model.get('pieceArr').push(piece);
       }
 
