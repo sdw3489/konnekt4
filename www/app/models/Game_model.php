@@ -49,27 +49,30 @@ class Game_model extends CI_Model {
       $players_query->free_result();
 
       $current = $this->session->userdata('id');
-      $i = 0;
       foreach($players as $player){
-        $result['players'][$i]['id'] = $player->user_id;
-        $result['players'][$i]['username'] = $player->username;
-        $result['players'][$i]['name'] = ucfirst($player->username);
-        $result['players'][$i]['challenge_type_id'] = $player->challenge_type_id;
-        $result['players'][$i]['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
-        $result['players'][$i]['current'] = ($player->user_id == $current)? TRUE : FALSE;
-
         if($player->user_id == $current){
+          $result['players'][0]['id'] = $player->user_id;
+          $result['players'][0]['username'] = $player->username;
+          $result['players'][0]['name'] = ucfirst($player->username);
+          $result['players'][0]['challenge_type_id'] = $player->challenge_type_id;
+          $result['players'][0]['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
+          $result['players'][0]['current'] = ($player->user_id == $current)? TRUE : FALSE;
           $result['current_player']['id'] = $player->user_id;
           $result['current_player']['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
           $result['current_player']['username'] = $player->username;
           $result['current_player']['name'] = ucfirst($player->username);
         }else{
+          $result['players'][1]['id'] = $player->user_id;
+          $result['players'][1]['username'] = $player->username;
+          $result['players'][1]['name'] = ucfirst($player->username);
+          $result['players'][1]['challenge_type_id'] = $player->challenge_type_id;
+          $result['players'][1]['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
+          $result['players'][1]['current'] = ($player->user_id == $current)? TRUE : FALSE;
           $result['opponent_player']['id'] = $player->user_id;
           $result['opponent_player']['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
           $result['opponent_player']['username'] = $player->username;
           $result['opponent_player']['name'] = ucfirst($player->username);
         }
-        $i++;
       }
       return $result;
     }
