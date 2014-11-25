@@ -29,20 +29,6 @@ class Game_model extends CI_Model {
     ));
   }
 
-  public function start($game_Id){
-    $data = array(
-      "player0_pieceId"=> null,
-      "player0_boardR" => null,
-      "player0_boardC" => null,
-      "player1_pieceId"=> null,
-      "player1_boardR" => null,
-      "player1_boardC" => null
-    );
-    $query = $this->db->where("game_Id", $game_Id)->update('game', $data);
-
-    return $this->getMove($game_Id);
-  }
-
   public function getGameData($id){
     $result = [];
     $game_query = $this->db->select('id AS game_id, whose_turn, board, last_move, last_updated')
