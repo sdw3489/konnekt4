@@ -46,15 +46,21 @@ class Game extends CI_Controller {
     $this->Game->changeTurn($game_Id);
   }
 
-  public function changeBoard($game_id){
+  public function updateBoard($game_id){
     $data = $this->input->post('data');
-    $this->Game->changeBoard($game_id, $data);
+    $this->Game->updateBoard($game_id, $data);
+  }
+
+  public function updateLastMove($game_Id){
+    $data = $this->input->post('data');
+    $this->Game->updateLastMove($game_Id, $data);
   }
 
   public function getMove($game_Id){
     $data = $this->Game->getMove($game_Id);
     echo $data;
   }
+
 
 
   // public function _remap($method, $params = array()) {

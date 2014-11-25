@@ -30,7 +30,8 @@ define([
         opponent_player : this.game.opponent_player.name,
         current_Id      : this.game.current_player.id,
         opponent_Id     : this.game.opponent_player.id,
-        players         : this.game.players
+        players         : this.game.players,
+        moves           : (this.game.board != null)? JSON.parse(this.game.board) : []
       });
 
       this.infoView = $('.js-info-view');

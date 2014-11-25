@@ -33,6 +33,15 @@ define([
           this.model.get('boardArr')[i][j]=new Cell($('#game-board')[0],'cell_'+j+i,75,j,i,this);
         }
       }
+      if(this.model.get('moves').length>0) this.drawMoves();
+    },
+    drawMoves: function(){
+      var moves = this.model.get('moves');
+      for(var i=0; i <= moves.length-1; i++){
+          this.model.set('numPieces', this.model.get('numPieces')+1);
+          var piece = new Piece('game_'+this.model.get('game_id'),moves[i].playerId,moves[i].row,moves[i].col,this.model.get('numPieces'), this);
+          this.model.get('pieceArr').push(piece);
+       }
     },
     //************************ NEW FUNCTION ***********************/
     placePiece: function(col){
@@ -48,8 +57,14 @@ define([
             this.model.set('numPieces', this.model.get('numPieces')+1);
             var piece = new Piece('game_'+this.model.get('game_id'),this.model.get('playerId'),row,col,this.model.get('numPieces'), this);
             this.model.get('pieceArr').push(piece);
+            this.model.get('moves').push({
+              playerId:this.model.get('playerId'),
+              col:col,
+              row:row
+            });
 
-            this.ajax_utility('/game/changeBoard/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify({col:col, row:row}), "POST");
+            this.ajax_utility('/game/updateLastMove/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify({col:col, row:row}), "POST");
+            this.ajax_utility('/game/updateBoard/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify(this.model.get('moves')), "POST");
             this.ajax_utility('/game/changeTurn/'+this.model.get('game_id'), this.onChangeServerTurn);
             this.model.changeTurn();
 
@@ -70,8 +85,14 @@ define([
           boardC = obj['col'];
 
       if(boardC != null || boardR != null){
-        var piece = new Piece("game_"+this.model.get('game_id'),Math.abs(this.model.get('playerId')-1),boardR,boardC,this.model.get('numPieces'), this);
+        var opponentId = Math.abs(this.model.get('playerId')-1);
+        var piece = new Piece("game_"+this.model.get('game_id'),opponentId,boardR,boardC,this.model.get('numPieces'), this);
         this.model.get('pieceArr').push(piece);
+        this.model.get('moves').push({
+          playerId: opponentId,
+          col:boardC,
+          row:boardR
+        });
       }
 
     },

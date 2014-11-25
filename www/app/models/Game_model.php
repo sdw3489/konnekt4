@@ -148,9 +148,16 @@ class Game_model extends CI_Model {
     $this->db->query($stmt, array($id));
   }
 
-  public function changeBoard($game_id, $board){
+  public function updateBoard($game_id, $board){
     $data = array(
-      'last_move'=>$board
+      'board'=>$board
+    );
+    $query = $this->db->where('id', $game_id)->update('game', $data);
+  }
+
+  public function updateLastMove($game_id, $move){
+    $data = array(
+      'last_move'=>$move
     );
     $query = $this->db->where('id', $game_id)->update('game', $data);
   }

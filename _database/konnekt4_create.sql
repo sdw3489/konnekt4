@@ -69,7 +69,7 @@ CREATE TABLE end_type (
 CREATE TABLE game (
     id int    NOT NULL  AUTO_INCREMENT,
     whose_turn int    NOT NULL ,
-    board varchar(512)    NULL ,
+    board varchar(2048)    NULL ,
     last_move varchar(128)    NULL ,
     last_updated int    NOT NULL ,
     active int    NOT NULL ,
