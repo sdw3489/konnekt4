@@ -78,38 +78,10 @@ class Game_model extends CI_Model {
     }
   }
 
-  public function getChallenges($user_id){
+  public function getChallenges($user_id, $challenge_type_id){
     $games = $this->db->select('game_id')->from('game_user')
       ->where('user_id', $user_id)
-      ->where('challenge_type_id', 1)
-      ->get();
-
-    if($games->num_rows() > 0){
-      $result = []; $i = 0;
-      foreach ($games->result() as $game){
-        $game_id = $game->game_id;
-        $query = $this->db->select('u.username, gu.game_id')
-          ->from('game_user gu')
-          ->join('user u','gu.user_id=u.id', 'inner')
-          ->where('gu.game_id',$game_id)
-          ->where_not_in('gu.user_id', $user_id)
-          ->get();
-        if($query->num_rows() > 0){
-          foreach($query->result() as $challenge){
-            $result[$i]['username'] = $challenge->username;
-            $result[$i]['game_id'] = $challenge->game_id;
-            $i++;
-          }
-        }
-      }
-      return $result;
-    }
-  }
-
-  public function getChallengers($user_id){
-    $games = $this->db->select('game_id')->from('game_user')
-      ->where('user_id', $user_id)
-      ->where('challenge_type_id',2)
+      ->where('challenge_type_id', $challenge_type_id)
       ->get();
 
     if($games->num_rows() > 0){
