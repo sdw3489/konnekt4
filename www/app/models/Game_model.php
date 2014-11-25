@@ -159,20 +159,18 @@ class Game_model extends CI_Model {
     $this->db->query($stmt, array($id));
   }
 
-  public function changeBoard($game_Id, $playerId, $pieceId, $r, $c){
+  public function changeBoard($game_id, $board){
     $data = array(
-      "player".$playerId."_pieceId"=> $pieceId,
-      "player".$playerId."_boardR" => $r,
-      "player".$playerId."_boardC" => $c
+      'last_move'=>$board
     );
-    $query = $this->db->where('game_Id', $game_Id)->update('game', $data);
+    $query = $this->db->where('id', $game_id)->update('game', $data);
   }
 
   public function getMove($id){
-    $query = $this->db->get_where($this->table, array('id'=> $id));
+    $query = $this->db->select('last_move')->from($this->table)->where('id', $id)->get();
     if($query->num_rows() > 0){
-      $results =  $query->result();
-      return $results;
+      $results =  $query->row_array();
+      return $results['last_move'];
     }
   }
 }

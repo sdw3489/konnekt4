@@ -49,7 +49,7 @@ define([
             var piece = new Piece('game_'+this.model.get('game_id'),this.model.get('playerId'),row,col,this.model.get('numPieces'), this);
             this.model.get('pieceArr').push(piece);
 
-            this.ajax_utility('/game/changeBoard/'+this.model.get('game_id')+'/'+this.model.get('playerId')+'/'+targetSpot.id+'/'+row+'/'+col, this.onChangeBoard);
+            this.ajax_utility('/game/changeBoard/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify({col:col, row:row}), "POST");
             this.ajax_utility('/game/changeTurn/'+this.model.get('game_id'), this.onChangeServerTurn);
             this.model.changeTurn();
 
@@ -66,9 +66,8 @@ define([
     },
     onGetMove: function(jsonText){
       var obj = JSON.parse(jsonText),
-          pieceID=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_pieceID'],
-          boardR=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_boardR'],
-          boardC=obj[0]['player'+Math.abs(this.model.get('playerId')-1)+'_boardC'];
+          boardR = obj['row'],
+          boardC = obj['col'];
 
       if(boardC != null || boardR != null){
         var piece = new Piece("game_"+this.model.get('game_id'),Math.abs(this.model.get('playerId')-1),boardR,boardC,this.model.get('numPieces'), this);
@@ -95,8 +94,9 @@ define([
     },
     ajax_utility:function(){
       $.ajax({
-        type: "GET",
+        type: (arguments[3])? arguments[3] : "GET",
         url: arguments[0],
+        data: (arguments[2])? {data:arguments[2]} : '',
         success: _.bind(arguments[1], this)
       });
     }
