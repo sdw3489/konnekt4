@@ -17,6 +17,7 @@
           <div class="panel-heading ">Game Board</div>
           <div class="alerts-panel">
             <div class="alert alert-danger js-turn-alert" role="alert">Not Your Turn!</div>
+            <div class="alert alert-danger js-game-alert" role="alert">The Game is Over</div>
           </div>
           <div class="svg-container">
             <svg class="js-game-svg svg-content" viewBox="0 0 525 450" preserveAspectRatio="xMinYMin meet"></svg>

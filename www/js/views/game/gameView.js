@@ -31,6 +31,7 @@ define([
         current_Id      : this.game.current_player.id,
         opponent_Id     : this.game.opponent_player.id,
         players         : this.game.players,
+        active          : (this.game.active === 1)? true : false,
         moves           : (this.game.board != null)? JSON.parse(this.game.board) : []
       });
 
@@ -55,7 +56,9 @@ define([
         model:this.model
       });
 
-      this.endView = new GameEndView();
+      this.endView = new GameEndView({
+        model:this.model
+      });
     }
 
   });

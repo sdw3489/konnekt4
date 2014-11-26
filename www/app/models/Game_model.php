@@ -31,7 +31,7 @@ class Game_model extends CI_Model {
 
   public function getGameData($id){
     $result = [];
-    $game_query = $this->db->select('id AS game_id, whose_turn, board, last_move, last_updated')
+    $game_query = $this->db->select('id AS game_id, whose_turn, board, last_move, last_updated, active')
      ->from('game')
      ->where('id', $id)
      ->get();
@@ -140,6 +140,13 @@ class Game_model extends CI_Model {
       $results =  $query->row_array();
       return $results['last_move'];
     }
+  }
+
+  public function updateActive($game_id){
+    $data = array(
+      'active'=>0
+    );
+    $query = $this->db->where('id', $game_id)->update('game', $data);
   }
 }
 ?>

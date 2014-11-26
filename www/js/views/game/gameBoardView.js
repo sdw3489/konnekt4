@@ -10,7 +10,8 @@ define([
   var gameBoardView = Backbone.View.extend({
 
     el:'.js-game-svg',
-    $alert : $('.js-turn-alert'),
+    $turnAlert : $('.js-turn-alert'),
+    $gameAlert : $('.js-game-alert'),
 
     events: {},
 
@@ -45,35 +46,39 @@ define([
     },
     //************************ NEW FUNCTION ***********************/
     placePiece: function(col){
-      //checks from the bottom of the board up.
-      for(var row=this.model.get('boardArr').length-1; row >= 0; row--){
-        //get the target cell based on the col passed into the function and the i variable which counts bottom up
-        var targetSpot = this.model.get('boardArr')[row][col];
-        //if the target drop spot cell is not already occupied
-        if(targetSpot.occupied === null)
-        {
-          //if its the current players turn add a new piece at the target spot
-          if(this.model.get('playerId') == this.model.get('turn')){
-            this.model.set('numPieces', this.model.get('numPieces')+1);
-            var piece = new Piece('game_'+this.model.get('game_id'),this.model.get('playerId'),row,col,this.model.get('numPieces'), this);
-            this.model.get('pieceArr').push(piece);
-            this.model.get('moves').push({
-              playerId:this.model.get('playerId'),
-              col:col,
-              row:row
-            });
+      if(this.model.get('active')===true){
+        //checks from the bottom of the board up.
+        for(var row=this.model.get('boardArr').length-1; row >= 0; row--){
+          //get the target cell based on the col passed into the function and the i variable which counts bottom up
+          var targetSpot = this.model.get('boardArr')[row][col];
+          //if the target drop spot cell is not already occupied
+          if(targetSpot.occupied === null)
+          {
+            //if its the current players turn add a new piece at the target spot
+            if(this.model.get('playerId') == this.model.get('turn')){
+              this.model.set('numPieces', this.model.get('numPieces')+1);
+              var piece = new Piece('game_'+this.model.get('game_id'),this.model.get('playerId'),row,col,this.model.get('numPieces'), this);
+              this.model.get('pieceArr').push(piece);
+              this.model.get('moves').push({
+                playerId:this.model.get('playerId'),
+                col:col,
+                row:row
+              });
 
-            this.ajax_utility('/game/updateLastMove/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify({col:col, row:row}), "POST");
-            this.ajax_utility('/game/updateBoard/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify(this.model.get('moves')), "POST");
-            this.ajax_utility('/game/changeTurn/'+this.model.get('game_id'), this.onChangeServerTurn);
-            this.model.changeTurn();
+              this.ajax_utility('/game/updateLastMove/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify({col:col, row:row}), "POST");
+              this.ajax_utility('/game/updateBoard/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify(this.model.get('moves')), "POST");
+              this.ajax_utility('/game/changeTurn/'+this.model.get('game_id'), this.onChangeServerTurn);
+              this.model.changeTurn();
 
-          }else{// if its not your turn throw a not your turn error at the top of the game board
-            var hit=false;
-            this.turnWarning();
+            }else{// if its not your turn throw a not your turn error at the top of the game board
+              var hit=false;
+              this.turnWarning();
+            }
+            break;
           }
-          break;
         }
+      }else{
+        this.gameWarning();
       }
     },
     getMove:function(){
@@ -104,13 +109,23 @@ define([
     //  tell player it isn't his turn!
     ////////////////
     turnWarning: function(){
-      if(!this.$alert.is(':visible')){
-        this.$alert.slideDown();
+      if(!this.$turnAlert.is(':visible')){
+        this.$turnAlert.slideDown();
         setTimeout(_.bind(function(){
           this.turnWarning();
         },this),3000);
       }else{
-        this.$alert.slideUp();
+        this.$turnAlert.slideUp();
+      }
+    },
+    gameWarning: function(){
+      if(!this.$gameAlert.is(':visible')){
+        this.$gameAlert.slideDown();
+        setTimeout(_.bind(function(){
+          this.gameWarning();
+        },this),3000);
+      }else{
+        this.$gameAlert.slideUp();
       }
     },
     ajax_utility:function(){

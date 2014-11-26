@@ -56,6 +56,10 @@ class Game extends CI_Controller {
     echo $data;
   }
 
+  public function updateActive($game_Id){
+    $this->Game->updateActive($game_Id);
+  }
+
 
 
   // public function _remap($method, $params = array()) {
