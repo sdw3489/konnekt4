@@ -76,5 +76,13 @@ class User_model extends CI_Model {
       return $result;
     }
   }
+
+  public function getStats($id){
+    $query = $this->db->select('wins, losses, ties')->where('user_id', $id)->get('stat');
+    $result= $query->row();
+    if($query->num_rows() > 0){
+      return $result;
+    }
+  }
 }
 ?>
