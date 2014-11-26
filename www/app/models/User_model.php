@@ -57,6 +57,8 @@ class User_model extends CI_Model {
       'password' => sha1($this->input->post('password')),
     );
     $this->db->insert('user', $data);
+    $insert_id = $this->db->insert_id();
+    $this->db->insert('stat', array('user_id'=>$insert_id));
   }//end register
 
   public function getLoggedIn(){
