@@ -66,22 +66,22 @@ define([
     document.getElementsByTagName('svg')[0].appendChild(this.piece);
 
     this.model.boardArr[cellRow][cellCol].occupied = Array(player,cellRow, cellCol);
+    var winner, loser;
     for (var i = 0; i <= this.model.directionArr.length-1; i++) {
       for (var k = 0; k <= this.model.directionArr[i].direction.length-1; k++) {
         if(this.countDirection(this.model.directionArr[i].direction[k])){
-          var winner, winner_id;
           $.each(this.model.players, $.proxy(function(i, player){
             if(player.playerId == this.player){
-              winner = player.name;
-              winner_id = player.id;
-              return;
+              winner = player;
+            }else{
+              loser = player;
             }
           },this));
           EventsChannel.trigger('game:end', {
-            'player'  : winner,
-            'msg'     : this.model.directionArr[i].message,
-            'user_id' : winner_id,
-            'playerId': this.player
+            'display_msg' : this.model.directionArr[i].message,
+            'end_type_id' : this.model.directionArr[i].end_type_id,
+            'winner'      : winner,
+            'loser'       : loser
           });
           return;
         }

@@ -91,9 +91,9 @@ CREATE TABLE game_user (
 CREATE TABLE stat (
     id int    NOT NULL  AUTO_INCREMENT,
     user_id int    NOT NULL ,
-    wins int    NULL ,
-    losses int    NULL ,
-    ties int    NULL ,
+    wins int    NOT NULL DEFAULT 0 ,
+    losses int    NOT NULL DEFAULT 0 ,
+    ties int    NOT NULL DEFAULT 0 ,
     CONSTRAINT stat_pk PRIMARY KEY (id)
 );
 
@@ -173,8 +173,7 @@ ALTER TABLE stat ADD CONSTRAINT stats_users FOREIGN KEY stats_users (user_id)
 
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `logged_in`) VALUES
-(1, 'seth', NULL, '25a3b6cc85a8cde49f8b0f9aa21c050bc04072d4', 1),
-(2, 'bob', NULL, '48181acd22b3edaebc8a447868a7df7ce629920a', 1);
+(1, 'seth', NULL, '25a3b6cc85a8cde49f8b0f9aa21c050bc04072d4', 0);
 
 INSERT INTO `challenge_type` (`id`, `type`) VALUES
 (1, 'challenger'),
@@ -185,8 +184,11 @@ INSERT INTO `stat_type` (`id`, `type`) VALUES
 (2, 'loss'),
 (3, 'tie');
 
+INSERT INTO `stat` (`id`, `user_id`, `wins`, `losses`, `ties`) VALUES
+(1, 1, 0, 0, 0);
+
 INSERT INTO `end_type` (`id`, `type`) VALUES
-(1, 'active'),
+(1, 'tie'),
 (2, 'across'),
 (3, 'stacked'),
 (4, 'diagonal_right'),

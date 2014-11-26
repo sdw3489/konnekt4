@@ -14,18 +14,22 @@ define([
       pieceArr : [],   //2d array [player][piece] (player is either 0 or 1)
       directionArr : [
         {
+          end_type_id: 2,
           direction: ['right','left'],
           message:'Won with 4 Across.'
         },
         {
+          end_type_id: 3,
           direction: ['below'],
           message:'Won with 4 Stacked.'
         },
         {
+          end_type_id: 4,
           direction: ['aboveRight','belowLeft'],
           message:'Won with 4 Diagonal Right.'
         },
         {
+          end_type_id: 5,
           direction: ['aboveLeft','belowRight'],
           message:'Won with 4 Diagonal Left.'
         }

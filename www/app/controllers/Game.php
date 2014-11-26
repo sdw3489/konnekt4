@@ -56,8 +56,9 @@ class Game extends CI_Controller {
     echo $data;
   }
 
-  public function updateActive($game_Id){
-    $this->Game->updateActive($game_Id);
+  public function end($game_Id){
+    $data = $this->input->post('data');
+    $this->Game->end($game_Id, $data);
   }
 
 
