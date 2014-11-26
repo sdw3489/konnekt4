@@ -8,14 +8,14 @@
           <ul class="list-group js-logged-in-users"></ul>
         </div>
 
-       <!--  <div class="panel panel-primary">
+        <div class="panel panel-primary">
           <div class="panel-heading">Stats</div>
           <ul class="list-group">
-            <li class="list-group-item">Wins <span class="js-wins badge">0</span></li>
-            <li class="list-group-item">Loses <span class="js-loses badge">0</span></li>
-            <li class="list-group-item">Ties <span class="js-ties badge">0</span></li>
+            <li class="list-group-item">Wins <span class="js-wins badge"><?= $stats->wins; ?></span></li>
+            <li class="list-group-item">Losses <span class="js-loses badge"><?= $stats->losses; ?></span></li>
+            <li class="list-group-item">Ties <span class="js-ties badge"><?= $stats->ties; ?></span></li>
           </ul>
-        </div> -->
+        </div>
       </div>
 
       <div class="col-sm-7 col-md-8 col-lg-9">

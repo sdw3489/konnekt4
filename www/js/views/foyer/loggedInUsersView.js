@@ -48,7 +48,7 @@ define([
             this.addOne(this.data[i]);
           }
         }else{
-           this.addOne({user_Id:''});
+           this.addOne({id:''});
         }
       }
     },

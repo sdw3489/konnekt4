@@ -22,18 +22,13 @@ class Game extends CI_Controller {
     return json_encode($data, JSON_NUMERIC_CHECK);
   }
 
-  public function challenge($user_Id){
-    $data = $this->Game->newGame($_SESSION['user_Id'], $user_Id);
+  public function challenge($id){
+    $data = $this->Game->newGame($_SESSION['id'], $id);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 
-  public function getChallenges(){
-    $data = $this->Game->getChallenges($_SESSION['user_Id']);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
-
-  public function getChallengers(){
-    $data = $this->Game->getChallengers($_SESSION['user_Id']);
+  public function getChallenges($challenge_type_id){
+    $data = $this->Game->getChallenges($_SESSION['id'], $challenge_type_id);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 
@@ -46,14 +41,26 @@ class Game extends CI_Controller {
     $this->Game->changeTurn($game_Id);
   }
 
-  public function changeBoard($game_Id, $playerId, $pieceId, $r, $c){
-    $this->Game->changeBoard($game_Id, $playerId, $pieceId, $r, $c);
+  public function updateBoard($game_id){
+    $data = $this->input->post('data');
+    $this->Game->updateBoard($game_id, $data);
+  }
+
+  public function updateLastMove($game_Id){
+    $data = $this->input->post('data');
+    $this->Game->updateLastMove($game_Id, $data);
   }
 
   public function getMove($game_Id){
     $data = $this->Game->getMove($game_Id);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
+    echo $data;
   }
+
+  public function end($game_Id){
+    $data = $this->input->post('data');
+    $this->Game->end($game_Id, $data);
+  }
+
 
 
   // public function _remap($method, $params = array()) {

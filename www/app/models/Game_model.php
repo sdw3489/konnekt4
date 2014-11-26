@@ -9,127 +9,160 @@ class Game_model extends CI_Model {
     $this->table = 'game';
   }
 
-  public function newGame($user_Id, $challenged){
+  public function newGame($user_id, $challenged_id){
     $time=time();
-    $this->db->insert($this->table, array('player0_id' => $user_Id, 'player1_id' => $challenged, 'last_updated' => $time ));
+    $this->db->insert($this->table, array(
+      'whose_turn' => 0,
+      'active'=>1,
+      'last_updated' => $time
+    ));
+    $insert_id = $this->db->insert_id();
+    $this->db->insert('game_user', array(
+      'game_id'=> $insert_id,
+      'user_id'=> $user_id,
+      'challenge_type_id'=>1
+    ));
+    $this->db->insert('game_user', array(
+      'game_id'=> $insert_id,
+      'user_id'=> $challenged_id,
+      'challenge_type_id'=>2
+    ));
   }
 
-  public function start($game_Id){
-    $data = array(
-      "player0_pieceId"=> null,
-      "player0_boardR" => null,
-      "player0_boardC" => null,
-      "player1_pieceId"=> null,
-      "player1_boardR" => null,
-      "player1_boardC" => null
-    );
-    $query = $this->db->where("game_Id", $game_Id)->update('game', $data);
+  public function getGameData($id){
+    $result = [];
+    $game_query = $this->db->select('id AS game_id, whose_turn, board, last_move, last_updated, active')
+     ->from('game')
+     ->where('id', $id)
+     ->get();
+    $result = $game_query->row_array();
 
-    return $this->getMove($game_Id);
-  }
+    if($game_query->num_rows() > 0){
+      $game_query->free_result();
 
-  public function getGameData($game_Id){
-    $query = $this->db->select('u1.username AS player0_name, u1.user_Id AS player0_Id, u2.username AS player1_name, u2.user_Id player1_Id, g.game_Id, g.whoseTurn')
-    ->from('game g')->where("g.game_Id", $game_Id)
-    ->join('users u1','g.player0_Id=u1.user_Id','inner')
-    ->join('users u2','g.player1_Id=u2.user_Id','inner')->get();
-    if($query->num_rows() > 0){
-      $cur = $this->session->userdata('user_Id');
-      $row = $query->row();
-      $r['game_Id'] = $row->game_Id;
-      $r['whoseTurn'] = $row->whoseTurn;
-      if($row->player0_Id === $cur){
-        //Flat Format
-        $r['current_player']['id'] = $row->player0_Id;
-        $r['current_player']['playerId'] = 0;
-        $r['current_player']['username'] = $row->player0_name;
-        $r['current_player']['name'] = ucfirst($row->player0_name);
-        $r['opponent_player']['id'] = $row->player1_Id;
-        $r['opponent_player']['playerId'] = 1;
-        $r['opponent_player']['username'] = $row->player1_name;
-        $r['opponent_player']['name'] = ucfirst($row->player1_name);
-        //Array Format
-        $r['players'][0]['id'] = $row->player0_Id;
-        $r['players'][0]['playerId'] = 0;
-        $r['players'][0]['username'] = $row->player0_name;
-        $r['players'][0]['name'] = ucfirst($row->player0_name);
-        $r['players'][0]['current'] = TRUE;
-        $r['players'][1]['id'] = $row->player1_Id;
-        $r['players'][1]['playerId'] = 1;
-        $r['players'][1]['username'] = $row->player1_name;
-        $r['players'][1]['name'] = ucfirst($row->player1_name);
-        $r['players'][1]['current'] = FALSE;
-      }else{
-        //Flat Format
-        $r['current_player']['id'] = $row->player1_Id;
-        $r['current_player']['playerId'] = 1;
-        $r['current_player']['username'] = $row->player1_name;
-        $r['current_player']['name'] = ucfirst($row->player1_name);
-        $r['opponent_player']['id'] = $row->player0_Id;
-        $r['opponent_player']['playerId'] = 0;
-        $r['opponent_player']['username'] = $row->player0_name;
-        $r['opponent_player']['name'] = ucfirst($row->player0_name);
-        //Array Format
-        $r['players'][0]['id'] = $row->player1_Id;
-        $r['players'][0]['playerId'] = 1;
-        $r['players'][0]['username'] = $row->player1_name;
-        $r['players'][0]['name'] = ucfirst($row->player1_name);
-        $r['players'][0]['current'] = TRUE;
-        $r['players'][1]['id'] = $row->player0_Id;
-        $r['players'][1]['playerId'] = 0;
-        $r['players'][1]['username'] = $row->player0_name;
-        $r['players'][1]['name'] = ucfirst($row->player0_name);
-        $r['players'][1]['current'] = FALSE;
+      $players_query = $this->db->select('u.id AS user_id, challenge_type_id, u.username')
+       ->from('game_user gu')
+       ->where('gu.game_id', $id)
+       ->join('user u', 'u.id = gu.user_id', 'inner')
+       ->get();
+      $players = $players_query->result();
+      $players_query->free_result();
+
+      $current = $this->session->userdata('id');
+      foreach($players as $player){
+        if($player->user_id == $current){
+          $result['players'][0]['id'] = $player->user_id;
+          $result['players'][0]['username'] = $player->username;
+          $result['players'][0]['name'] = ucfirst($player->username);
+          $result['players'][0]['challenge_type_id'] = $player->challenge_type_id;
+          $result['players'][0]['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
+          $result['players'][0]['current'] = ($player->user_id == $current)? TRUE : FALSE;
+          $result['current_player']['id'] = $player->user_id;
+          $result['current_player']['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
+          $result['current_player']['username'] = $player->username;
+          $result['current_player']['name'] = ucfirst($player->username);
+        }else{
+          $result['players'][1]['id'] = $player->user_id;
+          $result['players'][1]['username'] = $player->username;
+          $result['players'][1]['name'] = ucfirst($player->username);
+          $result['players'][1]['challenge_type_id'] = $player->challenge_type_id;
+          $result['players'][1]['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
+          $result['players'][1]['current'] = ($player->user_id == $current)? TRUE : FALSE;
+          $result['opponent_player']['id'] = $player->user_id;
+          $result['opponent_player']['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
+          $result['opponent_player']['username'] = $player->username;
+          $result['opponent_player']['name'] = ucfirst($player->username);
+        }
       }
-
-      return $r;
+      return $result;
     }
- }
+  }
 
-  public function getChallenges($user_Id){
-    $query = $this->db->select('username, game_Id')->from('game')->join('users','game.player1_Id=users.user_Id', 'inner')->where('player0_Id',$user_Id)->get();
+  public function getChallenges($user_id, $challenge_type_id){
+    $games = $this->db->select('g.id')->from('game g')
+      ->join('game_user gu','gu.game_id=g.id', 'inner')
+      ->where('gu.user_id', $user_id)
+      ->where('gu.challenge_type_id', $challenge_type_id)
+      ->where('g.active', 1)
+      ->get();
+
+    if($games->num_rows() > 0){
+      $result = []; $i = 0;
+      foreach ($games->result() as $game){
+        $game_id = $game->id;
+        $query = $this->db->select('u.username, gu.game_id')
+          ->from('game_user gu')
+          ->join('user u','gu.user_id=u.id', 'inner')
+          ->where('gu.game_id',$game_id)
+          ->where_not_in('gu.user_id', $user_id)
+          ->get();
+        if($query->num_rows() > 0){
+          foreach($query->result() as $challenge){
+            $result[$i]['username'] = $challenge->username;
+            $result[$i]['game_id'] = $challenge->game_id;
+            $i++;
+          }
+        }
+      }
+      return $result;
+    }
+  }
+
+  public function getTurn($id){
+    $query = $this->db->select('whose_turn')->where('id', $id)->get('game');
     if($query->num_rows() > 0){
       return $query->result();
     }
   }
 
-  public function getChallengers($user_Id){
-    $query = $this->db->select('username, game_Id')->from('game')->join('users','game.player0_Id=users.user_Id', 'inner')->where('player1_Id',$user_Id)->get();
-    if($query->num_rows() > 0){
-      return $query->result();
-    }
+  public function changeTurn($id){
+    // $query = $this->db->where('id', $id)->update('game', array('whose_turn'=>ABS('whose_turn-1')));
 
+    $stmt = "UPDATE game SET whose_turn=ABS(whose_turn-1) WHERE id=?";
+    $this->db->query($stmt, array($id));
   }
 
-  public function getTurn($game_Id){
-    $query = $this->db->select('whoseTurn')->where('game_Id', $game_Id)->get('game');
-    if($query->num_rows() > 0){
-      return $query->result();
-    }
-  }
-
-  public function changeTurn($game_Id){
-    // $query = $this->db->where('game_Id', $game_Id)->update('game', array('whoseTurn'=>ABS('whoseTurn-1')));
-
-    $stmt = "UPDATE game SET whoseTurn=ABS(whoseTurn-1) WHERE game_Id=?";
-    $this->db->query($stmt, array($game_Id));
-  }
-
-  public function changeBoard($game_Id, $playerId, $pieceId, $r, $c){
+  public function updateBoard($game_id, $board){
     $data = array(
-      "player".$playerId."_pieceId"=> $pieceId,
-      "player".$playerId."_boardR" => $r,
-      "player".$playerId."_boardC" => $c
+      'board'=>$board
     );
-    $query = $this->db->where('game_Id', $game_Id)->update('game', $data);
+    $query = $this->db->where('id', $game_id)->update('game', $data);
   }
 
-  public function getMove($game_Id){
-    $query = $this->db->get_where($this->table, array('game_Id'=> $game_Id));
+  public function updateLastMove($game_id, $move){
+    $data = array(
+      'last_move'=>$move
+    );
+    $query = $this->db->where('id', $game_id)->update('game', $data);
+  }
+
+  public function getMove($id){
+    $query = $this->db->select('last_move')->from($this->table)->where('id', $id)->get();
     if($query->num_rows() > 0){
-      $results =  $query->result();
-      return $results;
+      $results =  $query->row_array();
+      return $results['last_move'];
     }
+  }
+
+  public function end($game_id, $endData){
+    //Set the game to inactive and set the end type id
+    $this->db->where('id', $game_id)
+      ->update('game',array(
+        'active'=>0,
+        'end_type_id'=> $endData['end_type_id']
+      ));
+
+    //update the game_users table with stat type for the correct user
+    $this->db->where('game_id', $game_id)
+      ->where('user_id', $endData['winner']['id'])
+      ->update('game_user', array('stat_type_id' => 1));
+
+    $this->db->where('game_id', $game_id)
+      ->where('user_id', $endData['loser']['id'])
+      ->update('game_user', array('stat_type_id' => 2));
+
+    $this->db->query("UPDATE stat SET wins=wins+1 WHERE user_id=".$this->db->escape($endData['winner']['id']));;
+    $this->db->query("UPDATE stat SET losses=losses+1 WHERE user_id=".$this->db->escape($endData['loser']['id']));
   }
 }
 ?>

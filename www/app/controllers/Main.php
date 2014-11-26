@@ -7,13 +7,15 @@ class Main extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->driver('session');
-		$this->session_id = $this->session->userdata('user_Id');
+		$this->session_id = $this->session->userdata('id');
 	}
 
 	public function index()	{
 		if($this->session_id){
+			$this->load->model('user_model', 'User', TRUE);
 			$data['title'] = 'Foyer';
 			$data['bodyClass'] = 'foyer';
+			$data['stats'] = $this->User->getStats($this->session_id);
 			$this->load->view('global/head', $data);
 			$this->load->view('global/nav', $data);
 			$this->load->view('foyer', $data);

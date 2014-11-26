@@ -24,7 +24,7 @@ define([
     getChallenges: function(){
       $.ajax({
         type: "GET",
-        url: '/game/getChallenges/',
+        url: '/game/getChallenges/1',
         success: _.bind(this.onGetChallenges, this)
       });
       clearTimeout(this.timer);

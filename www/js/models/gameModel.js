@@ -14,18 +14,22 @@ define([
       pieceArr : [],   //2d array [player][piece] (player is either 0 or 1)
       directionArr : [
         {
+          end_type_id: 2,
           direction: ['right','left'],
           message:'Won with 4 Across.'
         },
         {
+          end_type_id: 3,
           direction: ['below'],
           message:'Won with 4 Stacked.'
         },
         {
+          end_type_id: 4,
           direction: ['aboveRight','belowLeft'],
           message:'Won with 4 Diagonal Right.'
         },
         {
+          end_type_id: 5,
           direction: ['aboveLeft','belowRight'],
           message:'Won with 4 Diagonal Left.'
         }
@@ -51,7 +55,7 @@ define([
     },
     getTurn: function(){
       if(this.get('turn')!=this.get('playerId')){
-        this.ajax_utility('/game/getTurn/'+this.get('game_Id'), this.onGetTurn);
+        this.ajax_utility('/game/getTurn/'+this.get('game_id'), this.onGetTurn);
       }
       clearTimeout(this.turnTimer);
       this.turnTimer = setTimeout(_.bind(function(){
@@ -60,9 +64,9 @@ define([
     },
     onGetTurn:function(jsonText){
       var obj = JSON.parse(jsonText)[0];
-      if(obj.whoseTurn == this.get('playerId')){
+      if(obj.whose_turn == this.get('playerId')){
         //switch turns
-        this.set('turn', obj.whoseTurn);
+        this.set('turn', obj.whose_turn);
         //get the data from the last guys move
         EventsChannel.trigger('getMove');
       }

@@ -22,15 +22,17 @@ define([
     initialize: function () {
 
       this.model = new GameModel({
-        game_Id         : this.game.game_Id,
-        turn            : this.game.whoseTurn,
+        game_id         : this.game.game_id,
+        turn            : this.game.whose_turn,
         playerId        : this.game.current_player.playerId,
         player2Id       : this.game.opponent_player.playerId,
         current_player  : this.game.current_player.name,
         opponent_player : this.game.opponent_player.name,
         current_Id      : this.game.current_player.id,
         opponent_Id     : this.game.opponent_player.id,
-        players         : this.game.players
+        players         : this.game.players,
+        active          : (this.game.active === 1)? true : false,
+        moves           : (this.game.board != null)? JSON.parse(this.game.board) : []
       });
 
       this.infoView = $('.js-info-view');
@@ -54,7 +56,9 @@ define([
         model:this.model
       });
 
-      this.endView = new GameEndView();
+      this.endView = new GameEndView({
+        model:this.model
+      });
     }
 
   });

@@ -13,7 +13,7 @@ class User extends CI_Controller {
 
   }
 
-  //checks a users login to see if they exist in the database
+  //checks a user login to see if they exist in the database
   public function login() {
     $this->load->helper(array('form', 'url'));
     $this->load->library('form_validation');
@@ -43,7 +43,7 @@ class User extends CI_Controller {
         $theuser = $data['query'][0];
         $this->session->set_userdata(array(
           'username'=>$theuser->username,
-          'user_Id'=>$theuser->user_Id,
+          'id'=>$theuser->id,
           'time'=> time()
         ));
         header("Location:/");
@@ -55,7 +55,7 @@ class User extends CI_Controller {
 
   //Logout a user
   public function logout() {
-    $id = $this->session->userdata('user_Id');
+    $id = $this->session->userdata('id');
     $logged_out = $this->User->logout($id);
     if($logged_out){
       $this->session->sess_destroy();
@@ -70,7 +70,7 @@ class User extends CI_Controller {
     $this->load->helper(array('form', 'url'));
     $this->load->library('form_validation');
     $this->form_validation->set_rules(
-     'username', 'Username', 'trim|required|min_length[3]|max_length[12]|is_unique[users.username]|xss_clean',
+     'username', 'Username', 'trim|required|min_length[3]|max_length[12]|is_unique[user.username]|xss_clean',
         array(
                 'required'      => 'You have not provided a %s.',
                 'is_unique'     => 'This %s already exists.'
@@ -95,8 +95,8 @@ class User extends CI_Controller {
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 
-  public function getUserInfo($user_Id){
-    $data = $this->User->getUserInfo($user_Id);
+  public function getUserInfo($id){
+    $data = $this->User->getUserInfo($id);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 
