@@ -61,6 +61,11 @@ class Game extends CI_Controller {
     $this->Game->end($game_Id, $data);
   }
 
+  public function tied($game_Id){
+    $data = $this->input->post('data');
+    $this->Game->tied($game_Id, $data);
+  }
+
 
 
   // public function _remap($method, $params = array()) {

@@ -14,6 +14,11 @@ define([
       pieceArr : [],   //2d array [player][piece] (player is either 0 or 1)
       directionArr : [
         {
+          end_type_id: 1,
+          direction:[],
+          message:'Tied with all Spaces Taken.'
+        },
+        {
           end_type_id: 2,
           direction: ['right','left'],
           message:'Won with 4 Across.'

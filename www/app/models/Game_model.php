@@ -164,5 +164,26 @@ class Game_model extends CI_Model {
     $this->db->query("UPDATE stat SET wins=wins+1 WHERE user_id=".$this->db->escape($endData['winner']['id']));;
     $this->db->query("UPDATE stat SET losses=losses+1 WHERE user_id=".$this->db->escape($endData['loser']['id']));
   }
+
+  public function tied($game_id, $endData){
+    //Set the game to inactive and set the end type id
+    $this->db->where('id', $game_id)
+      ->update('game',array(
+        'active'=>0,
+        'end_type_id'=> $endData['end_type_id']
+      ));
+
+    //update the game_users table with stat type for the correct user
+    $this->db->where('game_id', $game_id)
+      ->where('user_id', $endData['winner']['id'])
+      ->update('game_user', array('stat_type_id' => 3));
+
+    $this->db->where('game_id', $game_id)
+      ->where('user_id', $endData['loser']['id'])
+      ->update('game_user', array('stat_type_id' => 3));
+
+    $this->db->query("UPDATE stat SET ties=ties+1 WHERE user_id=".$this->db->escape($endData['winner']['id']));;
+    $this->db->query("UPDATE stat SET ties=ties+1 WHERE user_id=".$this->db->escape($endData['loser']['id']));
+  }
 }
 ?>
