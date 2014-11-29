@@ -26,8 +26,8 @@ class Chat_model extends CI_Model {
     $query = $this->db->select('u.username, c.message, c.time, c.id, c.user_id')
     ->from('chat c')
     ->join('user u','c.user_id=u.id', 'inner')
-    ->where('time>=',$time)
-    ->order_by('c.user_id', 'ASC')->get();
+    ->where('c.time>=',$time)
+    ->order_by('c.time', 'ASC')->get();
 
     // print_r($query);
     if($query->num_rows()>0){
