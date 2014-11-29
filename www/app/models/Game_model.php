@@ -146,44 +146,46 @@ class Game_model extends CI_Model {
 
   public function end($game_id, $endData){
     //Set the game to inactive and set the end type id
-    $this->db->where('id', $game_id)
-      ->update('game',array(
-        'active'=>0,
-        'end_type_id'=> $endData['end_type_id']
-      ));
+    $this->update_end_type($game_id, $endData['end_type_id']);
 
     //update the game_users table with stat type for the correct user
-    $this->db->where('game_id', $game_id)
-      ->where('user_id', $endData['winner']['id'])
-      ->update('game_user', array('stat_type_id' => 1));
-
-    $this->db->where('game_id', $game_id)
-      ->where('user_id', $endData['loser']['id'])
-      ->update('game_user', array('stat_type_id' => 2));
-
-    $this->db->query("UPDATE stat SET wins=wins+1 WHERE user_id=".$this->db->escape($endData['winner']['id']));;
-    $this->db->query("UPDATE stat SET losses=losses+1 WHERE user_id=".$this->db->escape($endData['loser']['id']));
+    if($endData['end_type_id'] == 1){
+      $this->update_stat_type($game_id, $endData['winner']['id'], 3);
+      $this->update_stat_type($game_id, $endData['loser']['id'], 3);
+      $this->update_ties($endData['winner']['id']);
+      $this->update_ties($endData['loser']['id']);
+    }else{
+      $this->update_stat_type($game_id, $endData['winner']['id'], 1);
+      $this->update_stat_type($game_id, $endData['loser']['id'], 2);
+      $this->update_wins($endData['winner']['id']);
+      $this->update_losses($endData['loser']['id']);
+    }
   }
 
-  public function tied($game_id, $endData){
-    //Set the game to inactive and set the end type id
+  private function update_end_type($game_id, $end_type_id){
     $this->db->where('id', $game_id)
       ->update('game',array(
         'active'=>0,
-        'end_type_id'=> $endData['end_type_id']
+        'end_type_id'=> $end_type_id
       ));
+  }
 
-    //update the game_users table with stat type for the correct user
+  private function update_stat_type($game_id, $playerId, $stat_type_id){
     $this->db->where('game_id', $game_id)
-      ->where('user_id', $endData['winner']['id'])
-      ->update('game_user', array('stat_type_id' => 3));
+      ->where('user_id', $playerId)
+      ->update('game_user', array('stat_type_id' => $stat_type_id));
+  }
 
-    $this->db->where('game_id', $game_id)
-      ->where('user_id', $endData['loser']['id'])
-      ->update('game_user', array('stat_type_id' => 3));
+  private function update_wins($playerId){
+    $this->db->query("UPDATE stat SET wins=wins+1 WHERE user_id=".$this->db->escape($playerId));;
+  }
 
-    $this->db->query("UPDATE stat SET ties=ties+1 WHERE user_id=".$this->db->escape($endData['winner']['id']));;
-    $this->db->query("UPDATE stat SET ties=ties+1 WHERE user_id=".$this->db->escape($endData['loser']['id']));
+  private function update_losses($playerId){
+    $this->db->query("UPDATE stat SET losses=losses+1 WHERE user_id=".$this->db->escape($playerId));
+  }
+
+  private function update_ties($playerId){
+    $this->db->query("UPDATE stat SET ties=ties+1 WHERE user_id=".$this->db->escape($playerId));
   }
 }
 ?>

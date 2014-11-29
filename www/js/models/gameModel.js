@@ -15,8 +15,8 @@ define([
       directionArr : [
         {
           end_type_id: 1,
-          direction:[],
-          message:'Tied with all Spaces Taken.'
+          direction:['full'],
+          message:'Both Players Tied with all Spaces Taken.'
         },
         {
           end_type_id: 2,

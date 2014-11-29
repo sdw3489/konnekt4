@@ -66,11 +66,10 @@ define([
     document.getElementsByTagName('svg')[0].appendChild(this.piece);
 
     this.model.boardArr[cellRow][cellCol].occupied = Array(player,cellRow, cellCol);
-    var winner, loser,
-        boardFull = (this.model.numPieces == 42)? true:false;
-    for (var i = 0; i <= this.model.directionArr.length-1; i++) {
+    var winner, loser;
+    for (var i = this.model.directionArr.length-1; i >= 0; i--) {
       for (var k = 0; k <= this.model.directionArr[i].direction.length-1; k++) {
-        if(this.countDirection(this.model.directionArr[i].direction[k]) || boardFull){
+        if(this.countDirection(this.model.directionArr[i].direction[k])){
           $.each(this.model.players, $.proxy(function(i, player){
             if(player.playerId == this.player){
               winner = player;
@@ -78,23 +77,12 @@ define([
               loser = player;
             }
           },this));
-          if(!boardFull){
-            EventsChannel.trigger('game:end', {
-              'display_msg' : this.model.directionArr[i].message,
-              'end_type_id' : this.model.directionArr[i].end_type_id,
-              'winner'      : winner,
-              'loser'       : loser
-            });
-          }else{
-            EventsChannel.trigger('game:tied', {
-              'display_msg' : this.model.directionArr[0].message,
-              'end_type_id' : this.model.directionArr[0].end_type_id,
-              'winner'      : winner,
-              'loser'       : loser,
-              'tied'        : 'Both Players'
-            });
-          }
-
+          EventsChannel.trigger('game:end', {
+            'display_msg' : this.model.directionArr[i].message,
+            'end_type_id' : this.model.directionArr[i].end_type_id,
+            'winner'      : winner,
+            'loser'       : loser
+          });
           return;
         }
       }
@@ -193,6 +181,11 @@ define([
           if (typeof this.model.boardArr[checkerRow][checkerCol] != "undefined")
           {
             this.countConnections(direction);
+          }
+          break;
+        case 'full':
+          if(this.model.numPieces == 42){
+            this.connections = 4;
           }
           break;
         default:
