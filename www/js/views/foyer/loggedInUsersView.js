@@ -57,8 +57,7 @@ define([
       this.$btn = $(event.target),
         id = this.$btn.data('id');
 
-      this.$btn.addClass('disabled');
-      this.$btn.text('Please Wait...');
+      this.$btn.button('loading');
       EventsChannel.trigger('challengeUser');
 
       $.ajax({
@@ -71,9 +70,7 @@ define([
     },
     onUpadteChallenges : function(){
       if(this.$btn){
-        this.$btn.text('Challenge');
-        this.$btn.removeClass('disabled');
-        this.$btn = null;
+        this.$btn.button('reset');
       }
     }
 

@@ -1,7 +1,7 @@
 <% if(id) { %>
   <li class="list-group-item">
     <span class="glyphicon glyphicon-user"></span><span class="username"><%= username %></span>
-    <a href="#" data-id="<%= id %>" class="js-challenge btn btn-primary btn-sm pull-right">Challenge</a>
+    <button data-id="<%= id %>" class="js-challenge btn btn-primary btn-sm pull-right" data-loading-text="Please Wait..." autocomplete="off"><span class="glyphicon glyphicon-tower"></span> Challenge</button>
   </li>
 <% } else { %>
   <li class="list-group-item">Sorry boo, no one is online.</li>
