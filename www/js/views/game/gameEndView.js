@@ -24,12 +24,14 @@ define([
     },
     gameEnd: function (data){
       this.template = this.winTemplate;
+      this.render(data);
       if(data.winner.playerId == this.model.get('playerId')){
         this.onGameEnd(data);
       }
     },
     gameTied: function (data){
       this.template = this.tieTemplate;
+      this.render(data);
       if(data.winner.playerId == this.model.get('playerId')){
         this.onGameTied(data);
       }
