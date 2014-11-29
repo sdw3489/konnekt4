@@ -45,9 +45,9 @@ define([
       var moves = this.model.get('moves');
       for(var i=0; i <= moves.length-1; i++){
           this.addPiece({
-            playerId : moves[i].playerId,
-            row      : moves[i].row,
-            col      : moves[i].col
+            playerId : moves[i].pId,
+            row      : moves[i].r,
+            col      : moves[i].c
           });
        }
     },
@@ -70,9 +70,9 @@ define([
               });
 
               this.model.get('moves').push({
-                playerId:this.model.get('playerId'),
-                col:col,
-                row:row
+                pId:this.model.get('playerId'),
+                c:col,
+                r:row
               });
 
               this.ajax_utility('/game/updateLastMove/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify({col:col, row:row}), "POST");
@@ -107,9 +107,9 @@ define([
           col:col
         });
         this.model.get('moves').push({
-          playerId: opponentId,
-          row:row,
-          col:col
+          pId: opponentId,
+          r:row,
+          c:col
         });
       }
 
