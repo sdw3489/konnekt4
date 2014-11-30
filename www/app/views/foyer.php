@@ -1,5 +1,6 @@
   <div class="container">
-    <p><img src="/images/title.png"/></p>
+
+    <h1><img src="/images/title.png"/></h1>
 
     <div class="row">
       <div class="col-sm-5 col-md-4 col-lg-3">

@@ -1,5 +1,5 @@
   <div class="container">
-    <p class="text-center"><img src="/images/title.png"/></p>
+    <h1 class="text-center"><img src="/images/title.png"/></h1>
     <form class="form-signin" id="login_form" name="login_form" method="POST" action="/login/" role="form">
       <h1>Login</h1>
       <p>New User? - <a href="/signup/">Sign Up</a></p>

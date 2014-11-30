@@ -1,6 +1,6 @@
   <div class="container">
 
-    <p><img src="/images/title.png"/></p>
+    <h1><img src="/images/title.png"/></h1>
 
     <p><a href="/" class="btn btn-primary"><span class="glyphicon glyphicon-hand-left"></span> Back to Foyer</a></p>
 
