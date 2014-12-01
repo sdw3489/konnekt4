@@ -49,7 +49,7 @@
                 <td><?= $user->id; ?></td>
                 <td><?= $user->first_name; ?></td>
                 <td><?= $user->last_name; ?></td>
-                <td><a href="http://konnekt4.devs/user/<?= $user->id; ?>"><?= $user->username; ?></a></td>
+                <td><?= $user->username; ?></td>
                 <td><?= ($user->logged_in == 1)? '<span class="text-primary glyphicon glyphicon-eye-open"></span>' : '<span class="text-muted glyphicon glyphicon-eye-close"></span>';?></td>
                 <td><?= $user->wins; ?></td>
                 <td><?= $user->losses; ?></td>
