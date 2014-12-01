@@ -111,7 +111,7 @@ class User_model extends CI_Model {
   }
 
   public function connect($current_id, $id){
-    $query = $this->db->select('id')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+    $query = $this->db->select('id, status')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
     if(!$query->num_rows() > 0){
       $data = array(
         'user_id'       => min($current_id, $id),
@@ -120,6 +120,9 @@ class User_model extends CI_Model {
         'status'        => 'sent'
       );
       $this->db->insert('user_connection', $data);
+      return true;
+    }elseif($query->num_rows() > 0 && $query->row()->status == 'declined'){
+      $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'sent', 'initiator_id'=> $current_id));
       return true;
     }else{
       return false;

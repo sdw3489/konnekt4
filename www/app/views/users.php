@@ -67,7 +67,7 @@
                   <?php elseif($isConnection && $status == 'declined' && $initiator == true): ?>
                     <button data-id="<?= $user->id; ?>" class="btn btn-danger btn-xs" disabled="disabled">Declined</button>
                   <?php elseif($isConnection && $status == 'declined' && $initiator == false): ?>
-                    <button data-id="<?= $user->id; ?>" class="js-connect-user btn btn-primary btn-xs" data-loading-text="Invite Sent" autocomplete="off"><span class="glyphicon glyphicon-plus"></span> Connect</button>
+                    <button data-id="<?= $user->id; ?>" class="js-connect-user btn btn-primary btn-xs" data-loading-text="Invite Sent" autocomplete="off"><span class="glyphicon glyphicon-plus"></span> Reconnect</button>
                   <?php elseif(!$isCurrent): ?>
                     <button data-id="<?= $user->id; ?>" class="js-connect-user btn btn-primary btn-xs" data-loading-text="Invite Sent" autocomplete="off"><span class="glyphicon glyphicon-plus"></span> Connect</button>
                   <?php endif; ?>
