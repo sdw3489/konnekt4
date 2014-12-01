@@ -112,26 +112,10 @@ class User extends CI_Controller {
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 
-
   public function connect($id){
-    $data = $this->User->connect($this->session_id, $id);
+    $type = $this->input->post('type');
+    $data = $this->User->connect($this->session_id, $id, $type);
     echo json_encode($data);
   }
-
-  public function remove($id){
-    $data = $this->User->remove($this->session_id, $id);
-    echo json_encode($data);
-  }
-
-  public function accept($id){
-    $data = $this->User->accept($this->session_id, $id);
-    echo json_encode($data);
-  }
-
-  public function decline($id){
-    $data = $this->User->decline($this->session_id, $id);
-    echo json_encode($data);
-  }
-
 }
 ?>

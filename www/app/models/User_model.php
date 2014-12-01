@@ -110,9 +110,10 @@ class User_model extends CI_Model {
     return $result;
   }
 
-  public function connect($current_id, $id){
-    $query = $this->db->select('id, status')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
-    if(!$query->num_rows() > 0){
+  public function connect($current_id, $id, $type){
+     $query = $this->db->select('id, status')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+
+    if(!$query->num_rows() > 0 && $type == 'connect'){
       $data = array(
         'user_id'       => min($current_id, $id),
         'connection_id' => max($current_id, $id),
@@ -121,41 +122,17 @@ class User_model extends CI_Model {
       );
       $this->db->insert('user_connection', $data);
       return true;
-    }elseif($query->num_rows() > 0 && $query->row()->status == 'declined'){
+    }elseif($query->num_rows() > 0 && $type == 'connect' && $query->row()->status == 'declined'){
       $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'sent', 'initiator_id'=> $current_id));
       return true;
-    }else{
-      return false;
-    }
-  }
-
-  public function remove($current_id, $id){
-    $query = $this->db->select('id')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
-    if($query->num_rows() > 0){
-      $result = $query->row();
-      $this->db->delete('user_connection', array('id' => $result->id));
+    }elseif($query->num_rows() > 0 && $type == 'accept'){
+      $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'connected'));
       return true;
-    }else{
-      return false;
-    }
-  }
-
-  public function accept($current_id, $id){
-    $query = $this->db->select('id')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
-    if($query->num_rows() > 0){
-      $result = $query->row();
-      $this->db->where('id', $result->id)->update('user_connection', array('status'=>'connected'));
+    }elseif($query->num_rows() > 0 && $type == 'decline'){
+      $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'declined'));
       return true;
-    }else{
-      return false;
-    }
-  }
-
-  public function decline($current_id, $id){
-    $query = $this->db->select('id')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
-    if($query->num_rows() > 0){
-      $result = $query->row();
-      $this->db->where('id', $result->id)->update('user_connection', array('status'=>'declined'));
+    }elseif($query->num_rows() > 0 && $type == 'remove'){
+      $this->db->where('id', $query->row()->id)->delete('user_connection');
       return true;
     }else{
       return false;
