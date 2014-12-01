@@ -7,10 +7,22 @@ class User extends CI_Controller {
     parent::__construct();
     $this->load->model('user_model', 'User', TRUE);
     $this->load->driver('session');
+    $this->session_id = $this->session->userdata('id');
   }
 
   public function index(){
-
+    if($this->session_id){
+      $data['title'] = 'Users';
+      $data['bodyClass'] = 'users';
+      $data['users'] = $this->User->users();
+      $data['id'] = $this->session_id;
+      $this->load->view('global/head', $data);
+      $this->load->view('global/nav', $data);
+      $this->load->view('users', $data);
+      $this->load->view('global/footer', $data);
+    }else{
+      header("Location:/login/");
+    }
   }
 
   //checks a user login to see if they exist in the database

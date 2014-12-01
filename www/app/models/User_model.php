@@ -84,5 +84,30 @@ class User_model extends CI_Model {
       return $result;
     }
   }
+
+  public function users(){
+    $result=[];
+    $users = $this->db->select('u.id, u.username, u.email, u.first_name, u.last_name, u.logged_in, s.wins, s.losses, s.ties')
+      ->from('user u')
+      ->join('stat s', 'u.id = s.user_id', 'inner')
+      ->get();
+
+    if($users->num_rows() > 0){
+      $result = $users->result();
+      $i = 0;
+      foreach($users->result() as $user){
+        $connections = $this->db->select('uc.*')
+          ->from('user_connection uc')
+          ->join('user u', 'u.id = uc.user_id', 'right')
+          ->or_where('uc.user_id',  $user->id)
+          ->or_where('uc.connection_id', $user->id)
+          ->get();
+        $result[$i]->connections = $connections->result();
+        $i++;
+      }
+
+    }
+      return $result;
+  }
 }
 ?>
