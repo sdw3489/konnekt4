@@ -18,6 +18,7 @@
           <span class="glyphicon glyphicon-user"></span> Signed in as <?=ucfirst($_SESSION['username']);?>
         </p>
         <ul class="nav navbar-nav">
+          <li><a href="/user/">Users</a></li>
           <li><a href="/user/logout/"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
         </ul>
       </div>
