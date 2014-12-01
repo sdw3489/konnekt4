@@ -58,18 +58,18 @@
                   <div class="pull-right" role="group" aria-label="">
                   <?php if($isConnection && $status == 'connected'):?>
                     <button data-id="<?= $user->id; ?>" class="js-challenge btn btn-primary btn-xs" data-loading-text="Please Wait..." autocomplete="off"><span class="glyphicon glyphicon-tower"></span> Challenge</button>
-                    <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Remove</button>
+                    <button data-id="<?= $user->id; ?>" class="js-remove-user btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Remove</button>
                   <?php elseif($isConnection && $status == 'sent' && $initiator == true): ?>
-                    <button class="btn btn-primary btn-xs" disabled="disabled">Invite Sent</button>
+                    <button data-id="<?= $user->id; ?>" class="btn btn-primary btn-xs" disabled="disabled">Invite Sent</button>
                   <?php elseif($isConnection && $status == 'sent' && $initiator == false): ?>
-                    <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span> Accept</button>
-                    <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Decline</button>
+                    <button data-id="<?= $user->id; ?>" class="js-accept-user btn btn-success btn-xs"><span class="glyphicon glyphicon-ok"></span> Accept</button>
+                    <button data-id="<?= $user->id; ?>" class="js-decline-user btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Decline</button>
                   <?php elseif($isConnection && $status == 'declined' && $initiator == true): ?>
-                    <button class="btn btn-danger btn-xs" disabled="disabled">Declined</button>
+                    <button data-id="<?= $user->id; ?>" class="btn btn-danger btn-xs" disabled="disabled">Declined</button>
                   <?php elseif($isConnection && $status == 'declined' && $initiator == false): ?>
-                    <button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span> Connect</button>
-                  <?php else: ?>
-                    <button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span> Connect</button>
+                    <button data-id="<?= $user->id; ?>" class="js-connect-user btn btn-primary btn-xs" data-loading-text="Invite Sent" autocomplete="off"><span class="glyphicon glyphicon-plus"></span> Connect</button>
+                  <?php elseif(!$isCurrent): ?>
+                    <button data-id="<?= $user->id; ?>" class="js-connect-user btn btn-primary btn-xs" data-loading-text="Invite Sent" autocomplete="off"><span class="glyphicon glyphicon-plus"></span> Connect</button>
                   <?php endif; ?>
                   </div>
                 </td>

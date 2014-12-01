@@ -25,7 +25,8 @@ requirejs.config({
     'text': 'libs/text',
     'templates': '../templates',
     'gv': 'views/game',
-    'fv': 'views/foyer'
+    'fv': 'views/foyer',
+    'uv': 'views/users'
   },
 
   // @see http://requirejs.org/docs/api.html#config-shim

@@ -107,7 +107,56 @@ class User_model extends CI_Model {
       }
 
     }
-      return $result;
+    return $result;
+  }
+
+  public function connect($current_id, $id){
+    $query = $this->db->select('id')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+    if(!$query->num_rows() > 0){
+      $data = array(
+        'user_id'       => min($current_id, $id),
+        'connection_id' => max($current_id, $id),
+        'initiator_id'  => $current_id,
+        'status'        => 'sent'
+      );
+      $this->db->insert('user_connection', $data);
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public function remove($current_id, $id){
+    $query = $this->db->select('id')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+    if($query->num_rows() > 0){
+      $result = $query->row();
+      $this->db->delete('user_connection', array('id' => $result->id));
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public function accept($current_id, $id){
+    $query = $this->db->select('id')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+    if($query->num_rows() > 0){
+      $result = $query->row();
+      $this->db->where('id', $result->id)->update('user_connection', array('status'=>'connected'));
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public function decline($current_id, $id){
+    $query = $this->db->select('id')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+    if($query->num_rows() > 0){
+      $result = $query->row();
+      $this->db->where('id', $result->id)->update('user_connection', array('status'=>'declined'));
+      return true;
+    }else{
+      return false;
+    }
   }
 }
 ?>
