@@ -123,17 +123,17 @@ class User_model extends CI_Model {
       $this->db->insert('user_connection', $data);
       return true;
     }elseif($query->num_rows() > 0 && $type == 'connect' && $query->row()->status == 'declined'){
-      $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'sent', 'initiator_id'=> $current_id));
-      return true;
+      $result = $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'sent', 'initiator_id'=> $current_id));
+      return $result;
     }elseif($query->num_rows() > 0 && $type == 'accept'){
-      $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'connected'));
-      return true;
+      $result = $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'connected'));
+      return $result;
     }elseif($query->num_rows() > 0 && $type == 'decline'){
-      $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'declined'));
-      return true;
+      $result = $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'declined'));
+      return $result;
     }elseif($query->num_rows() > 0 && $type == 'remove'){
-      $this->db->where('id', $query->row()->id)->delete('user_connection');
-      return true;
+      $result = $this->db->where('id', $query->row()->id)->delete('user_connection');
+      return $result;
     }else{
       return false;
     }
