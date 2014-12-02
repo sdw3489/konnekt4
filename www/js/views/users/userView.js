@@ -98,7 +98,7 @@ define([
           });
           this.setClass(data.status);
         }
-      }else{
+      }else if(data == null && this.model.get('isCurrent') == false){
         this.model.set({
           'isConnection':false,
           'initiator':false,
