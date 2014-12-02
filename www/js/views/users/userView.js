@@ -16,6 +16,7 @@ define([
 
     initialize: function () {
       this.listenTo(this.model, "change", this.render);
+      this.getConnections();
     },
     attributes : function () {
       // Return model data
@@ -62,20 +63,49 @@ define([
         return 'danger';
       }
     },
-    setClass: function(type){
-      if(type == 'connect'){
-        this.$el.attr('class', '');
-      }else if(type == 'remove'){
-        this.$el.attr('class', '');
-      }else if(type == 'accept'){
+    setClass: function(which){
+      if(which == 'accept' || which == 'connected'){
         this.$el.attr('class', 'info');
-      }else if(type == 'decline'){
+      }else if(which == 'declined'){
         this.$el.attr('class', 'danger');
+      }else{
+        this.$el.attr('class', '');
       }
     },
     render: function () {
       this.$el.html(this.template(this.model.toJSON()));
       return this;
+    },
+    getConnections : function(){
+      $.ajax({
+        type: "GET",
+        url: '/user/getConnections/'+this.model.get('user').id,
+        success: _.bind(this.onGetConnections, this)
+      });
+      clearTimeout(this.timer);
+      this.timer=setTimeout(_.bind(function(){
+        this.getConnections()
+      },this), 10000);
+    },
+    onGetConnections : function(jsonText) {
+      var data = JSON.parse(jsonText);
+      if(data != null){
+        if(data.status != this.model.get('status')){
+          this.model.set({
+            'isConnection':true,
+            'initiator': (data.initiator_id == this.model.get('user_id'))? true : false,
+            'status':data.status
+          });
+          this.setClass(data.status);
+        }
+      }else{
+        this.model.set({
+          'isConnection':false,
+          'initiator':false,
+          'status':null
+        });
+        this.setClass('removed');
+      }
     },
     connectUser: function(event){
       event.preventDefault();
@@ -92,28 +122,30 @@ define([
           'type': type
         },
         success: _.bind(function(data){
-          if(type == 'connect'){
-            this.model.set({
-              'isConnection': true,
-              'initiator': true,
-              'status': 'sent'
-            });
-          }else if(type == 'remove'){
-            this.model.set({
-              'isConnection': false,
-              'status': ''
-            });
-            this.setClass(type);
-          }else if(type == 'accept'){
-            this.model.set({
-              'status': 'connected'
-            });
-            this.setClass(type);
-          }else if(type == 'decline'){
-            this.model.set({
-              'status': 'declined'
-            });
-          }
+          setTimeout(_.bind(function(){
+            if(type == 'connect'){
+              this.model.set({
+                'isConnection': true,
+                'initiator': true,
+                'status': 'sent'
+              });
+            }else if(type == 'remove'){
+              this.model.set({
+                'isConnection': false,
+                'status': ''
+              });
+              this.setClass(type);
+            }else if(type == 'accept'){
+              this.model.set({
+                'status': 'connected'
+              });
+              this.setClass(type);
+            }else if(type == 'decline'){
+              this.model.set({
+                'status': 'declined'
+              });
+            }
+          },this),1000);
         }, this)
       });
     }

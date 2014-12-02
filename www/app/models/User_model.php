@@ -138,5 +138,12 @@ class User_model extends CI_Model {
       return false;
     }
   }
+
+  public function getConnections($current_id, $id){
+    $query = $this->db->select('*')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+    if($query->num_rows()){
+      return $query->row();
+    }
+  }
 }
 ?>
