@@ -118,7 +118,10 @@ CREATE TABLE IF NOT EXISTS user (
     username varchar(64)    NOT NULL ,
     email varchar(64)    NULL ,
     password varchar(64)    NOT NULL ,
+    first_name varchar(64)    NOT NULL ,
+    last_name varchar(64)    NOT NULL ,
     logged_in int    NOT NULL ,
+    is_private int    NOT NULL DEFAULT 0 ,
     CONSTRAINT user_pk PRIMARY KEY (id)
 );
 
