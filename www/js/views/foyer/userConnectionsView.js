@@ -18,7 +18,7 @@ define([
     },
 
     initialize: function () {
-      this.getLoggedInUsers();
+      this.getUserConnections();
       EventsChannel.on('updateChallenges', this.onUpadteChallenges, this);
     },
     render: function (data) {
@@ -27,18 +27,18 @@ define([
     addOne : function(data){
       this.$el.append(this.render(data));
     },
-    getLoggedInUsers : function(){
+    getUserConnections : function(){
       $.ajax({
         type: "GET",
-        url: '/user/getLoggedIn/',
-        success: _.bind(this.onGetLoggedInUsers, this)
+        url: '/user/getUserConnections/',
+        success: _.bind(this.onGetUserConnections, this)
       });
       clearTimeout(this.timer);
       this.timer=setTimeout(_.bind(function(){
-        this.getLoggedInUsers()
+        this.getUserConnections()
       },this), 10000);
     },
-    onGetLoggedInUsers : function(jsonText) {
+    onGetUserConnections : function(jsonText) {
       this.data = JSON.parse(jsonText);
       if(!_.isEqual(this.data, this.prevData)){
         this.prevData = this.data;

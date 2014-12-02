@@ -61,7 +61,7 @@ class User_model extends CI_Model {
     $this->db->insert('stat', array('user_id'=>$insert_id));
   }//end register
 
-  public function getLoggedIn($id){
+  public function getUserConnections($id){
     $query = $this->db->select('*')
     ->from('user_connection')
     ->where('status', 'connected')
@@ -135,8 +135,8 @@ class User_model extends CI_Model {
     return $result;
   }
 
-  public function connect($current_id, $id, $type){
-     $query = $this->db->select('id, status')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+  public function connect($current_id, $id, $type) {
+    $query = $this->db->select('id, status')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
 
     if(!$query->num_rows() > 0 && $type == 'connect'){
       $data = array(
