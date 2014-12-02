@@ -23,64 +23,7 @@
               <th><span class="pull-right">Actions</span></th>
             </tr>
           </thead>
-
-            <?php foreach($users as $user): ?>
-              <?php
-                $isCurrent = ($user->id == $id)? true:false;
-                $isConnection = false;
-                $which = null;
-                $status = null;
-                $initiator = false;
-                $i=0;
-                if(!$isCurrent){
-                  foreach($user->connections as $connection) {
-                    if($connection->user_id == $id || $connection->connection_id == $id) {
-                      $which = $i;
-                      $isConnection = true;
-                      $status = $connection->status;
-                      $initiator = ($connection->initiator_id == $id)? true:false;
-                      break;
-                    }
-                    $i++;
-                  }
-                }
-              ?>
-              <tr class="<?=($id == $user->id)? 'active':'';?> <?=($isConnection && $status == 'connected')? 'info':'';?> <?=($isConnection && $status == 'declined' && $initiator == true)? 'danger':'';?>">
-                <td><?= $user->id; ?></td>
-                <td><?= $user->first_name; ?></td>
-                <td><?= $user->last_name; ?></td>
-                <td><?= $user->username; ?></td>
-                <td><?= ($user->logged_in == 1)? '<span class="text-primary glyphicon glyphicon-eye-open"></span>' : '<span class="text-muted glyphicon glyphicon-eye-close"></span>';?></td>
-                <td><?= $user->wins; ?></td>
-                <td><?= $user->losses; ?></td>
-                <td><?= $user->ties; ?></td>
-                <td>
-                  <div class="pull-right" role="group" aria-label="">
-                  <?php if($isConnection && $status == 'connected'):?>
-                    <button class="js-user-action btn btn-danger btn-xs" data-id="<?= $user->id; ?>" data-connection-type="remove" data-loading-text="Removing" autocomplete="off">
-                      <span class="glyphicon glyphicon-remove"></span> Remove</button>
-                  <?php elseif($isConnection && $status == 'sent' && $initiator == true): ?>
-                    <button class="btn btn-primary btn-xs" disabled="disabled">Invite Sent</button>
-                  <?php elseif($isConnection && $status == 'sent' && $initiator == false): ?>
-                    <button class="js-user-action btn btn-success btn-xs" data-id="<?= $user->id; ?>" data-connection-type="accept" data-loading-text="Accepting" autocomplete="off">
-                      <span class="glyphicon glyphicon-ok"></span> Accept</button>
-                    <button class="js-user-action btn btn-danger btn-xs" data-id="<?= $user->id; ?>" data-connection-type="decline" data-loading-text="Declining" autocomplete="off">
-                      <span class="glyphicon glyphicon-remove"></span> Decline</button>
-                  <?php elseif($isConnection && $status == 'declined' && $initiator == true): ?>
-                    <button class="btn btn-danger btn-xs" disabled="disabled">Declined</button>
-                  <?php elseif($isConnection && $status == 'declined' && $initiator == false): ?>
-                    <button class="js-user-action btn btn-primary btn-xs" data-id="<?= $user->id; ?>" data-connection-type="connect" data-loading-text="Invite Sent" autocomplete="off">
-                      <span class="glyphicon glyphicon-plus"></span> Reconnect</button>
-                  <?php elseif(!$isCurrent): ?>
-                    <button class="js-user-action btn btn-primary btn-xs" data-id="<?= $user->id; ?>" data-connection-type="connect" data-loading-text="Invite Sent" autocomplete="off">
-                      <span class="glyphicon glyphicon-plus"></span> Connect</button>
-                  <?php endif; ?>
-                  </div>
-                </td>
-              </tr>
-            <?php endforeach; ?>
-
-          </tbody>
+          <tbody class="users-list"></tbody>
         </table>
       </div>
     </div>

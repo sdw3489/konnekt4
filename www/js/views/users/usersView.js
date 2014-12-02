@@ -1,37 +1,32 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
-], function($, _, Backbone ){
+  'backbone',
+  'uv/userView',
+  'events/channel',
+  'module'
+], function($, _, Backbone, UserView, EventsChannel, module ){
 
   var UsersView = Backbone.View.extend({
 
-    $btn:null,
+    el : '.users-list',
     events: {},
 
     initialize: function () {
-      $('.js-user-action').on('click', _.bind(this.connectUser, this));
+      this.render();
     },
-    render: function () {},
-    connectUser: function(event){
-      event.preventDefault();
-      this.$btn = $(event.target),
-        id = this.$btn.data('id'),
-        type = this.$btn.data('connection-type');
-      this.$btn.button('loading');
-
-      $.ajax({
-        type: "POST",
-        url: '/user/connect/'+id,
-        data:{
-          'type': type
-        },
-        success: _.bind(function(event){
-          this.$btn.blur();
-        }, this)
-      });
+    render: function () {
+      _.each(module.config().users, function(user, i){
+        var userView = new UserView({
+          model: new Backbone.Model({
+            'user'    : user,
+            'user_id' : module.config().user_id
+          })
+        });
+        this.$el.append(userView.render().$el);
+      }, this);
+      return this;
     }
-
   });
 
   return UsersView;

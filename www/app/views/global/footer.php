@@ -15,7 +15,10 @@
         },
         'fv/foyerView': <?= (isset($foyerJSON))? "$foyerJSON" : "null"; ?>,
         'gv/gameView': <?= (isset($gameJSON))? "$gameJSON" : "null"; ?>,
-        'uv/usersView': <?= (isset($usersJSON))? "$usersJSON" : "null"; ?>
+        'uv/usersView': {
+           users: <?= (isset($usersJSON))? "$usersJSON" : "null"; ?> ,
+           user_id : <?= $_SESSION['id']; ?>
+         }
       }
     };
   </script>
