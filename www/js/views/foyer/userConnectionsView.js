@@ -2,13 +2,13 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'text!templates/loggedInUsersTemplate.html',
+  'text!templates/userConnectionsTemplate.html',
   'events/channel'
-], function($, _, Backbone, LoggedInUsersTemplate, EventsChannel ){
+], function($, _, Backbone, userConnectionsTemplate, EventsChannel ){
 
   var LoggedInUsersView = Backbone.View.extend({
     el:'.js-user-connections',
-    template:_.template(LoggedInUsersTemplate),
+    template:_.template(userConnectionsTemplate),
     data:null,
     prevData:'',
     $btn:null,

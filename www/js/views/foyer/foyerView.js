@@ -3,10 +3,9 @@ define([
   'underscore',
   'backbone',
   'fv/chatView',
-  'fv/loggedInUsersView',
+  'fv/userConnectionsView',
   'fv/challengesView',
   'fv/challengersView'
-   //'fv/statsView'
 ], function($, _, Backbone, ChatView, LoggedInUsersView, ChallengesView, ChallengersView ){
 
   var FoyerView = Backbone.View.extend({
