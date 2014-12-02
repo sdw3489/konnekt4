@@ -17,7 +17,7 @@
         'gv/gameView': <?= (isset($gameJSON))? "$gameJSON" : "null"; ?>,
         'uv/usersView': {
            users: <?= (isset($usersJSON))? "$usersJSON" : "null"; ?> ,
-           user_id : <?= $_SESSION['id']; ?>
+           user_id : <?= (isset($_SESSION['id']))? $_SESSION['id']: "null"; ?>
          }
       }
     };
