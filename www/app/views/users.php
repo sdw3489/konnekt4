@@ -57,8 +57,6 @@
                 <td>
                   <div class="pull-right" role="group" aria-label="">
                   <?php if($isConnection && $status == 'connected'):?>
-                    <button class="js-challenge btn btn-primary btn-xs" data-id="<?= $user->id; ?>" data-loading-text="Please Wait..." autocomplete="off">
-                      <span class="glyphicon glyphicon-tower"></span> Challenge</button>
                     <button class="js-user-action btn btn-danger btn-xs" data-id="<?= $user->id; ?>" data-connection-type="remove" data-loading-text="Removing" autocomplete="off">
                       <span class="glyphicon glyphicon-remove"></span> Remove</button>
                   <?php elseif($isConnection && $status == 'sent' && $initiator == true): ?>
