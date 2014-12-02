@@ -114,7 +114,7 @@ class User extends CI_Controller {
 
   public function connect($id){
     $type = $this->input->post('type');
-    $data = $this->User->connect($this->session_id, $id, $type);
+    $data = $this->User->connect($_SESSION['id'], $id, $type);
     echo json_encode($data);
   }
 }
