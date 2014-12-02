@@ -104,7 +104,7 @@ class User extends CI_Controller {
 
   //Get list of logged in Users
   public function getLoggedIn(){
-    $data = $this->User->getLoggedIn();
+    $data = $this->User->getLoggedIn($_SESSION['id']);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 

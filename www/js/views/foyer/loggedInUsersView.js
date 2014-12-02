@@ -7,7 +7,7 @@ define([
 ], function($, _, Backbone, LoggedInUsersTemplate, EventsChannel ){
 
   var LoggedInUsersView = Backbone.View.extend({
-    el:'.js-logged-in-users',
+    el:'.js-user-connections',
     template:_.template(LoggedInUsersTemplate),
     data:null,
     prevData:'',
@@ -36,7 +36,7 @@ define([
       clearTimeout(this.timer);
       this.timer=setTimeout(_.bind(function(){
         this.getLoggedInUsers()
-      },this), 5000);
+      },this), 10000);
     },
     onGetLoggedInUsers : function(jsonText) {
       this.data = JSON.parse(jsonText);

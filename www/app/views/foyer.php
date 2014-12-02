@@ -5,8 +5,8 @@
     <div class="row">
       <div class="col-sm-5 col-md-4 col-lg-3">
         <div class="panel panel-primary">
-          <div class="panel-heading">Users Online</div>
-          <ul class="list-group js-logged-in-users"></ul>
+          <div class="panel-heading">User Connections</div>
+          <ul class="list-group js-user-connections"></ul>
         </div>
 
         <div class="panel panel-primary">

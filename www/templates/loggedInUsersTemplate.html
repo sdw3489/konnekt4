@@ -2,7 +2,12 @@
   <li class="list-group-item">
     <span class="glyphicon glyphicon-user"></span><span class="username"><%= username %></span>
     <button data-id="<%= id %>" class="js-challenge btn btn-primary btn-sm pull-right" data-loading-text="Please Wait..." autocomplete="off"><span class="glyphicon glyphicon-tower"></span> Challenge</button>
+    <% if(logged_in == 1) { %>
+    <span class="pull-right text-primary glyphicon glyphicon-eye-open user-logged-in"></span>
+    <% } else { %>
+    <span class="pull-right text-muted glyphicon glyphicon-eye-close user-logged-in"></span>
+    <% } %>
   </li>
 <% } else { %>
-  <li class="list-group-item">Sorry boo, no one is online.</li>
+  <li class="list-group-item">You have no connections. Go <a href="/user/">here</a> to connect with someone. Then Challenge them to a game.</li>
 <% } %>

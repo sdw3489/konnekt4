@@ -61,11 +61,36 @@ class User_model extends CI_Model {
     $this->db->insert('stat', array('user_id'=>$insert_id));
   }//end register
 
-  public function getLoggedIn(){
-    $query = $this->db->where('logged_in', 1)->where_not_in('id',$_SESSION['id'])->get('user');
-    $result= $query->result();
+  public function getLoggedIn($id){
+    $query = $this->db->select('*')
+    ->from('user_connection')
+    ->where('status', 'connected')
+    ->where('user_id', $id)
+    ->or_where('connection_id',$id)
+    ->get();
+    $results=[];
     if($query->num_rows() > 0){
-      return $result;
+      $i = 0;
+      foreach($query->result() as $row){
+
+        if($row->user_id == $id){
+          $query2 = $this->db->select('id, username, logged_in, first_name, last_name')
+            ->where('id', $row->connection_id)
+            ->get('user');
+          if($query2->num_rows() > 0){
+            $results[$i] = $query2->row();
+          }
+        }elseif($row->connection_id == $id){
+          $query3 = $this->db->select('id, username, logged_in, first_name, last_name')
+            ->where('id', $row->user_id)
+            ->get('user');
+          if($query3->num_rows() > 0){
+            $results[$i] = $query3->row();
+          }
+        }
+        $i++;
+      }
+      return $results;
     }
   }
 

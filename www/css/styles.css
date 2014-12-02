@@ -85,6 +85,10 @@ input:required:valid {
   font-size: 16px;
 }
 
+.js-user-connections .user-logged-in {
+  padding: 6px 15px;
+}
+
 /* Game Board Styles */
 .svg-container {
   display: inline-block;
