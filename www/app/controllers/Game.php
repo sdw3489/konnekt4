@@ -10,7 +10,7 @@ class Game extends CI_Controller {
   public function play($game_Id){
     $data['title'] = 'Game Board';
     $data['bodyClass'] = 'game';
-    $data['gameData'] = $this->getGameData($game_Id);
+    $data['gameJSON'] = $this->getGameData($game_Id);
     $this->load->view('global/head', $data);
     $this->load->view('global/nav', $data);
     $this->load->view('game', $data);

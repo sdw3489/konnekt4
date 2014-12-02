@@ -13,8 +13,9 @@
         'views/baseView':{
           page: "<?= $bodyClass; ?>"
         },
-        'fv/foyerView': {},
-        'gv/gameView': <?= (isset($gameData))? "$gameData" : "null"; ?>
+        'fv/foyerView': <?= (isset($foyerJSON))? "$foyerJSON" : "null"; ?>,
+        'gv/gameView': <?= (isset($gameJSON))? "$gameJSON" : "null"; ?>,
+        'uv/usersView': <?= (isset($usersJSON))? "$usersJSON" : "null"; ?>
       }
     };
   </script>

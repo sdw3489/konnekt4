@@ -15,6 +15,7 @@ class User extends CI_Controller {
       $data['title'] = 'Users';
       $data['bodyClass'] = 'users';
       $data['users'] = $this->User->users();
+      $data['usersJSON'] = json_encode($data['users'], JSON_NUMERIC_CHECK);
       $data['id'] = $this->session_id;
       $this->load->view('global/head', $data);
       $this->load->view('global/nav', $data);
