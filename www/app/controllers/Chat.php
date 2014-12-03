@@ -18,16 +18,26 @@ class Chat extends CI_Controller {
 
    //inserts a new chat message to the database
   public function sendChat(){
-    $message = $this->input->post('message');
-    $this->Chat->setChat($message);
-    $this->getChat($_SESSION['time']);
+    if($this->input->is_ajax_request()){
+      $message = $this->input->post('message');
+      $this->Chat->setChat($message);
+      $this->getChat($_SESSION['time']);
+    }else{
+      header("Location:/");
+      die();
+    }
   }//end send chat
 
   //gets chat messages from database
   public function getChat(){
-    $time = $_SESSION['time'];
-    $data = $this->Chat->getChat($time);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
+    if($this->input->is_ajax_request()){
+      $time = $_SESSION['time'];
+      $data = $this->Chat->getChat($time);
+      echo json_encode($data, JSON_NUMERIC_CHECK);
+    }else{
+      header("Location:/");
+      die();
+    }
   }//end get chat
 
 }
