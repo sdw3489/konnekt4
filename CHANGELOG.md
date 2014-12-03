@@ -1,5 +1,11 @@
 # Changelog History
 
+### 2.1: 12-3-2014
+  - Added User Connect Invite Notifications
+  - Add Icons to all Panels
+  - Rename Foyer to Dashboard
+  - Fix spelling, URL redirects
+
 ### 2.0: 12-2-2014
   - Game State Saved
   - Game Endings
