@@ -15,11 +15,11 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <div class="navbar-right">
         <ul class="nav navbar-nav">
-          <li <?=($bodyClass=='foyer')? 'class="active"': ''?>><a href="/">Foyer</a></li>
-          <li <?=($bodyClass=='users')? 'class="active"': ''?>><a href="/users/">Users</a></li>
+          <li <?=($bodyClass=='foyer')? 'class="active"': ''?>><a href="/"><span class="glyphicon glyphicon-dashboard"></span> Foyer</a></li>
+          <li <?=($bodyClass=='users')? 'class="active"': ''?>><a href="/users/"><span class="glyphicon glyphicon-user"></span> Users</a></li>
         </ul>
         <p class="navbar-text">
-          <span class="glyphicon glyphicon-user"></span> Signed in as <?=ucfirst($_SESSION['username']);?>
+          <span class="text-primary"><span class="glyphicon glyphicon-eye-open"></span> <?=ucfirst($_SESSION['username']);?></span>
         </p>
         <ul class="nav navbar-nav">
           <li><a href="/user/logout/"><span class="glyphicon glyphicon-off"></span> Logout</a></li>

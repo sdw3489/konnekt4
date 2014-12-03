@@ -6,7 +6,7 @@
 
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Users</h3>
+        <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Users</h3>
       </div>
       <div class="table-responsive">
         <table class="table table-hover table-bordered">

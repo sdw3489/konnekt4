@@ -98,7 +98,7 @@ class Game_model extends CI_Model {
           ->get();
         if($query->num_rows() > 0){
           foreach($query->result() as $challenge){
-            $result[$i]['username'] = $challenge->username;
+            $result[$i]['username'] = ucfirst($challenge->username);
             $result[$i]['game_id'] = $challenge->game_id;
             $i++;
           }
