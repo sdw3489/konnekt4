@@ -64,9 +64,13 @@ class User_model extends CI_Model {
   public function getUserConnections($id){
     $query = $this->db->select('*')
     ->from('user_connection')
-    ->where('status', 'connected')
-    ->where('user_id', $id)
-    ->or_where('connection_id',$id)
+    ->group_start()
+      ->where('status', 'connected')
+      ->group_start()
+        ->or_where('user_id', $id)
+        ->or_where('connection_id',$id)
+      ->group_end()
+    ->group_end()
     ->get();
     $results=[];
     if($query->num_rows() > 0){
