@@ -123,6 +123,7 @@ define([
         },
         success: _.bind(function(data){
           setTimeout(_.bind(function(){
+            EventsChannel.trigger('connection:action');
             if(type == 'connect'){
               this.model.set({
                 'isConnection': true,
