@@ -2,13 +2,13 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'fv/chatView',
-  'fv/userConnectionsView',
-  'fv/challengesView',
-  'fv/challengersView'
+  'dv/chatView',
+  'dv/userConnectionsView',
+  'dv/challengesView',
+  'dv/challengersView'
 ], function($, _, Backbone, ChatView, LoggedInUsersView, ChallengesView, ChallengersView ){
 
-  var FoyerView = Backbone.View.extend({
+  var DashboardView = Backbone.View.extend({
     initialize: function () {
       new ChatView();
       new ChallengesView();
@@ -17,6 +17,6 @@ define([
     }
   });
 
-  return FoyerView;
+  return DashboardView;
 
 });

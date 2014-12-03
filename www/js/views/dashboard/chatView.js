@@ -2,7 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'fv/chatBoxView',
+  'dv/chatBoxView',
   'text!templates/chatTemplate.html'
 ], function($, _, Backbone, ChatBoxView, ChatTemplate ){
 
