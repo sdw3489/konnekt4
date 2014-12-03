@@ -13,7 +13,7 @@
         'views/baseView':{
           page: "<?= $bodyClass; ?>"
         },
-        'fv/foyerView': <?= (isset($foyerJSON))? "$foyerJSON" : "null"; ?>,
+        'dv/dashboardView': <?= (isset($dashboardJSON))? "$dashboardJSON" : "null"; ?>,
         'gv/gameView': <?= (isset($gameJSON))? "$gameJSON" : "null"; ?>,
         'uv/usersView': {
            users: <?= (isset($usersJSON))? "$usersJSON" : "null"; ?> ,

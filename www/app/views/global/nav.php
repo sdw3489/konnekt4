@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <div class="navbar-right">
         <ul class="nav navbar-nav">
-          <li <?=($bodyClass=='foyer')? 'class="active"': ''?>><a href="/"><span class="glyphicon glyphicon-dashboard"></span> Foyer</a></li>
+          <li <?=($bodyClass=='dashboard')? 'class="active"': ''?>><a href="/"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
           <li <?=($bodyClass=='users')? 'class="active"': ''?>><a href="/users/"><span class="glyphicon glyphicon-user"></span> Users <span class="badge js-notifications"><?= $notifications; ?></span></a></li>
         </ul>
         <p class="navbar-text">

@@ -25,7 +25,7 @@ requirejs.config({
     'text': 'libs/text',
     'templates': '../templates',
     'gv': 'views/game',
-    'fv': 'views/foyer',
+    'dv': 'views/dashboard',
     'uv': 'views/users'
   },
 

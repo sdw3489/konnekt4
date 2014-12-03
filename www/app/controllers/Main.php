@@ -14,13 +14,13 @@ class Main extends CI_Controller {
 	public function index()	{
 		if($this->session_id){
 			$this->load->model('user_model', 'User', TRUE);
-			$data['title'] = 'Foyer';
-			$data['bodyClass'] = 'foyer';
+			$data['title'] = 'Dashboard';
+			$data['bodyClass'] = 'dashboard';
 			$data['stats'] = $this->User->getStats($this->session_id);
 			$data['notifications'] = $this->User->getNotifications($_SESSION['id']);
 			$this->load->view('global/head', $data);
 			$this->load->view('global/nav', $data);
-			$this->load->view('foyer', $data);
+			$this->load->view('dashboard', $data);
 			$this->load->view('global/footer', $data);
 		}else{
 			header("Location:/login/");

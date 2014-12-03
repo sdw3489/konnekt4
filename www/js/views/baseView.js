@@ -3,17 +3,17 @@ define([
   'underscore',
   'backbone',
   'module',
-  'fv/foyerView',
+  'dv/dashboardView',
   'gv/gameView',
   'uv/usersView',
   'views/notificationView'
-], function($, _, Backbone, module, FoyerView, GameView, UsersView, NotificationView ){
+], function($, _, Backbone, module, DashboardView, GameView, UsersView, NotificationView ){
 
   var BaseView = Backbone.View.extend({
     initialize: function () {
       new NotificationView();
-      if(module.config().page === 'foyer'){
-        new FoyerView();
+      if(module.config().page === 'dashboard'){
+        new DashboardView();
       }else if(module.config().page === 'game'){
         new GameView();
       }else if(module.config().page === 'users'){
