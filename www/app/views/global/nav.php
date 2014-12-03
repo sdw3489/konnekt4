@@ -16,7 +16,7 @@
       <div class="navbar-right">
         <ul class="nav navbar-nav">
           <li <?=($bodyClass=='foyer')? 'class="active"': ''?>><a href="/"><span class="glyphicon glyphicon-dashboard"></span> Foyer</a></li>
-          <li <?=($bodyClass=='users')? 'class="active"': ''?>><a href="/users/"><span class="glyphicon glyphicon-user"></span> Users</a></li>
+          <li <?=($bodyClass=='users')? 'class="active"': ''?>><a href="/users/"><span class="glyphicon glyphicon-user"></span> Users <span class="badge js-notifications"><?= $notifications; ?></span></a></li>
         </ul>
         <p class="navbar-text">
           <span class="text-primary"><span class="glyphicon glyphicon-eye-open"></span> <?=ucfirst($_SESSION['username']);?></span>

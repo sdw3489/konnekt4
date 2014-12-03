@@ -4,6 +4,7 @@ class Game extends CI_Controller {
   public function __construct(){
     parent::__construct();
     $this->load->model('game_model', 'Game', TRUE);
+    $this->load->model('user_model', 'User', TRUE);
     $this->load->driver('session');
   }
 
@@ -11,6 +12,7 @@ class Game extends CI_Controller {
     $data['title'] = 'Game Board';
     $data['bodyClass'] = 'game';
     $data['gameJSON'] = $this->getGameData($game_Id);
+    $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
     $this->load->view('global/head', $data);
     $this->load->view('global/nav', $data);
     $this->load->view('game', $data);

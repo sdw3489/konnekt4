@@ -174,5 +174,23 @@ class User_model extends CI_Model {
       return $query->row();
     }
   }
+
+  public function getNotifications($id){
+     $query = $this->db->select('*')
+    ->from('user_connection')
+    ->group_start()
+      ->where('status', 'sent')
+      ->where('initiator_id !=', $id)
+      ->group_start()
+        ->or_where('user_id', $id)
+        ->or_where('connection_id',$id)
+      ->group_end()
+    ->group_end()
+    ->get();
+
+    if($query->num_rows() > 0){
+      return $query->num_rows();
+    }
+  }
 }
 ?>

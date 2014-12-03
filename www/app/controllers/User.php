@@ -17,6 +17,7 @@ class User extends CI_Controller {
       $data['users'] = $this->User->users();
       $data['usersJSON'] = json_encode($data['users'], JSON_NUMERIC_CHECK);
       $data['id'] = $this->session_id;
+      $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
       $this->load->view('global/head', $data);
       $this->load->view('global/nav', $data);
       $this->load->view('users', $data);
@@ -121,6 +122,11 @@ class User extends CI_Controller {
 
   public function getConnections($id){
     $data = $this->User->getConnections($_SESSION['id'], $id);
+    echo json_encode($data, JSON_NUMERIC_CHECK);
+  }
+
+  public function getNotifications(){
+    $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 }
