@@ -8,7 +8,7 @@ Sign up and play at [konnekt4.seth-whitaker.com](http://konnekt4.seth-whitaker.c
 
 #### Database
 
-1. Import the `/_database/install.sql` into your database to set up the tables.
+1. Import the `/_database/konnekt4_create.sql` into your database to set up the tables.
 2. Update the `/www/app/config/database.php` with your connection information.
 
 
