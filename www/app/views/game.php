@@ -7,14 +7,18 @@
     <div class="row">
       <div class="col-sm-4">
         <div class="panel panel-primary">
-          <div class="panel-heading">Game Info</div>
+          <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-info-sign"></span> Game Info</h3>
+          </div>
           <ul class="list-group js-info-view"></ul>
         </div>
       </div>
 
       <div class="col-sm-8">
         <div class="panel panel-primary">
-          <div class="panel-heading ">Game Board</div>
+          <div class="panel-heading ">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-tower"></span> Game Board</h3>
+          </div>
           <div class="alerts-panel">
             <div class="alert alert-danger js-turn-alert" role="alert">Not Your Turn!</div>
             <div class="alert alert-danger js-game-alert" role="alert">The Game is Over</div>
