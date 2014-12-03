@@ -1,0 +1,31 @@
+<td><%= user.id %></td>
+<td><%= user.first_name %></td>
+<td><%= user.last_name %></td>
+<td><%= user.username %></td>
+<td><%= (user.logged_in == 1) ? '<span class="text-primary glyphicon glyphicon-eye-open"></span>' : '<span class="text-muted glyphicon glyphicon-eye-close"></span>' %></td>
+<td><%= user.wins %></td>
+<td><%= user.losses %></td>
+<td><%= user.ties %></td>
+<td>
+  <div class="pull-right" role="group" aria-label="">
+  <% if(isConnection && status == 'connected') { %>
+    <button class="js-user-action btn btn-danger btn-xs" data-id="<%= user.id %>" data-connection-type="remove" data-loading-text="Removing" autocomplete="off">
+      <span class="glyphicon glyphicon-remove"></span> Remove</button>
+  <% }else if(isConnection && status == 'sent' && initiator == true){ %>
+    <button class="btn btn-primary btn-xs" disabled="disabled">Invite Sent</button>
+  <% }else if(isConnection && status == 'sent' && initiator == false){ %>
+    <button class="js-user-action btn btn-success btn-xs" data-id="<%= user.id %>" data-connection-type="accept" data-loading-text="Accepting" autocomplete="off">
+      <span class="glyphicon glyphicon-ok"></span> Accept</button>
+    <button class="js-user-action btn btn-danger btn-xs" data-id="<%= user.id %>" data-connection-type="decline" data-loading-text="Declining" autocomplete="off">
+      <span class="glyphicon glyphicon-remove"></span> Decline</button>
+  <% }else if(isConnection && status == 'declined' && initiator == true){ %>
+    <button class="btn btn-danger btn-xs" disabled="disabled">Declined</button>
+  <% }else if(isConnection && status == 'declined' && initiator == false){ %>
+    <button class="js-user-action btn btn-primary btn-xs" data-id="<%= user.id %>" data-connection-type="connect" data-loading-text="Invite Sent" autocomplete="off">
+      <span class="glyphicon glyphicon-plus"></span> Reconnect</button>
+  <% }else if(!isCurrent){ %>
+    <button class="js-user-action btn btn-primary btn-xs" data-id="<%= user.id %>" data-connection-type="connect" data-loading-text="Invite Sent" autocomplete="off">
+      <span class="glyphicon glyphicon-plus"></span> Connect</button>
+  <% } %>
+  </div>
+</td>

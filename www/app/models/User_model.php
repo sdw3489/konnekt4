@@ -61,11 +61,40 @@ class User_model extends CI_Model {
     $this->db->insert('stat', array('user_id'=>$insert_id));
   }//end register
 
-  public function getLoggedIn(){
-    $query = $this->db->where('logged_in', 1)->where_not_in('id',$_SESSION['id'])->get('user');
-    $result= $query->result();
+  public function getUserConnections($id){
+    $query = $this->db->select('*')
+    ->from('user_connection')
+    ->group_start()
+      ->where('status', 'connected')
+      ->group_start()
+        ->or_where('user_id', $id)
+        ->or_where('connection_id',$id)
+      ->group_end()
+    ->group_end()
+    ->get();
+    $results=[];
     if($query->num_rows() > 0){
-      return $result;
+      $i = 0;
+      foreach($query->result() as $row){
+
+        if($row->user_id == $id){
+          $query2 = $this->db->select('id, username, logged_in, first_name, last_name')
+            ->where('id', $row->connection_id)
+            ->get('user');
+          if($query2->num_rows() > 0){
+            $results[$i] = $query2->row();
+          }
+        }elseif($row->connection_id == $id){
+          $query3 = $this->db->select('id, username, logged_in, first_name, last_name')
+            ->where('id', $row->user_id)
+            ->get('user');
+          if($query3->num_rows() > 0){
+            $results[$i] = $query3->row();
+          }
+        }
+        $i++;
+      }
+      return $results;
     }
   }
 
@@ -82,6 +111,67 @@ class User_model extends CI_Model {
     $result= $query->row();
     if($query->num_rows() > 0){
       return $result;
+    }
+  }
+
+  public function users(){
+    $result=[];
+    $users = $this->db->select('u.id, u.username, u.email, u.first_name, u.last_name, u.logged_in, s.wins, s.losses, s.ties')
+      ->from('user u')
+      ->join('stat s', 'u.id = s.user_id', 'inner')
+      ->get();
+
+    if($users->num_rows() > 0){
+      $result = $users->result();
+      $i = 0;
+      foreach($users->result() as $user){
+        $connections = $this->db->select('uc.*')
+          ->from('user_connection uc')
+          ->join('user u', 'u.id = uc.user_id', 'right')
+          ->or_where('uc.user_id',  $user->id)
+          ->or_where('uc.connection_id', $user->id)
+          ->get();
+        $result[$i]->connections = $connections->result();
+        $i++;
+      }
+
+    }
+    return $result;
+  }
+
+  public function connect($current_id, $id, $type) {
+    $query = $this->db->select('id, status')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+
+    if(!$query->num_rows() > 0 && $type == 'connect'){
+      $data = array(
+        'user_id'       => min($current_id, $id),
+        'connection_id' => max($current_id, $id),
+        'initiator_id'  => $current_id,
+        'status'        => 'sent'
+      );
+      $this->db->insert('user_connection', $data);
+      return true;
+    }elseif($query->num_rows() > 0 && $type == 'connect' && $query->row()->status == 'declined'){
+      $result = $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'sent', 'initiator_id'=> $current_id));
+      return $result;
+    }elseif($query->num_rows() > 0 && $type == 'accept'){
+      $result = $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'connected'));
+      return $result;
+    }elseif($query->num_rows() > 0 && $type == 'decline'){
+      $result = $this->db->where('id', $query->row()->id)->update('user_connection', array('status'=>'declined'));
+      return $result;
+    }elseif($query->num_rows() > 0 && $type == 'remove'){
+      $result = $this->db->where('id', $query->row()->id)->delete('user_connection');
+      return $result;
+    }else{
+      return false;
+    }
+  }
+
+  public function getConnections($current_id, $id){
+    $query = $this->db->select('*')->where('user_id', min($current_id, $id))->where('connection_id', max($current_id, $id))->get('user_connection');
+    if($query->num_rows()){
+      return $query->row();
     }
   }
 }

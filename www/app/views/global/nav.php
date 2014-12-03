@@ -14,6 +14,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <div class="navbar-right">
+        <ul class="nav navbar-nav">
+          <li <?=($bodyClass=='foyer')? 'class="active"': ''?>><a href="/">Foyer</a></li>
+          <li <?=($bodyClass=='users')? 'class="active"': ''?>><a href="/users/">Users</a></li>
+        </ul>
         <p class="navbar-text">
           <span class="glyphicon glyphicon-user"></span> Signed in as <?=ucfirst($_SESSION['username']);?>
         </p>

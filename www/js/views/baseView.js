@@ -4,8 +4,9 @@ define([
   'backbone',
   'module',
   'fv/foyerView',
-  'gv/gameView'
-], function($, _, Backbone, module, FoyerView, GameView ){
+  'gv/gameView',
+  'uv/usersView'
+], function($, _, Backbone, module, FoyerView, GameView, UsersView ){
 
   var BaseView = Backbone.View.extend({
     initialize: function () {
@@ -13,6 +14,8 @@ define([
         new FoyerView();
       }else if(module.config().page === 'game'){
         new GameView();
+      }else if(module.config().page === 'users'){
+        new UsersView();
       }
     }
   });
