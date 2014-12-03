@@ -6,17 +6,34 @@ class Game extends CI_Controller {
     $this->load->model('game_model', 'Game', TRUE);
     $this->load->model('user_model', 'User', TRUE);
     $this->load->driver('session');
+    $this->session_id = $this->session->userdata('id');
+  }
+
+  public function index(){
+    if($this->session_id){
+      header("Location:/");
+    }else{
+      header("Location:/login/");
+    }
   }
 
   public function play($game_Id){
-    $data['title'] = 'Game Board';
-    $data['bodyClass'] = 'game';
-    $data['gameJSON'] = $this->getGameData($game_Id);
-    $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
-    $this->load->view('global/head', $data);
-    $this->load->view('global/nav', $data);
-    $this->load->view('game', $data);
-    $this->load->view('global/footer', $data);
+    if($this->session_id){
+      if(isset($game_Id)){
+        $data['title'] = 'Game Board';
+        $data['bodyClass'] = 'game';
+        $data['gameJSON'] = $this->getGameData($game_Id);
+        $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
+        $this->load->view('global/head', $data);
+        $this->load->view('global/nav', $data);
+        $this->load->view('game', $data);
+        $this->load->view('global/footer', $data);
+      }else{
+        header("Location:/");
+      }
+    }else{
+      header("Location:/login/");
+    }
   }
 
   public function getGameData($game_Id){

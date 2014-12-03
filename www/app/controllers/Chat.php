@@ -5,10 +5,15 @@ class Chat extends CI_Controller {
     parent::__construct();
     $this->load->model('chat_model', 'Chat', TRUE);
     $this->load->driver('session');
+    $this->session_id = $this->session->userdata('id');
   }
 
   public function index(){
-
+    if($this->session_id){
+      header("Location:/");
+    }else{
+      header("Location:/login/");
+    }
   }
 
    //inserts a new chat message to the database
