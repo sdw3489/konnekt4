@@ -22,8 +22,8 @@ class User_model extends CI_Model {
 
   //checks a users login to see if they exist in the database
   public function login(){
-    $encrypted_password = sha1($this->input->post('password'));
-    $username = $this->input->post('name');
+    $encrypted_password = sha1($this->input->post('login_password'));
+    $username = $this->input->post('username');
     $query = $this->db->get_where('user', array('username'=>$username, 'password'=>$encrypted_password));
     $result = $query->result();
     if($query->num_rows() > 0){
@@ -38,8 +38,8 @@ class User_model extends CI_Model {
 
   //Check username is valid
   public function validUser($username){
-    $encrypted_password = sha1($this->input->post('password'));
-    $username = $this->input->post('name');
+    $encrypted_password = sha1($this->input->post('login_password'));
+    $username = $this->input->post('username');
     $query = $this->db->get_where('user', array('username'=>$username, 'password'=>$encrypted_password));
     $result = $query->result();
     if($query->num_rows() > 0){
@@ -64,11 +64,14 @@ class User_model extends CI_Model {
   public function register(){
     $data = array(
       'username' => $this->input->post('username'),
-      'password' => sha1($this->input->post('password')),
+      'email' => $this->input->post('email'),
+      'first_name' => $this->input->post('first_name'),
+      'last_name' => $this->input->post('last_name'),
+      'password' => sha1($this->input->post('password'))
     );
     $this->db->insert('user', $data);
     $insert_id = $this->db->insert_id();
-    $this->db->insert('stat', array('user_id'=>$insert_id));
+    return $this->db->insert('stat', array('user_id'=>$insert_id));
   }//end register
 
   public function update($id){
