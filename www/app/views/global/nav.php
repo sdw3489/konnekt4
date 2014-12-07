@@ -19,7 +19,7 @@
           <li <?=($bodyClass=='users')? 'class="active"': ''?>><a href="/users/"><span class="glyphicon glyphicon-user"></span> Users <span class="badge js-notifications"><?= $notifications; ?></span></a></li>
         </ul>
         <p class="navbar-text">
-          <span class="text-primary"><span class="glyphicon glyphicon-eye-open"></span> <?=ucfirst($_SESSION['username']);?></span>
+          <span class="text-primary"><a href="/user/<?=$id;?>"><span class="glyphicon glyphicon-eye-open"></span> <?=ucfirst($_SESSION['username']);?></a></span>
         </p>
         <ul class="nav navbar-nav">
           <li><a href="/user/logout/"><span class="glyphicon glyphicon-off"></span> Logout</a></li>

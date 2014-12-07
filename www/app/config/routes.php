@@ -88,6 +88,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = 'main';
 $route['signup'] = 'user/signup';
 $route['login'] = 'user/login';
+$route['user/edit/(:num)'] = 'user/edit/$1';
+$route['user/(:num)'] = 'user/profile/$1';
 $route['users'] = 'user';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

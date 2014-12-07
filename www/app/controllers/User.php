@@ -28,6 +28,60 @@ class User extends CI_Controller {
     }
   }
 
+  public function profile($id){
+    if($this->session_id){
+      $data['title'] = 'Profile';
+      $data['bodyClass'] = 'profile';
+      $data['id'] = $this->session_id;
+      $data['notifications'] = $this->User->getNotifications($id);
+      $data['user'] = $this->User->getUser($id);
+      $this->load->view('global/head', $data);
+      $this->load->view('global/nav', $data);
+      $this->load->view('profile/main', $data);
+      $this->load->view('global/footer', $data);
+    }else{
+      header("Location:/login/");
+    }
+  }
+
+  public function edit($id){
+    if($this->session_id){
+      if($this->session_id == $id){
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('form_validation');
+        /*
+        $this->form_validation->set_rules(
+         'username', 'Username', 'trim|required|min_length[3]|max_length[12]|xss_clean',
+            array(
+                    'required'      => 'You have not provided a %s.'
+            ));
+        */
+        $this->form_validation->set_rules('email', 'Email', 'valid_email');
+        $this->form_validation->set_rules('password', 'Password', 'trim|min_length[3]');
+        if($this->input->post('password')){
+          $this->form_validation->set_rules('confirm_password', 'Password Confirmation', 'required|trim|matches[password]');
+        }
+        if ($this->form_validation->run() == TRUE) {
+          $data['query'] = $this->User->update($id);
+        }
+        $data['title'] = 'Edit Profile';
+        $data['bodyClass'] = 'profile';
+        $data['id'] = $this->session_id;
+        $data['notifications'] = $this->User->getNotifications($id);
+        $data['user'] = $this->User->getUser($id);
+        $this->load->view('global/head', $data);
+        $this->load->view('global/nav', $data);
+        $this->load->view('profile/edit', $data);
+        $this->load->view('global/footer', $data);
+
+      }else{
+        header("Location:/");
+      }
+    }else{
+      header("Location:/login/");
+    }
+  }
+
   //checks a user login to see if they exist in the database
   public function login() {
     $this->load->helper(array('form', 'url'));
