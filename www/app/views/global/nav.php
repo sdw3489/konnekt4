@@ -17,12 +17,15 @@
         <ul class="nav navbar-nav">
           <li <?=($bodyClass=='dashboard')? 'class="active"': ''?>><a href="/"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
           <li <?=($bodyClass=='users')? 'class="active"': ''?>><a href="/users/"><span class="glyphicon glyphicon-user"></span> Users <span class="badge js-notifications"><?= $notifications; ?></span></a></li>
-        </ul>
-        <p class="navbar-text">
-          <span class="text-primary"><a href="/user/<?=$id;?>"><span class="glyphicon glyphicon-eye-open"></span> <?=ucfirst($_SESSION['username']);?></a></span>
-        </p>
-        <ul class="nav navbar-nav">
-          <li><a href="/user/logout/"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+          <li <?=($bodyClass=='profile' && $user->id==$id)? 'class="active dropdown"': 'dropdown'?>>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-eye-open"></span> <?=ucfirst($_SESSION['username']);?> <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="/user/<?=$id;?>"><span class="glyphicon glyphicon-user"></span> View Profile</a></li>
+              <li><a href="/user/edit/<?=$id;?>"><span class="glyphicon glyphicon-pencil"></span> Edit Profile</a></li>
+              <li class="divider"></li>
+              <li><a href="/user/logout/"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
 
