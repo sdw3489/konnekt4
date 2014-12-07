@@ -1,5 +1,11 @@
 # Changelog History
 
+### 2.2: 12-6-2014
+  - Added User Profiles
+  - Added User Edit Page
+  - Updated Main Menu
+  - Fixed Challenge Button Target Issue
+
 ### 2.1: 12-3-2014
   - Added User Connect Invite Notifications
   - Add Icons to all Panels
