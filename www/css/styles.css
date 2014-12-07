@@ -137,14 +137,23 @@ input:required:valid {
   stroke: #F7F654;
 }
 
-.player0-turn {
-  color: white;
-  background-color: #396d8b;
+.color-legend {
+  border-radius: 15px;
+  display: block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  top: -5px;
 }
 
-.player1-turn {
-  color: white;
-  background-color: #c94d4d;
+.player0-color {
+  background-color: #4C7A95;
+  border: 4px solid #396D8D;
+}
+
+.player1-color {
+  background-color: #CD5E5E;
+  border: 4px solid #C94D4D;
 }
 
 /*# sourceMappingURL=styles.css.map */
