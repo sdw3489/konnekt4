@@ -91,7 +91,7 @@ class Game_model extends CI_Model {
       $result = []; $i = 0;
       foreach ($games->result() as $game){
         $game_id = $game->id;
-        $query = $this->db->select('u.username, gu.game_id')
+        $query = $this->db->select('u.id, u.username, gu.game_id')
           ->from('game_user gu')
           ->join('user u','gu.user_id=u.id', 'inner')
           ->where('gu.game_id',$game_id)
@@ -99,6 +99,7 @@ class Game_model extends CI_Model {
           ->get();
         if($query->num_rows() > 0){
           foreach($query->result() as $challenge){
+            $result[$i]['user_id'] = ucfirst($challenge->id);
             $result[$i]['username'] = ucfirst($challenge->username);
             $result[$i]['game_id'] = $challenge->game_id;
             $i++;
