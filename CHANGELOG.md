@@ -1,5 +1,9 @@
 # Changelog History
 
+### 2.3: 12-6-2014
+  - Updated Signup Form
+  - Fixed Notifications error on login
+
 ### 2.2: 12-6-2014
   - Added User Profiles
   - Added User Edit Page
