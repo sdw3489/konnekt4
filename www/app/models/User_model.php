@@ -11,6 +11,15 @@ class User_model extends CI_Model {
     parent::__construct();
   }
 
+
+  public function getUser($id){
+    $query = $this->db->select('*')->where('id', $id)->get('user');
+    $result = $query->row();
+    if($query->num_rows() > 0){
+      return $result;
+    }
+  }
+
   //checks a users login to see if they exist in the database
   public function login(){
     $encrypted_password = sha1($this->input->post('password'));
@@ -61,6 +70,21 @@ class User_model extends CI_Model {
     $insert_id = $this->db->insert_id();
     $this->db->insert('stat', array('user_id'=>$insert_id));
   }//end register
+
+  public function update($id){
+     $data = array(
+      // 'username' => $this->input->post('username'),
+      'first_name' => $this->input->post('first_name'),
+      'last_name' => $this->input->post('last_name'),
+      'email' => $this->input->post('email'),
+      // 'is_private' => $this->input->post('is_private')
+    );
+    if($this->input->post('password')){
+      $data['password'] = sha1($this->input->post('password'));
+    }
+    $this->db->where('id', $id);
+    return $this->db->update('user', $data);
+  }
 
   public function getUserConnections($id){
     $query = $this->db->select('*')
@@ -177,7 +201,7 @@ class User_model extends CI_Model {
   }
 
   public function getNotifications($id){
-     $query = $this->db->select('*')
+    $query = $this->db->select('*')
     ->from('user_connection')
     ->group_start()
       ->where('status', 'sent')

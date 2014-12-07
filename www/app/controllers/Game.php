@@ -25,6 +25,7 @@ class Game extends CI_Controller {
         $data['bodyClass'] = 'game';
         $data['gameJSON'] = $this->getGameData($game_Id);
         $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
+        $data['id'] = $this->session_id;
         $this->load->view('global/head', $data);
         $this->load->view('global/nav', $data);
         $this->load->view('game', $data);

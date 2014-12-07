@@ -1,6 +1,6 @@
 <% if(id) { %>
   <li class="list-group-item">
-    <span class="glyphicon glyphicon-user"></span><span class="username"><%= username %></span>
+    <span class="glyphicon glyphicon-user"></span><a href="/user/<%= id %>"><span class="username"><%= username %></span></a>
     <button data-id="<%= id %>" class="js-challenge btn btn-primary btn-sm pull-right" data-loading-text="Please Wait..." autocomplete="off"><span class="glyphicon glyphicon-tower"></span> Challenge</button>
     <% if(logged_in == 1) { %>
     <span class="pull-right text-primary glyphicon glyphicon-eye-open user-logged-in"></span>
@@ -11,6 +11,6 @@
 <% } else { %>
   <li class="list-group-item text-center">
     <p>You have no connections.</p>
-    <a href="/users/" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Connect Here</a>
+    <a href="/users/" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Connect</a>
   </li>
 <% } %>

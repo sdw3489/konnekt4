@@ -54,7 +54,7 @@ define([
     },
     challengeUser : function(event){
       event.preventDefault();
-      this.$btn = $(event.target),
+      this.$btn = $(event.currentTarget),
         id = this.$btn.data('id');
 
       this.$btn.button('loading');

@@ -16,6 +16,7 @@ class Main extends CI_Controller {
 			$this->load->model('user_model', 'User', TRUE);
 			$data['title'] = 'Dashboard';
 			$data['bodyClass'] = 'dashboard';
+			$data['id'] = $this->session_id;
 			$data['stats'] = $this->User->getStats($this->session_id);
 			$data['notifications'] = $this->User->getNotifications($_SESSION['id']);
 			$this->load->view('global/head', $data);
