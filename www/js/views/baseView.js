@@ -11,13 +11,16 @@ define([
 
   var BaseView = Backbone.View.extend({
     initialize: function () {
-      new NotificationView();
-      if(module.config().page === 'dashboard'){
+      var page = module.config().page;
+      if(page === 'dashboard'){
         new DashboardView();
-      }else if(module.config().page === 'game'){
+      }else if(page === 'game'){
         new GameView();
-      }else if(module.config().page === 'users'){
+      }else if(page === 'users'){
         new UsersView();
+      }
+      if(page != 'login' && page != 'signup'){
+        new NotificationView();
       }
     }
   });

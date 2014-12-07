@@ -52,19 +52,20 @@ img {
   box-sizing: border-box;
   padding: 10px;
   font-size: 16px;
+  border-radius: 0;
+  margin-bottom: -1px;
 }
 .form-signin .form-control:focus {
   z-index: 2;
 }
-.form-signin .signin-name {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+.form-signin .form-control-first {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
-.form-signin .signin-password {
+.form-signin .form-control-last {
   margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 input:focus:required:invalid {

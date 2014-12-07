@@ -86,12 +86,12 @@ class User extends CI_Controller {
   public function login() {
     $this->load->helper(array('form', 'url'));
     $this->load->library('form_validation');
-    $this->form_validation->set_rules('name', 'Username', array(
+    $this->form_validation->set_rules('username', 'Username', array(
       'trim',
       'required',
       'xss_clean'
     ));
-    $this->form_validation->set_rules('password', 'Password', array(
+    $this->form_validation->set_rules('login_password', 'Password', array(
       'trim',
       'required',
       array('user_callable', array($this->User, 'validUser'))
@@ -144,7 +144,14 @@ class User extends CI_Controller {
                 'required'      => 'You have not provided a %s.',
                 'is_unique'     => 'This %s already exists.'
         ));
-    $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]');
+    $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean');
+    $this->form_validation->set_rules('first_name', 'First Name', 'trim|xss_clean');
+    $this->form_validation->set_rules('last_name', 'Last Name', 'trim|xss_clean');
+    $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]|xss_clean');
+    $this->form_validation->set_rules('confirm_password', 'Password Confirmation', 'required|trim|matches[password]|xss_clean',
+      array(
+        'matches'=>'Passwords do not match.'
+        ));
 
     if ($this->form_validation->run() == FALSE) {
       $data['title'] = 'Signup';
@@ -153,8 +160,12 @@ class User extends CI_Controller {
       $this->load->view('signup', $data);
       $this->load->view('global/footer', $data);
     } else{
-      $this->User->register();
-      header("Location:/");
+      $data['query'] = $this->User->register();
+      $data['title'] = 'Login';
+      $data['bodyClass'] = 'login';
+      $this->load->view('global/head', $data);
+      $this->load->view('login', $data);
+      $this->load->view('global/footer', $data);
     }
   }//end register
 
