@@ -19,56 +19,31 @@
 .alerts-panel .alert{
   display: none;
 }
-
-.background0 {
-  fill: #966;
-  stroke: black;
-  stroke-width: 2px;
-}
-.background1 {
-  fill: #696;
-  stroke: black;
-  stroke-width: 2px;
+#game-board{
+  stroke:#396d8b;
 }
 .player0   {
-  fill: #DD0000;
-  stroke: #DD0000;
+  fill: #396d8b;
+  stroke: #396d8b;
   stroke-width: 1px;
 }
 .player1 {
-  fill: black;
-  stroke: black;
+  fill: #c94d4d;
+  stroke: #c94d4d;
   stroke-width: 1px;
 }
-.htmlBlock {
-  position:absolute;
-  top:200px;
-  left:300px;
-  width:200px;
-  height:100px;
-  background:#ffc;
-  padding:10px;
-  display:none;
-}
-.cell_white{
-  fill:yellow;
+.cell{
+  fill:#F7F654;
   stroke-width:2px;
-  stroke:yellow;
+  stroke:#F7F654;
 }
-.cell_black{
-  fill:yellow;
-  stroke-width:2px;
-  stroke:yellow;
+
+.player0-turn{
+  color:white;
+  background-color: #396d8b;
 }
-.cell_alert{
-  fill:yellow;
-  stroke-width:2px;
-  stroke:yellow;
-}
-.name_black{
-  fill:black;
-  font-size:18px}
-.name_orange{
-  fill:orange;
-  font-size:24px;
+
+.player1-turn{
+  color:white;
+  background-color: #c94d4d;
 }

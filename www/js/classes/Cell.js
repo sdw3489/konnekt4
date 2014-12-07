@@ -58,7 +58,7 @@ define([
       rect.setAttributeNS(null,'height',this.size+'px');
       rect.setAttributeNS(null,'x',this.x+'px');
       rect.setAttributeNS(null,'y',this.y+'px');
-      rect.setAttributeNS(null,'class','cell_'+this.color);         // change the color according to player
+      rect.setAttributeNS(null,'class','cell');         // change the color according to player
       this.piece.appendChild(rect);                       // add the svg 'checker' to svg group
       //create more circles to prove I'm moving the group (and to make it purty)
       var circ = document.createElementNS(svgns,'circle');
@@ -101,12 +101,6 @@ define([
     //set me to unoccupied...
     notOccupied: function(){
       this.occupied = null;
-      //for testing purposes only!
-      this.changeFill(this.color);
-    },
-    //to 'see' if the current cell is being 'filled' correctly with the new piece!
-    changeFill: function(toWhat){
-      document.getElementById(this.id).setAttributeNS(null,'class','cell_'+toWhat);
     }
   }
 

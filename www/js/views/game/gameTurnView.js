@@ -10,8 +10,6 @@ define([
     tagName:'li',
     className: 'list-group-item',
     template:_.template(TurnTemplate),
-    yourClass : 'list-group-item-success',
-    oppClass : 'list-group-item-danger',
     yourText : 'Your Turn',
     oppText : 'Opponents Turn',
 
@@ -21,12 +19,12 @@ define([
     render: function () {
       if(this.model.get('playerId') === this.model.get('turn')){
         this.$el.html(this.template({ turn: this.yourText }))
-                .addClass(this.yourClass)
-                .removeClass(this.oppClass);
+                .addClass('player'+this.model.get('playerId')+'-turn')
+                .removeClass('player'+Math.abs(this.model.get('playerId')-1)+'-turn');
       }else{
         this.$el.html(this.template({ turn: this.oppText }))
-                .addClass(this.oppClass)
-                .removeClass(this.yourClass);
+                .addClass('player'+Math.abs(this.model.get('playerId')-1)+'-turn')
+                .removeClass('player'+this.model.get('playerId')+'-turn');
       }
       return this;
     }
