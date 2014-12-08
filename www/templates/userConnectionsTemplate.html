@@ -1,12 +1,12 @@
 <% if(id) { %>
   <li class="list-group-item">
-    <span class="glyphicon glyphicon-user"></span><a href="/user/<%= id %>"><span class="username"><%= username %></span></a>
-    <button data-id="<%= id %>" class="js-challenge btn btn-primary btn-sm pull-right" data-loading-text="Please Wait..." autocomplete="off"><span class="glyphicon glyphicon-tower"></span> Challenge</button>
     <% if(logged_in == 1) { %>
-    <span class="pull-right text-primary glyphicon glyphicon-eye-open user-logged-in"></span>
+    <span class=" text-primary glyphicon glyphicon-eye-open"></span>
     <% } else { %>
-    <span class="pull-right text-muted glyphicon glyphicon-eye-close user-logged-in"></span>
+    <span class=" text-muted glyphicon glyphicon-eye-close"></span>
     <% } %>
+    <a href="/user/<%= id %>"><span class="username"><%= username %></span></a>
+    <button data-id="<%= id %>" class="js-challenge btn btn-primary btn-sm pull-right" data-loading-text="Please Wait..." autocomplete="off">Challenge</button>
   </li>
 <% } else { %>
   <li class="list-group-item text-center">
