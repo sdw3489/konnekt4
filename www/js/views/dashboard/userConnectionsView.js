@@ -19,6 +19,9 @@ define([
 
     initialize: function () {
       this.getUserConnections();
+      $('body').tooltip({
+        selector: '[data-toggle="tooltip"]'
+      });
       EventsChannel.on('updateChallenges', this.onUpadteChallenges, this);
     },
     render: function (data) {

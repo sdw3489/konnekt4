@@ -1,9 +1,9 @@
 <% if(id) { %>
   <li class="list-group-item">
     <% if(logged_in == 1) { %>
-    <span class=" text-primary glyphicon glyphicon-eye-open"></span>
+    <span class="text-primary glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" title="Online"></span>
     <% } else { %>
-    <span class=" text-muted glyphicon glyphicon-eye-close"></span>
+    <span class="text-muted glyphicon glyphicon-eye-close" data-toggle="tooltip" data-placement="top" title="Offline"></span>
     <% } %>
     <a href="/user/<%= id %>"><span class="username"><%= username %></span></a>
     <button data-id="<%= id %>" class="js-challenge btn btn-primary btn-sm pull-right" data-loading-text="Please Wait..." autocomplete="off">Challenge</button>
