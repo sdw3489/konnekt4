@@ -1,6 +1,6 @@
 <% if(username){ %>
   <li class="list-group-item clearfix">You challenged <a href="/user/<%= user_id %>"><%= username %></a>!
-    <a href="/game/play/<%= game_id %>" class="btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game <%= game_id %></a>
+    <a href="/game/play/<%= game_id %>" class="play-game btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game <%= game_id %></a>
   </li>
 <%}else{%>
    <li class="list-group-item text-center">You haven't challenged anyone.

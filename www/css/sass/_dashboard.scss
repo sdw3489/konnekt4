@@ -17,3 +17,18 @@
 .js-user-connections .user-logged-in{
   padding:6px 15px;
 }
+
+.challengers-view, .challenges-view{
+  text-align:center;
+  .play-game{
+    width:100%;
+    margin-top: 10px;
+  }
+  @media screen and (min-width:480px){
+    text-align:left;
+    .play-game{
+      width: auto;
+      margin-top: 0;
+    }
+  }
+}

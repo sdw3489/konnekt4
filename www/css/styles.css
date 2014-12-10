@@ -94,6 +94,23 @@ input:required:valid {
   padding: 6px 15px;
 }
 
+.challengers-view, .challenges-view {
+  text-align: center;
+}
+.challengers-view .play-game, .challenges-view .play-game {
+  width: 100%;
+  margin-top: 10px;
+}
+@media screen and (min-width: 480px) {
+  .challengers-view, .challenges-view {
+    text-align: left;
+  }
+  .challengers-view .play-game, .challenges-view .play-game {
+    width: auto;
+    margin-top: 0;
+  }
+}
+
 /* Game Board Styles */
 .svg-container {
   display: inline-block;
