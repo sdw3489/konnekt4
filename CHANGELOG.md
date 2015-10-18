@@ -1,5 +1,10 @@
 # Changelog History
 
+### 2.4: 12-9-2014
+  - New Theme
+  - Piece Legend
+  - Mobile Layout Fixes
+
 ### 2.3: 12-6-2014
   - Updated Signup Form
   - Fixed Notifications error on login
