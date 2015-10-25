@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS user (
     password varchar(64)    NOT NULL ,
     first_name varchar(64)    NOT NULL ,
     last_name varchar(64)    NOT NULL ,
-    logged_in int    NOT NULL ,
+    logged_in int    NOT NULL  DEFAULT 0,
     is_private int    NOT NULL DEFAULT 0 ,
     CONSTRAINT user_pk PRIMARY KEY (id)
 );
