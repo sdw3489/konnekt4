@@ -126,6 +126,7 @@ switch (ENVIRONMENT)
 {
 	case 'development':
 		 $db['default']['username'] = 'root';
+		 $db['default']['password'] = 'root';
 		 $db['default']['database'] = 'sethwhi1_konnekt4';
   break;
 

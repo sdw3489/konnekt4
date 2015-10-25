@@ -1,7 +1,7 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L]
+RewriteRule ^(.*)$ /index.php/$1 [L]
 
 SetEnvIf Host konnekt4.seth-whitaker.com$ CI_ENV=production
 SetEnvIf Host konnekt4.devs$ CI_ENV=development
