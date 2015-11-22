@@ -86,6 +86,7 @@ class User_model extends MY_Model {
   );
 
   public function __construct() {
+    $this->has_many['chat'] = array('foreign_model'=>'Chat_model','foreign_table'=>'chat','foreign_key'=>'user_id','local_key'=>'id');
     // $this->has_many_pivot['games'] = array(
     //   'foreign_model'=>'Games_model',
     //   'pivot_table'=>'game_user',

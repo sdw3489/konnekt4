@@ -30,7 +30,7 @@ define([
     getChat: function(){
       $.ajax({
         type: "GET",
-        url: '/chat/getChat/',
+        url: '/chat/get_chat/',
         success: $.proxy(this.onGetChat, this)
       });
       clearTimeout(this.timer);
@@ -59,7 +59,7 @@ define([
       }
       $.ajax({
         type: "POST",
-        url: '/chat/sendChat/',
+        url: '/chat/create_chat/',
         data: { message :val },
         success: _.bind(this.onGetChat, this)
       });
