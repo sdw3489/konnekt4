@@ -1,13 +1,21 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Game_model extends CI_Model {
+class Game_model extends MY_Model {
 
-  private $table;
+  public $table = 'game'; // you MUST mention the table name
+  public $primary_key = 'id'; // you MUST mention the primary key
 
   public function __construct() {
+    $this->has_many_pivot['user'] = array(
+      'foreign_model'=>'User_model',
+      'pivot_table'=>'game_user',
+      'local_key'=>'id',
+      'pivot_local_key'=>'game_id',
+      'pivot_foreign_key'=>'user_id',
+      'foreign_key'=>'id',
+      'get_relate'=>TRUE
+    );
     parent::__construct();
-
-    $this->table = 'game';
   }
 
   public function newGame($user_id, $challenged_id){
@@ -15,24 +23,22 @@ class Game_model extends CI_Model {
     $this->db->insert($this->table, array(
       'whose_turn' => 0,
       'active'=>1,
-      'last_updated' => $time
+      'initiator_id'=>$user_id
     ));
     $insert_id = $this->db->insert_id();
     $this->db->insert('game_user', array(
       'game_id'=> $insert_id,
-      'user_id'=> $user_id,
-      'challenge_type_id'=>1
+      'user_id'=> $user_id
     ));
     $this->db->insert('game_user', array(
       'game_id'=> $insert_id,
-      'user_id'=> $challenged_id,
-      'challenge_type_id'=>2
+      'user_id'=> $challenged_id
     ));
   }
 
   public function getGameData($id){
     $result = [];
-    $game_query = $this->db->select('id AS game_id, whose_turn, board, last_move, last_updated, active')
+    $game_query = $this->db->select('id AS game_id, whose_turn, board, last_move, active')
      ->from('game')
      ->where('id', $id)
      ->get();
@@ -41,7 +47,7 @@ class Game_model extends CI_Model {
     if($game_query->num_rows() > 0){
       $game_query->free_result();
 
-      $players_query = $this->db->select('u.id AS user_id, challenge_type_id, u.username')
+      $players_query = $this->db->select('u.id AS user_id, u.username')
        ->from('game_user gu')
        ->where('gu.game_id', $id)
        ->join('user u', 'u.id = gu.user_id', 'inner')
@@ -79,11 +85,11 @@ class Game_model extends CI_Model {
     }
   }
 
-  public function getChallenges($user_id, $challenge_type_id){
+  public function getChallenges($user_id, $initiator_id){
     $games = $this->db->select('g.id')->from('game g')
       ->join('game_user gu','gu.game_id=g.id', 'inner')
       ->where('gu.user_id', $user_id)
-      ->where('gu.challenge_type_id', $challenge_type_id)
+      ->where('g.initiator_id', $initiator_id)
       ->where('g.active', 1)
       ->get();
 
