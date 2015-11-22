@@ -37,7 +37,7 @@ class User extends CI_Controller {
       $data['bodyClass'] = 'profile';
       $data['id'] = $this->session_id;
       $data['notifications'] = $this->User->getNotifications($id);
-      $data['user'] = $this->User->getUser($id);
+      $data['user'] = $this->User->get($id);
       $this->load->view('global/head', $data);
       $this->load->view('global/nav', $data);
       $this->load->view('profile/main', $data);
@@ -71,7 +71,7 @@ class User extends CI_Controller {
         $data['bodyClass'] = 'profile';
         $data['id'] = $this->session_id;
         $data['notifications'] = $this->User->getNotifications($id);
-        $data['user'] = $this->User->getUser($id);
+        $data['user'] = $this->User->get($id);
         $this->load->view('global/head', $data);
         $this->load->view('global/nav', $data);
         $this->load->view('profile/edit', $data);

@@ -101,14 +101,6 @@ class User_model extends MY_Model {
     parent::__construct();
   }
 
-  public function getUser($id){
-    $query = $this->db->select('*')->where('id', $id)->get('user');
-    $result = $query->row();
-    if($query->num_rows() > 0){
-      return $result;
-    }
-  }
-
   //checks a users login to see if they exist in the database
   public function login(){
     $encrypted_password = sha1($this->input->post('login_password'));
