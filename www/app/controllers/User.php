@@ -6,8 +6,11 @@ class User extends CI_Controller {
 
   public function __construct(){
     parent::__construct();
-    $this->load->model('user_model', 'User', TRUE);
+    $this->load->model('User_model', 'User', TRUE);
+    $this->load->model('Stat_model', 'Stat', TRUE);
     $this->load->driver('session');
+    $this->load->helper(array('form', 'url'));
+    $this->load->library('form_validation');
     $this->session_id = $this->session->userdata('id');
   }
 
@@ -24,7 +27,7 @@ class User extends CI_Controller {
       $this->load->view('users', $data);
       $this->load->view('global/footer', $data);
     }else{
-      header("Location:/login/");
+      redirect('/login/');
     }
   }
 
@@ -40,7 +43,7 @@ class User extends CI_Controller {
       $this->load->view('profile/main', $data);
       $this->load->view('global/footer', $data);
     }else{
-      header("Location:/login/");
+      redirect('/login/');
     }
   }
 
@@ -75,50 +78,55 @@ class User extends CI_Controller {
         $this->load->view('global/footer', $data);
 
       }else{
-        header("Location:/");
+        redirect('/');
       }
     }else{
-      header("Location:/login/");
+      redirect('/login/');
     }
   }
 
   //checks a user login to see if they exist in the database
   public function login() {
-    $this->load->helper(array('form', 'url'));
-    $this->load->library('form_validation');
-    $this->form_validation->set_rules('username', 'Username', array(
-      'trim',
-      'required',
-      'xss_clean'
-    ));
-    $this->form_validation->set_rules('login_password', 'Password', array(
-      'trim',
-      'required',
-      array('user_callable', array($this->User, 'validUser'))
-    ));
 
-    $this->form_validation->set_message('user_callable', 'Username or Password is not correct.');
+    if(!$this->session_id){
+      $config = array(
+          array(
+              'field' => 'username',
+              'label' => 'Username',
+              'rules' => 'trim|required|xss_clean'
+          ),
+          array(
+              'field'=>'login_password',
+              'label'=>'Password',
+              'rules'=>array('trim','required',array('user_callable', array($this->User, 'validUser')))
+          )
+      );
+      $this->form_validation->set_rules($config);
+      $this->form_validation->set_message('user_callable', 'Username or Password is not correct.');
 
-    if ($this->form_validation->run() == FALSE) {
-      $data['title'] = 'Login';
-      $data['bodyClass'] = 'login';
-      $this->load->view('global/head', $data);
-      $this->load->view('login', $data);
-      $this->load->view('global/footer', $data);
+      if ($this->form_validation->run() == FALSE) {
+        $data['title'] = 'Login';
+        $data['bodyClass'] = 'login';
+        $this->load->view('global/head', $data);
+        $this->load->view('login', $data);
+        $this->load->view('global/footer', $data);
 
-    } else{
-      $data['query'] = $this->User->login();
-      if(count($data['query']) > 0 ){
-        $theuser = $data['query'][0];
-        $this->session->set_userdata(array(
-          'username'=>$theuser->username,
-          'id'=>$theuser->id,
-          'time'=> time()
-        ));
-        header("Location:/");
-      }else{
-        return false;
+      } else{
+        $data['query'] = $this->User->login();
+        if(count($data['query']) > 0 ){
+          $theuser = $data['query'][0];
+          $this->session->set_userdata(array(
+            'username'=>$theuser->username,
+            'id'=>$theuser->id,
+            'time'=> time()
+          ));
+          redirect('/');
+        }else{
+          return false;
+        }
       }
+    }else{
+      redirect('/');
     }
   }
 
@@ -128,46 +136,34 @@ class User extends CI_Controller {
     $logged_out = $this->User->logout($id);
     if($logged_out){
       $this->session->sess_destroy();
-      header("Location:/");
+      redirect('/');
     }else{
-      header("Location:/");
+      redirect('/');
     }
   }
 
-  //Sign up page
+     //Sign up page
   public function signup(){
-    $this->load->helper(array('form', 'url'));
-    $this->load->library('form_validation');
-    $this->form_validation->set_rules(
-     'username', 'Username', 'trim|required|min_length[3]|max_length[12]|is_unique[user.username]|xss_clean',
-        array(
-                'required'      => 'You have not provided a %s.',
-                'is_unique'     => 'This %s already exists.'
-        ));
-    $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|xss_clean');
-    $this->form_validation->set_rules('first_name', 'First Name', 'trim|xss_clean');
-    $this->form_validation->set_rules('last_name', 'Last Name', 'trim|xss_clean');
-    $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[3]|xss_clean');
-    $this->form_validation->set_rules('confirm_password', 'Password Confirmation', 'required|trim|matches[password]|xss_clean',
-      array(
-        'matches'=>'Passwords do not match.'
-        ));
 
-    if ($this->form_validation->run() == FALSE) {
+    $id = $this->User->from_form()->insert();
+    if($id === FALSE)
+    {
       $data['title'] = 'Signup';
       $data['bodyClass'] = 'signup';
       $this->load->view('global/head', $data);
       $this->load->view('signup', $data);
       $this->load->view('global/footer', $data);
-    } else{
-      $data['query'] = $this->User->register();
+    }
+    else
+    {
+      $stat_insert = $this->Stat->insert(array('user_id'=>$id));
       $data['title'] = 'Login';
       $data['bodyClass'] = 'login';
       $this->load->view('global/head', $data);
       $this->load->view('login', $data);
       $this->load->view('global/footer', $data);
     }
-  }//end register
+  }//end signup
 
   //Get list of logged in Users
   public function getUserConnections(){

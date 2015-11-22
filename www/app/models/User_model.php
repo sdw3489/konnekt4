@@ -1,16 +1,104 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class User_model extends CI_Model {
+class User_model extends MY_Model {
 
-  public $name;
-  public $email;
-  public $password;
-  public $logged_in;
+  public $table = 'user'; // you MUST mention the table name
+  public $primary_key = 'id'; // you MUST mention the primary key
+  public $protected = array('id');
+  public $before_create = array( 'hash_password' );
+  public $before_update = array( 'hash_password' );
+  public $rules = array(
+    'insert' => array(
+        'username' => array(
+            'field' => 'username',
+            'label' => 'Username',
+            'rules' => 'trim|required|min_length[3]|max_length[12]|is_unique[user.username]|xss_clean',
+            'errors' => array(
+                'required'  => 'You have not provided a %s.',
+                'is_unique' => 'This %s already exists.'
+            )
+        ),
+        'email' => array(
+            'field' => 'email',
+            'label' => 'Email',
+            'rules' => 'trim|required|valid_email|xss_clean'
+        ),
+        'first_name' => array(
+            'field' => 'first_name',
+            'label' => 'First Name',
+            'rules' => 'trim|xss_clean'
+        ),
+        'last_name' => array(
+            'field' => 'last_name',
+            'label' => 'Last Name',
+            'rules' => 'trim|xss_clean'
+        ),
+        'password' => array(
+            'field' => 'password',
+            'label' => 'Password',
+            'rules' => 'trim|required|min_length[3]|xss_clean'
+        ),
+        'confirm_password' => array(
+            'field' => 'confirm_password',
+            'label' => 'Password Confirmation',
+            'rules' => 'trim|required|matches[password]|xss_clean',
+            'errors' => array(
+                'matches' => 'Passwords do not match.'
+            )
+        )
+    ),
+    'update' => array(
+        'username' => array(
+            'field' => 'username',
+            'label' => 'Username',
+            'rules' => 'trim|required|min_length[3]|max_length[12]|is_unique[user.username]|xss_clean',
+            'errors' => array(
+                'required'  => 'You have not provided a %s.',
+                'is_unique' => 'This %s already exists.'
+            )
+        ),
+        'email' => array(
+            'field'=>'email',
+            'label'=>'Email',
+            'rules'=>'trim|required|valid_email|xss_clean'
+        ),
+        'first_name' => array(
+            'field' => 'first_name',
+            'label' => 'First Name',
+            'rules' => 'trim|xss_clean'
+        ),
+        'last_name' => array(
+            'field' => 'last_name',
+            'label' => 'Last Name',
+            'rules' => 'trim|xss_clean'
+        ),
+        'password' => array(
+            'field' => 'password',
+            'label' => 'Password',
+            'rules' => 'trim|required|min_length[3]|xss_clean'
+        ),
+        'id' => array(
+            'field'=>'id',
+            'label'=>'ID',
+            'rules'=>'trim|is_natural_no_zero|required'
+        ),
+    )
+  );
 
   public function __construct() {
+    // $this->has_many_pivot['games'] = array(
+    //   'foreign_model'=>'Games_model',
+    //   'pivot_table'=>'game_user',
+    //   'local_key'=>'id',
+    //   'pivot_local_key'=>'user_id',
+    //   'pivot_foreign_key'=>'game_id',
+    //   'foreign_key'=>'id',
+    //   'get_relate'=>TRUE
+    // );
+    // $this->has_one['stat'] = array('foreign_model'=>'Stat_model','foreign_table'=>'stat','foreign_key'=>'user_id','local_key'=>'id');
+
     parent::__construct();
   }
-
 
   public function getUser($id){
     $query = $this->db->select('*')->where('id', $id)->get('user');
@@ -60,21 +148,7 @@ class User_model extends CI_Model {
     }
   }
 
-   //register a new user into the database
-  public function register(){
-    $data = array(
-      'username' => $this->input->post('username'),
-      'email' => $this->input->post('email'),
-      'first_name' => $this->input->post('first_name'),
-      'last_name' => $this->input->post('last_name'),
-      'password' => sha1($this->input->post('password'))
-    );
-    $this->db->insert('user', $data);
-    $insert_id = $this->db->insert_id();
-    return $this->db->insert('stat', array('user_id'=>$insert_id));
-  }//end register
-
-  public function update($id){
+  /*public function update($id){
      $data = array(
       // 'username' => $this->input->post('username'),
       'first_name' => $this->input->post('first_name'),
@@ -87,7 +161,7 @@ class User_model extends CI_Model {
     }
     $this->db->where('id', $id);
     return $this->db->update('user', $data);
-  }
+  }*/
 
   public function getUserConnections($id){
     $query = $this->db->select('*')
@@ -219,6 +293,12 @@ class User_model extends CI_Model {
     if($query->num_rows() > 0){
       return $query->num_rows();
     }
+  }
+
+    //has password
+  protected function hash_password($data){
+      $data['password'] = sha1($data['password']);
+      return $data;
   }
 }
 ?>
