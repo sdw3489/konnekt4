@@ -171,11 +171,6 @@ class User extends CI_Controller {
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 
-  public function getUserInfo($id){
-    $data = $this->User->getUserInfo($id);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
-
   public function connect($id){
     $type = $this->input->post('type');
     $data = $this->User->connect($_SESSION['id'], $id, $type);
