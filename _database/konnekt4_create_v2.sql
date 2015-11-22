@@ -6,7 +6,7 @@
 
 -- tables
 -- Table chat
-CREATE TABLE chat (
+CREATE TABLE IF NOT EXISTS chat (
     id int  NOT NULL  AUTO_INCREMENT,
     user_id int  NOT NULL,
     message varchar(256)  NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE chat (
 );
 
 -- Table game
-CREATE TABLE game (
+CREATE TABLE IF NOT EXISTS game (
     id int  NOT NULL  AUTO_INCREMENT,
     whose_turn int  NOT NULL,
     board varchar(2048)  NULL,
@@ -32,7 +32,7 @@ CREATE TABLE game (
 );
 
 -- Table game_user
-CREATE TABLE game_user (
+CREATE TABLE IF NOT EXISTS game_user (
     id int  NOT NULL  AUTO_INCREMENT,
     game_id int  NOT NULL,
     user_id int  NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE game_user (
 );
 
 -- Table stat
-CREATE TABLE stat (
+CREATE TABLE IF NOT EXISTS stat (
     id int  NOT NULL  AUTO_INCREMENT,
     user_id int  NOT NULL,
     wins int  NOT NULL  DEFAULT 0,
@@ -54,7 +54,7 @@ CREATE TABLE stat (
 );
 
 -- Table user
-CREATE TABLE user (
+CREATE TABLE IF NOT EXISTS user (
     id int  NOT NULL  AUTO_INCREMENT,
     username varchar(64)  NOT NULL,
     email varchar(64)  NULL,
@@ -69,7 +69,7 @@ CREATE TABLE user (
 );
 
 -- Table user_connection
-CREATE TABLE user_connection (
+CREATE TABLE IF NOT EXISTS user_connection (
     id int  NOT NULL  AUTO_INCREMENT,
     user_id int  NOT NULL,
     connection_id int  NOT NULL,
@@ -80,6 +80,13 @@ CREATE TABLE user_connection (
     CONSTRAINT user_connection_pk PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS ci_sessions (
+    id varchar(40) NOT NULL,
+    ip_address varchar(45) NOT NULL,
+    timestamp int(10) unsigned DEFAULT 0 NOT NULL,
+    data blob NOT NULL,
+    KEY ci_sessions_timestamp (timestamp)
+);
 
 
 
@@ -147,6 +154,9 @@ ALTER TABLE user_connection ADD CONSTRAINT user_connection_user FOREIGN KEY user
     REFERENCES user (id)
     ON DELETE RESTRICT
     ON UPDATE CASCADE;
+
+
+ALTER TABLE ci_sessions ADD PRIMARY KEY (id);
 
 
 
