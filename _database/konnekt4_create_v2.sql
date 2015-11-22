@@ -80,13 +80,6 @@ CREATE TABLE IF NOT EXISTS user_connection (
     CONSTRAINT user_connection_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS ci_sessions (
-    id varchar(40) NOT NULL,
-    ip_address varchar(45) NOT NULL,
-    timestamp int(10) unsigned DEFAULT 0 NOT NULL,
-    data blob NOT NULL,
-    KEY ci_sessions_timestamp (timestamp)
-);
 
 
 
@@ -96,16 +89,12 @@ CREATE TABLE IF NOT EXISTS ci_sessions (
 
 
 ALTER TABLE chat ADD CONSTRAINT chat_user FOREIGN KEY chat_user (user_id)
-    REFERENCES user (id)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE;
+    REFERENCES user (id);
 -- Reference:  game_user_game (table: game_user)
 
 
 ALTER TABLE game_user ADD CONSTRAINT game_user_game FOREIGN KEY game_user_game (game_id)
-    REFERENCES game (id)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE;
+    REFERENCES game (id);
 -- Reference:  game_user_initiator (table: game)
 
 
@@ -120,9 +109,7 @@ ALTER TABLE game ADD CONSTRAINT game_user_loser FOREIGN KEY game_user_loser (los
 
 
 ALTER TABLE game_user ADD CONSTRAINT game_user_user FOREIGN KEY game_user_user (user_id)
-    REFERENCES user (id)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE;
+    REFERENCES user (id);
 -- Reference:  game_user_winner (table: game)
 
 
@@ -132,16 +119,12 @@ ALTER TABLE game ADD CONSTRAINT game_user_winner FOREIGN KEY game_user_winner (w
 
 
 ALTER TABLE stat ADD CONSTRAINT stat_user FOREIGN KEY stat_user (user_id)
-    REFERENCES user (id)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE;
+    REFERENCES user (id);
 -- Reference:  user_connection_connection (table: user_connection)
 
 
 ALTER TABLE user_connection ADD CONSTRAINT user_connection_connection FOREIGN KEY user_connection_connection (connection_id)
-    REFERENCES user (id)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE;
+    REFERENCES user (id);
 -- Reference:  user_connection_initiator (table: user_connection)
 
 
@@ -151,12 +134,7 @@ ALTER TABLE user_connection ADD CONSTRAINT user_connection_initiator FOREIGN KEY
 
 
 ALTER TABLE user_connection ADD CONSTRAINT user_connection_user FOREIGN KEY user_connection_user (user_id)
-    REFERENCES user (id)
-    ON DELETE RESTRICT
-    ON UPDATE CASCADE;
-
-
-ALTER TABLE ci_sessions ADD PRIMARY KEY (id);
+    REFERENCES user (id);
 
 
 
