@@ -209,14 +209,6 @@ class User_model extends MY_Model {
     }
   }
 
-  public function getStats($id){
-    $query = $this->db->select('wins, losses, ties')->where('user_id', $id)->get('stat');
-    $result= $query->row();
-    if($query->num_rows() > 0){
-      return $result;
-    }
-  }
-
   public function users(){
     $result=[];
     $users = $this->db->select('u.id, u.username, u.email, u.first_name, u.last_name, u.logged_in, s.wins, s.losses, s.ties')
