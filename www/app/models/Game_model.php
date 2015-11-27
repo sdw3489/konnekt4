@@ -40,47 +40,34 @@ class Game_model extends MY_Model {
 
   public function getGameData($id){
     $result = [];
-    $game_query = $this->db->select('id AS game_id, whose_turn, board, last_move, active')
-     ->from('game')
-     ->where('id', $id)
-     ->get();
-    $result = $game_query->row_array();
-
-    if($game_query->num_rows() > 0){
-      $game_query->free_result();
-
-      $players_query = $this->db->select('u.id AS user_id, u.username')
-       ->from('game_user gu')
-       ->where('gu.game_id', $id)
-       ->join('user u', 'u.id = gu.user_id', 'inner')
-       ->get();
-      $players = $players_query->result();
-      $players_query->free_result();
-
+    $users = $this->with_user()->get($id);
+    $result = $users;
+    if(count($users) > 0){
       $current = $this->session->userdata('id');
-      foreach($players as $player){
-        if($player->user_id == $current){
-          $result['players'][0]['id'] = $player->user_id;
-          $result['players'][0]['username'] = $player->username;
-          $result['players'][0]['name'] = ucfirst($player->username);
-          $result['players'][0]['challenge_type_id'] = $player->challenge_type_id;
-          $result['players'][0]['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
-          $result['players'][0]['current'] = ($player->user_id == $current)? TRUE : FALSE;
-          $result['current_player']['id'] = $player->user_id;
-          $result['current_player']['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
-          $result['current_player']['username'] = $player->username;
-          $result['current_player']['name'] = ucfirst($player->username);
-        }else{
-          $result['players'][1]['id'] = $player->user_id;
-          $result['players'][1]['username'] = $player->username;
-          $result['players'][1]['name'] = ucfirst($player->username);
-          $result['players'][1]['challenge_type_id'] = $player->challenge_type_id;
-          $result['players'][1]['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
-          $result['players'][1]['current'] = ($player->user_id == $current)? TRUE : FALSE;
-          $result['opponent_player']['id'] = $player->user_id;
-          $result['opponent_player']['playerId'] = ($player->challenge_type_id == 1)? 0 : 1;
-          $result['opponent_player']['username'] = $player->username;
-          $result['opponent_player']['name'] = ucfirst($player->username);
+        foreach($users['user'] as $player){
+          if($player['id'] == $current){
+            $result['players'][0]['id'] = $player['id'];
+            $result['players'][0]['username'] = $player['username'];
+            $result['players'][0]['name'] = ucfirst($player['username']);
+            $result['players'][0]['challenge_type_id'] = ($users['initiator_id'] == $player['id'])? 0 : 1;
+            $result['players'][0]['playerId'] = ($users['initiator_id'] == $player['id'])? 0 : 1;
+            $result['players'][0]['current'] = ($player['id'] == $current)? TRUE : FALSE;
+            $result['current_player']['id'] = $player['id'];
+            $result['current_player']['playerId'] = ($users['initiator_id'] == $player['id'])? 0 : 1;
+            $result['current_player']['username'] = $player['username'];
+            $result['current_player']['name'] = ucfirst($player['username']);
+          }else{
+            $result['players'][1]['id'] = $player['id'];
+            $result['players'][1]['username'] = $player['username'];
+            $result['players'][1]['name'] = ucfirst($player['username']);
+            $result['players'][1]['challenge_type_id'] = ($users['initiator_id'] == $player['id'])? 0 : 1;
+            $result['players'][1]['playerId'] = ($users['initiator_id'] == $player['id'])? 0 : 1;
+            $result['players'][1]['current'] = ($player['id'] == $current)? TRUE : FALSE;
+            $result['opponent_player']['id'] = $player['id'];
+            $result['opponent_player']['playerId'] = ($users['initiator_id'] == $player['id'])? 0 : 1;
+            $result['opponent_player']['username'] = $player['username'];
+            $result['opponent_player']['name'] = ucfirst($player['username']);
+
         }
       }
       return $result;
