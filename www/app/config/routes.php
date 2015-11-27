@@ -94,5 +94,24 @@ $route['users'] = 'user';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+/*
+| -------------------------------------------------------------------------
+| Sample REST API Routes
+| -------------------------------------------------------------------------
+*/
+// $route['api/(:any)'] = 'api/$1/index'; // users 4
+// $route['api/(:any)/id/(:num)'] = 'api/$1/index/id/$2'; // users 4
+// $route['api/(:any)/(:num)'] = 'api/$1/index/id/$2'; // users 4
+// $route['api/(:any)/(:num)(\.)([a-zA-Z0-9_-]+)(.*)'] = 'api/$1/index/id/$2/format/$3$4'; // users 8
+
+
+// Ajax API routes
+// $route['api'] = 'api/ajax/index';
+// $route['api/get?(:any)'] = 'api/ajax/get/$1';
+// $route['api/post'] = 'api/ajax/post';
+
+// Catch all default for direct access to controllers
+// $route['(:any)/(:any)'] = '$1/$2';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

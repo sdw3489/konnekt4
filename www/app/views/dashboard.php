@@ -16,9 +16,9 @@
             <h3 class="panel-title"><span class="glyphicon glyphicon-stats"></span> Stats</h3>
           </div>
           <ul class="list-group">
-            <li class="list-group-item">Wins <span class="js-wins badge"><?= $stats->wins; ?></span></li>
-            <li class="list-group-item">Losses <span class="js-loses badge"><?= $stats->losses; ?></span></li>
-            <li class="list-group-item">Ties <span class="js-ties badge"><?= $stats->ties; ?></span></li>
+            <li class="list-group-item">Wins <span class="js-wins badge"><?= $stats['wins']; ?></span></li>
+            <li class="list-group-item">Losses <span class="js-loses badge"><?= $stats['losses']; ?></span></li>
+            <li class="list-group-item">Ties <span class="js-ties badge"><?= $stats['ties']; ?></span></li>
           </ul>
         </div>
       </div>

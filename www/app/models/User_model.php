@@ -7,6 +7,7 @@ class User_model extends MY_Model {
   public $protected = array('id');
   public $before_create = array( 'hash_password' );
   public $before_update = array( 'hash_password' );
+  public $return_as = 'array';
   public $rules = array(
     'insert' => array(
         'username' => array(
