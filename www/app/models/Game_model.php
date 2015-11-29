@@ -74,11 +74,11 @@ class Game_model extends MY_Model {
     }
   }
 
-  public function getChallenges($user_id, $initiator_id){
-    $games = $this->db->select('g.id')->from('game g')
+
+  public function getChallenges($user_id){
+    $games = $this->db->select('g.id, g.initiator_id')->from('game g')
       ->join('game_user gu','gu.game_id=g.id', 'inner')
       ->where('gu.user_id', $user_id)
-      ->where('g.initiator_id', $initiator_id)
       ->where('g.active', 1)
       ->get();
 
@@ -86,7 +86,7 @@ class Game_model extends MY_Model {
       $result = []; $i = 0;
       foreach ($games->result() as $game){
         $game_id = $game->id;
-        $query = $this->db->select('u.id, u.username, gu.game_id')
+        $query = $this->db->select('gu.id, gu.user_id, u.username, gu.game_id')
           ->from('game_user gu')
           ->join('user u','gu.user_id=u.id', 'inner')
           ->where('gu.game_id',$game_id)
@@ -94,9 +94,11 @@ class Game_model extends MY_Model {
           ->get();
         if($query->num_rows() > 0){
           foreach($query->result() as $challenge){
-            $result[$i]['user_id'] = ucfirst($challenge->id);
+            $result[$i]['id'] = ucfirst($challenge->id);
+            $result[$i]['user_id'] = ucfirst($challenge->user_id);
             $result[$i]['username'] = ucfirst($challenge->username);
             $result[$i]['game_id'] = $challenge->game_id;
+            $result[$i]['initiator_id'] = $game->initiator_id;
             $i++;
           }
         }

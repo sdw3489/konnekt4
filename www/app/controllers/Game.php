@@ -1,35 +1,33 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Game extends CI_Controller {
+class Game extends MY_Controller {
+
+  protected $models = array('Game', 'User');
+  private $session_id;
 
   public function __construct(){
     parent::__construct();
-    $this->load->model('game_model', 'Game', TRUE);
-    $this->load->model('user_model', 'User', TRUE);
     $this->load->driver('session');
     $this->session_id = $this->session->userdata('id');
   }
 
   public function index(){
     if($this->session_id){
-      header("Location:/");
+      redirect("/");
     }else{
-      header("Location:/login/");
+      redirect("/login/");
     }
   }
 
   public function play($game_Id){
     if($this->session_id){
       if(isset($game_Id)){
-        $data['title'] = 'Game Board';
-        $data['bodyClass'] = 'game';
-        $data['gameJSON'] = $this->getGameData($game_Id);
-        $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
-        $data['id'] = $this->session_id;
-        $this->load->view('global/head', $data);
-        $this->load->view('global/nav', $data);
-        $this->load->view('game', $data);
-        $this->load->view('global/footer', $data);
+        $this->data['title'] = 'Game Board';
+        $this->data['bodyClass'] = 'game';
+        $this->data['gameJSON'] = $this->getGameData($game_Id);
+        $this->data['notifications'] = $this->User->getNotifications($this->session_id);
+        $this->data['id'] = $this->session_id;
+        $this->view = 'game';
       }else{
         header("Location:/");
       }
@@ -44,12 +42,7 @@ class Game extends CI_Controller {
   }
 
   public function challenge($id){
-    $data = $this->Game->newGame($_SESSION['id'], $id);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
-
-  public function getChallenges($challenge_type_id){
-    $data = $this->Game->getChallenges($_SESSION['id'], $challenge_type_id);
+    $data = $this->Game->newGame($this->session_id, $id);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
 

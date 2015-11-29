@@ -4,15 +4,13 @@ define([
   'backbone',
   'dv/chatView',
   'dv/userConnectionsView',
-  'dv/challengesView',
-  'dv/challengersView'
-], function($, _, Backbone, ChatView, LoggedInUsersView, ChallengesView, ChallengersView ){
+  'dv/challengesView'
+], function($, _, Backbone, ChatView, LoggedInUsersView, ChallengesView ){
 
   var DashboardView = Backbone.View.extend({
     initialize: function () {
       new ChatView();
       new ChallengesView();
-      new ChallengersView();
       new LoggedInUsersView();
     }
   });

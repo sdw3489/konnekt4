@@ -29,15 +29,9 @@
 
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-tower"></span> Challenges</h3>
+                <h3 class="panel-title"><span class="glyphicon glyphicon-tower"></span> Games</h3>
               </div>
               <ul class="challenges-view list-group"></ul>
-            </div>
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-tower"></span> Challengers</h3>
-              </div>
-              <ul class="challengers-view list-group"></ul>
             </div>
 
           </div>

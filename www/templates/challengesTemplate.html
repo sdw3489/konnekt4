@@ -1,8 +1,13 @@
 <% if(username){ %>
+  <% if(initiator_id === user_id){ %>
+  <li class="list-group-item clearfix"> <a href="/user/<%= user_id %>"><%= username %></a> challenged you!
+  <%}else{%>
   <li class="list-group-item clearfix">You challenged <a href="/user/<%= user_id %>"><%= username %></a>!
+  <% } %>
     <a href="/game/play/<%= game_id %>" class="play-game btn btn-sm btn-success pull-right"><span class="glyphicon glyphicon-play"></span> Play Game <%= game_id %></a>
   </li>
 <%}else{%>
-   <li class="list-group-item text-center">You haven't challenged anyone.
-    <a href="/users/" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Connect</a></li>
+  <li class="list-group-item text-center">You haven't challenged anyone.
+    <a href="/users/" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span> Connect</a>
+  </li>
 <% } %>
