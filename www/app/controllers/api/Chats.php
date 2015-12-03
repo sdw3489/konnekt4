@@ -3,7 +3,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // This can be removed if you use __autoload() in config.php OR use Modular Extensions
-require APPPATH . '/libraries/REST_Controller.php';
+require APPPATH . '/core/MY_REST_controller.php';
 
 /**
  * This is an example of a few basic user interaction methods you could use
@@ -16,13 +16,14 @@ require APPPATH . '/libraries/REST_Controller.php';
  * @license         MIT
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
-class Chats extends REST_Controller {
+class Chats extends MY_REST_Controller {
+
+    protected $models = array('Chat');
 
     function __construct()
     {
         // Construct the parent class
         parent::__construct();
-        $this->load->model('Chat_model', 'Chats');
 
         // Configure limits on our controller methods
         // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
@@ -34,67 +35,9 @@ class Chats extends REST_Controller {
     public function index_get()
     {
         // games from a data store e.g. database
-        $results = $this->Chats->get_all();
+        $results = $this->Chat->get_all();
         $id = $this->get('id');
-
-        // If the id parameter doesn't exist return all the games
-
-        if ($id === NULL)
-        {
-            // Check if the games data store contains games (in case the database result returns NULL)
-            if ($results)
-            {
-                // Set the response and exit
-                $this->response($results, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-            }
-            else
-            {
-                // Set the response and exit
-                $this->response([
-                    'status' => FALSE,
-                    'message' => 'No games were found'
-                ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-            }
-        }
-
-        // Find and return a single record for a particular user.
-
-        // $id = (int) $id;
-
-        // Validate the id.
-        if ($id <= 0)
-        {
-            // Invalid id, set the response and exit.
-            $this->response(NULL, REST_Controller::HTTP_BAD_REQUEST); // BAD_REQUEST (400) being the HTTP response code
-        }
-
-        // Get the user from the array, using the id as key for retreival.
-        // Usually a model is to be used for this.
-
-        $result = NULL;
-
-        if (!empty($results))
-        {
-            foreach ($results as $key => $value)
-            {
-                if (isset($value['id']) && $value['id'] === $id)
-                {
-                    $result = $value;
-                }
-            }
-        }
-
-        if (!empty($result))
-        {
-            $this->set_response($result, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
-        }
-        else
-        {
-            $this->set_response([
-                'status' => FALSE,
-                'message' => 'User could not be found'
-            ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
-        }
+        $this->get_response($id, $results);
     }
 
     public function index_post()
