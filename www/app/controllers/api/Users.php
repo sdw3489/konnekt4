@@ -32,6 +32,7 @@ class Users extends MY_REST_Controller {
         // $this->methods['user_delete']['limit'] = 50; // 50 requests per hour per user/key
     }
 
+    // Get a user
     public function index_get()
     {
         // Users from a data store e.g. database
@@ -40,6 +41,7 @@ class Users extends MY_REST_Controller {
         $this->get_response($id, $results);
     }
 
+    // Create/Update a user
     public function index_post()
     {
         // $this->some_model->update_user( ... );
@@ -53,6 +55,7 @@ class Users extends MY_REST_Controller {
         $this->set_response($message, REST_Controller::HTTP_CREATED); // CREATED (201) being the HTTP response code
     }
 
+    // Delete a user
     public function index_delete()
     {
         $id = (int) $this->get('id');
@@ -73,4 +76,20 @@ class Users extends MY_REST_Controller {
         $this->set_response($message, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
     }
 
+    // Get one/all user connections
+    public function connections_get($id){
+
+    }
+    // update user connection
+    public function connections_post($id){
+
+    }
+    // delete user connection
+    public function connections_delete($id){
+
+    }
+    // get user notifications
+    public function notifications_get($id){
+
+    }
 }

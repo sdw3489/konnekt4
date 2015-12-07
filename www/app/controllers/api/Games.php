@@ -36,8 +36,8 @@ class Games extends MY_REST_Controller {
     public function index_get()
     {
         // games from a data store e.g. database
-        $results = $this->Game->get_all();
         $id = $this->get('id');
+        $results = $this->Game->get_all();
         $this->get_response($id, $results);
     }
 
@@ -74,9 +74,65 @@ class Games extends MY_REST_Controller {
         $this->set_response($message, REST_Controller::HTTP_NO_CONTENT); // NO_CONTENT (204) being the HTTP response code
     }
 
-    public function challenges_get(){
+    //get a list of the game challenges
+    public function challenges_get()
+    {
         $results = $this->Game->getChallenges($this->session_id);
         $this->get_response(NULL, $results);
+    }
+
+    // Create New Game
+    public function new_post()
+    {
+
+    }
+
+    // Get the last move played
+    public function last_move_get($id)
+    {
+
+    }
+
+    // Update the last move played
+    public function last_move_post($id)
+    {
+
+    }
+
+    // Get the entire board state
+    public function board_get($id)
+    {
+
+    }
+
+    // Update the entire board state
+    public function board_post($id)
+    {
+
+    }
+
+    // Get whose turn it is
+    public function turn_get()
+    {
+
+    }
+
+    // Update whose turn it is
+    public function turn_post()
+    {
+
+    }
+
+    // Get the game players
+    public function players_get()
+    {
+
+    }
+
+    // End game
+    public function end_post()
+    {
+
     }
 
 }
