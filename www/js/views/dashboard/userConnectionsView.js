@@ -65,7 +65,10 @@ define([
 
       $.ajax({
         type: "POST",
-        url: '/game/challenge/'+id,
+        url: '/api/games/new/',
+        data:{
+          id: id
+        },
         success: _.bind(function(event){
           this.$btn.blur();
         }, this)

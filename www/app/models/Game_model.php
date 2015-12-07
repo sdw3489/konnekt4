@@ -36,6 +36,7 @@ class Game_model extends MY_Model {
       'game_id'=> $insert_id,
       'user_id'=> $challenged_id
     ));
+    return $insert_id;
   }
 
   public function getGameData($id){

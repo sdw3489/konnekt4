@@ -41,10 +41,6 @@ class Game extends MY_Controller {
     return json_encode($data, JSON_NUMERIC_CHECK);
   }
 
-  public function challenge($id){
-    $data = $this->Game->newGame($this->session_id, $id);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
 
   public function getTurn($game_Id){
     $data = $this->Game->getTurn($game_Id);
