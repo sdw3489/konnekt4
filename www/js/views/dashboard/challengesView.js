@@ -24,7 +24,7 @@ define([
     getChallenges: function(){
       $.ajax({
         type: "GET",
-        url: '/api/games/challenges',
+        url: '/api/games/challenges/',
         success: _.bind(this.onGetChallenges, this),
         error: function(error){
           console.log(error);
@@ -40,12 +40,12 @@ define([
         EventsChannel.trigger('updateChallenges');
         this.prevData = data;
         this.$el.html('');
-        if(data != null){
+        if(data.status != false){
           for(i in data){
             this.addOne(data[i]);
           }
         }else{
-          this.addOne({username:'', game_Id:''});
+          this.addOne({username:'', game_id:''});
         }
       }
     },

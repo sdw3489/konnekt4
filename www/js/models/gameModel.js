@@ -14,27 +14,27 @@ define([
       pieceArr : [],   //2d array [player][piece] (player is either 0 or 1)
       directionArr : [
         {
-          end_type_id: 1,
+          end_type: 'tie',
           direction:['full'],
           message:'Both Players Tied with all Spaces Taken.'
         },
         {
-          end_type_id: 2,
+          end_type: 'across',
           direction: ['right','left'],
           message:'Won with 4 Across.'
         },
         {
-          end_type_id: 3,
+          end_type: 'stacked',
           direction: ['below'],
           message:'Won with 4 Stacked.'
         },
         {
-          end_type_id: 4,
+          end_type: 'diagonal_right',
           direction: ['aboveRight','belowLeft'],
           message:'Won with 4 Diagonal Right.'
         },
         {
-          end_type_id: 5,
+          end_type: 'diagonal_left',
           direction: ['aboveLeft','belowRight'],
           message:'Won with 4 Diagonal Left.'
         }
@@ -47,9 +47,6 @@ define([
 
     initialize: function(){
       this.getTurn();
-      this.on("change", function() {
-        if (this.hasChanged("turn")) {}
-      });
     },
     changeTurn:function(){
       if(this.get('turn') === 0){
@@ -60,7 +57,7 @@ define([
     },
     getTurn: function(){
       if(this.get('turn')!=this.get('playerId')){
-        this.ajax_utility('/game/getTurn/'+this.get('game_id'), this.onGetTurn);
+        this.ajax_utility('/api/games/turn/id/'+this.get('id'), this.onGetTurn);
       }
       clearTimeout(this.turnTimer);
       this.turnTimer = setTimeout(_.bind(function(){
@@ -68,10 +65,10 @@ define([
       },this), 3000);
     },
     onGetTurn:function(jsonText){
-      var obj = JSON.parse(jsonText)[0];
-      if(obj.whose_turn == this.get('playerId')){
+      var obj = (typeof jsonText == 'string')? JSON.parse(jsonText) : jsonText;
+      if(parseInt(obj.whose_turn) == this.get('playerId')){
         //switch turns
-        this.set('turn', obj.whose_turn);
+        this.set('turn', parseInt(obj.whose_turn));
         //get the data from the last guys move
         EventsChannel.trigger('getMove');
       }

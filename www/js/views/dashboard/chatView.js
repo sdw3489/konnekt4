@@ -39,7 +39,7 @@ define([
       },this), 2000);
     },
     onGetChat:function(jsonText) {
-      this.data = JSON.parse(jsonText);
+      this.data = (typeof jsonText == 'string')? JSON.parse(jsonText) : jsonText;
       if(!_.isEqual(this.data, this.prevData)){
         this.prevData = this.data;
         this.$chatBox.html('');

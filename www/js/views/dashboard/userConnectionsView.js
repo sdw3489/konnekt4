@@ -42,7 +42,7 @@ define([
       },this), 10000);
     },
     onGetUserConnections : function(jsonText) {
-      this.data = JSON.parse(jsonText);
+      this.data = (typeof jsonText == 'string')? JSON.parse(jsonText) : jsonText;
       if(!_.isEqual(this.data, this.prevData)){
         this.prevData = this.data;
         this.$el.html('');

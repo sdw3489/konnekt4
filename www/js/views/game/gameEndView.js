@@ -29,8 +29,11 @@ define([
     onGameEnd: function(data){
       $.ajax({
         type:  "POST",
-        url: '/game/end/'+this.model.get('game_id'),
-        data:{'data':data}
+        url: '/api/games/end/',
+        data:{
+          'id'   : this.model.get('id'),
+          'data' : data
+        }
       });
     }
   });
