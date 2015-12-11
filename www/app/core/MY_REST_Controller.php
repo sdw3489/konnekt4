@@ -39,6 +39,7 @@ class MY_REST_Controller extends REST_Controller {
 
         $this->load->driver('session');
         $this->session_id = $this->session->userdata('id');
+        $this->load->helper(array('url', 'date'));
 
         // Configure limits on our controller methods
         // Ensure you have created the 'limits' table and enabled 'limits' within application/config/rest.php
@@ -64,7 +65,7 @@ class MY_REST_Controller extends REST_Controller {
                 // Set the response and exit
                 $this->response([
                     'status' => FALSE,
-                    'message' => 'No games were found'
+                    'message' => 'No Records were found'
                 ], REST_Controller::HTTP_NOT_FOUND); // NOT_FOUND (404) being the HTTP response code
             }
         }

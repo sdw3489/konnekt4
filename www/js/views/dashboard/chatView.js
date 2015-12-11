@@ -30,7 +30,7 @@ define([
     getChat: function(){
       $.ajax({
         type: "GET",
-        url: '/chat/get_chat/',
+        url: '/api/chats/latest/',
         success: $.proxy(this.onGetChat, this)
       });
       clearTimeout(this.timer);
@@ -43,7 +43,7 @@ define([
       if(!_.isEqual(this.data, this.prevData)){
         this.prevData = this.data;
         this.$chatBox.html('');
-        if(this.data != null){
+        if(this.data.statud != false){
           for(i in this.data){
             var view = new ChatBoxView();
             this.$chatBox.append(view.render(this.data[i]).el);
@@ -59,7 +59,7 @@ define([
       }
       $.ajax({
         type: "POST",
-        url: '/chat/create_chat/',
+        url: '/api/chats/',
         data: { message :val },
         success: _.bind(this.onGetChat, this)
       });
