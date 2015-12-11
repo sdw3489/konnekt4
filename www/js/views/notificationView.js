@@ -20,7 +20,7 @@ define([
     getNotifications: function(){
       $.ajax({
         type: "GET",
-        url: '/user/getNotifications/',
+        url: '/api/users/notifications/',
         success: _.bind(this.onGetNotifications, this)
       });
       clearTimeout(this.timer);
@@ -32,9 +32,7 @@ define([
       this.data = (typeof jsonText == 'string')? JSON.parse(jsonText) : jsonText;
       if(!_.isEqual(this.data, this.prevData)){
         this.prevData = this.data;
-        if(this.data != null){
-          this.render(this.data);
-        }
+        this.render(this.data);
       }
     },
     render: function (data) {

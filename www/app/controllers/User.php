@@ -168,10 +168,5 @@ class User extends CI_Controller {
     $data = $this->User->getConnections($_SESSION['id'], $id);
     echo json_encode($data, JSON_NUMERIC_CHECK);
   }
-
-  public function getNotifications(){
-    $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
 }
 ?>

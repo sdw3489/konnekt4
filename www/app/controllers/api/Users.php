@@ -88,8 +88,28 @@ class Users extends MY_REST_Controller {
     public function connections_delete($id){
 
     }
+
     // get user notifications
-    public function notifications_get($id){
+    public function notifications_get(){
+
+        $notifications = $this->User->getNotifications($_SESSION['id']);
+        // Check if the games data store contains games (in case the database result returns NULL)
+        if ($notifications > 0)
+        {
+            $results['notifications'] = $notifications;
+            // Set the response and exit
+            $this->response($results, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'notifications' => NULL,
+                'message' => 'No Notifications'
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
+        }
+
 
     }
 }
