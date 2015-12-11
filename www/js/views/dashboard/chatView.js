@@ -43,7 +43,7 @@ define([
       if(!_.isEqual(this.data, this.prevData)){
         this.prevData = this.data;
         this.$chatBox.html('');
-        if(this.data.statud != false){
+        if(this.data.status != false){
           for(i in this.data){
             var view = new ChatBoxView();
             this.$chatBox.append(view.render(this.data[i]).el);
