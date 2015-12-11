@@ -119,28 +119,5 @@ class Game_model extends MY_Model {
     return $id;
   }
 
-
-  public function update_stats($game_id, $data){
-    //update the game_users table with stat type for the correct user
-    if($data['end_type'] == 'tie'){
-      $this->update_ties($data['winner']['id']);
-      $this->update_ties($data['loser']['id']);
-    }else{
-      $this->update_wins($data['winner']['id']);
-      $this->update_losses($data['loser']['id']);
-    }
-  }
-
-  private function update_wins($playerId){
-    $this->db->query("UPDATE stat SET wins=wins+1 WHERE user_id=".$this->db->escape($playerId));;
-  }
-
-  private function update_losses($playerId){
-    $this->db->query("UPDATE stat SET losses=losses+1 WHERE user_id=".$this->db->escape($playerId));
-  }
-
-  private function update_ties($playerId){
-    $this->db->query("UPDATE stat SET ties=ties+1 WHERE user_id=".$this->db->escape($playerId));
-  }
 }
 ?>

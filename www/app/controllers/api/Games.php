@@ -18,7 +18,7 @@ require APPPATH . '/core/MY_REST_controller.php';
  */
 class Games extends MY_REST_Controller {
 
-    protected $models = array('Game');
+    protected $models = array('Game', 'Stat');
 
     function __construct()
     {
@@ -196,7 +196,7 @@ class Games extends MY_REST_Controller {
     {
         $id = $this->post('id');
         $data = $this->input->post('data');
-        $this->Game->update_stats($id, $data);
+        $this->Stat->update_stats($data);
         $update = array(
             'active'=>0,
             'end_type'=> $data['end_type'],

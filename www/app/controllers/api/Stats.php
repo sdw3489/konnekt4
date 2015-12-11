@@ -75,27 +75,27 @@ class Stats extends MY_REST_Controller {
     }
 
     // Get User Wins
-    public function wins_get(&id){
+    public function wins_get(){
 
     }
     // Update User Wins
-    public function wins_post(&id){
+    public function wins_post(){
 
     }
     // Get User Losses
-    public function losses_get(&id){
+    public function losses_get(){
 
     }
     // Update User Losses
-    public function losses_post(&id){
+    public function losses_post(){
 
     }
     // Get User Ties
-    public function ties_get(&id){
+    public function ties_get(){
 
     }
     // Update User Ties
-    public function ties_post(&id){
+    public function ties_post(){
 
     }
 
