@@ -47,6 +47,7 @@ define([
 
     initialize: function(){
       this.getTurn();
+      EventsChannel.on('game:end', this.stopTurnTimer, this);
     },
     changeTurn:function(){
       if(this.get('turn') === 0){
@@ -57,12 +58,14 @@ define([
     },
     getTurn: function(){
       if(this.get('turn')!=this.get('playerId')){
-        this.ajax_utility('/api/games/turn/id/'+this.get('id'), this.onGetTurn);
+        $.ajax({
+          type: "GET",
+          url: '/api/games/turn/id/'+this.get('id'),
+          success: _.bind(this.onGetTurn, this)
+        });
       }
-      clearTimeout(this.turnTimer);
-      this.turnTimer = setTimeout(_.bind(function(){
-        this.getTurn();
-      },this), 3000);
+      this.stopTurnTimer();
+      this.startTurnTimer();
     },
     onGetTurn:function(jsonText){
       var obj = (typeof jsonText == 'string')? JSON.parse(jsonText) : jsonText;
@@ -73,12 +76,13 @@ define([
         EventsChannel.trigger('getMove');
       }
     },
-    ajax_utility:function(){
-      $.ajax({
-        type: "GET",
-        url: arguments[0],
-        success: _.bind(arguments[1], this)
-      });
+    startTurnTimer : function(){
+      this.turnTimer = setTimeout(_.bind(function(){
+        this.getTurn();
+      },this), 3000);
+    },
+    stopTurnTimer : function(){
+      clearTimeout(this.turnTimer);
     }
 
   });
