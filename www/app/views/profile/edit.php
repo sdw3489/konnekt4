@@ -6,7 +6,7 @@
   <div class="row">
     <!-- left column -->
     <div class="col-sm-3">
-     <h2 class="text-capitalize text-center"><?= $user->username;?></h2>
+     <h2 class="text-capitalize text-center"><?= $user['username'];?></h2>
       <div class="text-center">
         <img src="/images/user-placeholder.png" class="avatar img-circle" alt="avatar" width="256">
         <!-- <input type="file" class="form-control"> -->
@@ -35,26 +35,26 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">Username:</label>
               <div class="col-sm-8">
-                <p class="form-control-static"><?= $user->username;?></p>
-                <!-- <input class="form-control" type="text" name="username" value="<?= $user->username;?>"> -->
+                <p class="form-control-static"><?= $user['username'];?></p>
+                <!-- <input class="form-control" type="text" name="username" value="<?= $user['username'];?>"> -->
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">First name:</label>
               <div class="col-sm-8">
-                <input class="form-control" type="text" name="first_name" value="<?= set_value('first_name', $user->first_name); ?>">
+                <input class="form-control" type="text" name="first_name" value="<?= set_value('first_name', $user['first_name']); ?>">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Last name:</label>
               <div class="col-sm-8">
-                <input class="form-control" type="text" name="last_name" value="<?= set_value('last_name', $user->last_name); ?>">
+                <input class="form-control" type="text" name="last_name" value="<?= set_value('last_name', $user['last_name']); ?>">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Email:</label>
               <div class="col-sm-8">
-                <input class="form-control" type="text" name="email" value="<?=set_value('email', $user->email);?>">
+                <input class="form-control" type="text" name="email" value="<?=set_value('email', $user['email']);?>">
               </div>
             </div>
             <div class="form-group">
@@ -73,7 +73,7 @@
               <div class="col-sm-offset-3 col-sm-9">
                 <div class="checkbox">
                   <label>
-                    <input type="checkbox" name="is_private" value="1" <?= ($user->is_private)?'checked=checked':'';?>> Set Profile Private
+                    <input type="checkbox" name="is_private" value="1" <?= ($user['is_private'])?'checked=checked':'';?>> Set Profile Private
                   </label>
                 </div>
               </div>

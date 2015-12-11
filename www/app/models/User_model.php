@@ -49,15 +49,6 @@ class User_model extends MY_Model {
         )
     ),
     'update' => array(
-        'username' => array(
-            'field' => 'username',
-            'label' => 'Username',
-            'rules' => 'trim|required|min_length[3]|max_length[12]|is_unique[user.username]|xss_clean',
-            'errors' => array(
-                'required'  => 'You have not provided a %s.',
-                'is_unique' => 'This %s already exists.'
-            )
-        ),
         'email' => array(
             'field'=>'email',
             'label'=>'Email',
@@ -76,13 +67,16 @@ class User_model extends MY_Model {
         'password' => array(
             'field' => 'password',
             'label' => 'Password',
-            'rules' => 'trim|required|min_length[3]|xss_clean'
+            'rules' => 'trim|min_length[3]|xss_clean'
         ),
-        'id' => array(
-            'field'=>'id',
-            'label'=>'ID',
-            'rules'=>'trim|is_natural_no_zero|required'
-        ),
+        'confirm_password' => array(
+            'field' => 'confirm_password',
+            'label' => 'Password Confirmation',
+            'rules' => 'trim|matches[password]|xss_clean',
+            'errors' => array(
+                'matches' => 'Passwords do not match.'
+            )
+        )
     )
   );
 
@@ -141,21 +135,6 @@ class User_model extends MY_Model {
       return false;
     }
   }
-
-  /*public function update($id){
-     $data = array(
-      // 'username' => $this->input->post('username'),
-      'first_name' => $this->input->post('first_name'),
-      'last_name' => $this->input->post('last_name'),
-      'email' => $this->input->post('email'),
-      // 'is_private' => $this->input->post('is_private')
-    );
-    if($this->input->post('password')){
-      $data['password'] = sha1($this->input->post('password'));
-    }
-    $this->db->where('id', $id);
-    return $this->db->update('user', $data);
-  }*/
 
   public function getUserConnections($id){
     $query = $this->db->select('*')
