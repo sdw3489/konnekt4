@@ -14,19 +14,13 @@ class User extends MY_Controller {
 
   public function index(){
     if($this->session_id){
-      $this->data['title'] = 'Users';
-      $this->data['bodyClass'] = 'users';
-      $this->data['users'] = $this->User->users();
-      $this->data['usersJSON'] = json_encode($this->data['users'], JSON_NUMERIC_CHECK);
-      $this->data['id'] = $this->session_id;
-      $this->data['notifications'] = $this->User->getNotifications($_SESSION['id']);
-      $this->view = 'users';
+        redirect('/');
     }else{
       redirect('/login/');
     }
   }
 
-  public function profile($id){
+  public function view($id){
     if($this->session_id){
       $this->data['title'] = 'Profile';
       $this->data['bodyClass'] = 'profile';
@@ -53,8 +47,8 @@ class User extends MY_Controller {
         }else{
           redirect('/user/'.$id);
         }
-
       }else{
+        redirect('/user/'.$id);
       }
     }else{
       redirect('/login/');
@@ -137,21 +131,5 @@ class User extends MY_Controller {
     }
   }//end signup
 
-  //Get list of logged in Users
-  public function getUserConnections(){
-    $data = $this->User->getUserConnections($_SESSION['id']);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
-
-  public function connect($id){
-    $type = $this->input->post('type');
-    $data = $this->User->connect($_SESSION['id'], $id, $type);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
-
-  public function getConnections($id){
-    $data = $this->User->getConnections($_SESSION['id'], $id);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
 }
 ?>

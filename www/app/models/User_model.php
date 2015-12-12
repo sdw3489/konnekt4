@@ -136,7 +136,7 @@ class User_model extends MY_Model {
     }
   }
 
-  public function getUserConnections($id){
+  public function getFriends($id){
     $query = $this->db->select('*')
     ->from('user_connection')
     ->group_start()
@@ -249,6 +249,8 @@ class User_model extends MY_Model {
 
     if($query->num_rows() > 0){
       return $query->num_rows();
+    }else{
+      return FALSE;
     }
   }
 

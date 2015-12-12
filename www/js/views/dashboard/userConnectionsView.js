@@ -33,7 +33,7 @@ define([
     getUserConnections : function(){
       $.ajax({
         type: "GET",
-        url: '/user/getUserConnections/',
+        url: '/api/users/friends/',
         success: _.bind(this.onGetUserConnections, this)
       });
       clearTimeout(this.timer);
@@ -46,7 +46,7 @@ define([
       if(!_.isEqual(this.data, this.prevData)){
         this.prevData = this.data;
         this.$el.html('');
-        if(this.data != null){
+        if(this.data.status != false){
           for(i in this.data){
             this.addOne(this.data[i]);
           }
