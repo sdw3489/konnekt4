@@ -222,6 +222,17 @@ class MY_Controller extends CI_Controller
     }
 
     /**
+     * Set Body Class.
+     *
+     * @access protected
+     * @param  string $body_class
+     */
+    protected function set_body_class($body_class)
+    {
+        $this->load->vars(array('body_class' => $body_class));
+    }
+
+    /**
      * Load css styles.
      *
      * @access protected
