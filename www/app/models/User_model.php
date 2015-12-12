@@ -63,7 +63,9 @@ class User_model extends MY_Model {
             'field' => 'last_name',
             'label' => 'Last Name',
             'rules' => 'trim|xss_clean'
-        ),
+        )
+    ),
+    'change_password' => array(
         'password' => array(
             'field' => 'password',
             'label' => 'Password',
@@ -77,7 +79,9 @@ class User_model extends MY_Model {
                 'matches' => 'Passwords do not match.'
             )
         )
+
     )
+
   );
 
   public function __construct() {
@@ -256,7 +260,9 @@ class User_model extends MY_Model {
 
     //has password
   protected function hash_password($data){
-      $data['password'] = sha1($data['password']);
+      if(isset($data['password'])){
+        $data['password'] = sha1($data['password']);
+      }
       return $data;
   }
 }
