@@ -36,13 +36,13 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">New Password:</label>
               <div class="col-sm-8">
-                <input class="form-control" type="password" name="password" value="<?= set_value('password'); ?>">
+                <input class="form-control" type="password" name="password" value="<?= set_value('password'); ?>" required>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Confirm password:</label>
               <div class="col-sm-8">
-                <input class="form-control" type="password" name="confirm_password" value="<?= set_value('confirm_password'); ?>">
+                <input class="form-control" type="password" name="confirm_password" value="<?= set_value('confirm_password'); ?>" required>
               </div>
             </div>
             <div class="form-group">

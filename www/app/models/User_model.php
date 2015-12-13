@@ -69,12 +69,12 @@ class User_model extends MY_Model {
         'password' => array(
             'field' => 'password',
             'label' => 'Password',
-            'rules' => 'trim|min_length[3]|xss_clean'
+            'rules' => 'trim|required|min_length[3]|xss_clean'
         ),
         'confirm_password' => array(
             'field' => 'confirm_password',
             'label' => 'Password Confirmation',
-            'rules' => 'trim|matches[password]|xss_clean',
+            'rules' => 'trim|required|matches[password]|xss_clean',
             'errors' => array(
                 'matches' => 'Passwords do not match.'
             )
