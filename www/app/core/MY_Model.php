@@ -302,7 +302,9 @@ class MY_Model extends CI_Model
                 $rules = $this->rules['update'];
             }
         }else{
-            $rules = $this->rules[$rules];
+            if(array_key_exists($rules, $this->rules)){
+               $rules = $this->rules[$rules];
+            }
         }
 
         $this->form_validation->set_rules($rules);
