@@ -79,7 +79,7 @@ define([
           },this));
           EventsChannel.trigger('game:end', {
             'display_msg' : this.model.directionArr[i].message,
-            'end_type_id' : this.model.directionArr[i].end_type_id,
+            'end_type'    : this.model.directionArr[i].end_type,
             'winner'      : winner,
             'loser'       : loser
           });

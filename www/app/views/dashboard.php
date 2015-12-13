@@ -16,9 +16,9 @@
             <h3 class="panel-title"><span class="glyphicon glyphicon-stats"></span> Stats</h3>
           </div>
           <ul class="list-group">
-            <li class="list-group-item">Wins <span class="js-wins badge"><?= $stats->wins; ?></span></li>
-            <li class="list-group-item">Losses <span class="js-loses badge"><?= $stats->losses; ?></span></li>
-            <li class="list-group-item">Ties <span class="js-ties badge"><?= $stats->ties; ?></span></li>
+            <li class="list-group-item">Wins <span class="js-wins badge"><?= $stats['wins']; ?></span></li>
+            <li class="list-group-item">Losses <span class="js-loses badge"><?= $stats['losses']; ?></span></li>
+            <li class="list-group-item">Ties <span class="js-ties badge"><?= $stats['ties']; ?></span></li>
           </ul>
         </div>
       </div>
@@ -29,15 +29,9 @@
 
             <div class="panel panel-primary">
               <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-tower"></span> Challenges</h3>
+                <h3 class="panel-title"><span class="glyphicon glyphicon-tower"></span> Games</h3>
               </div>
               <ul class="challenges-view list-group"></ul>
-            </div>
-            <div class="panel panel-primary">
-              <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-tower"></span> Challengers</h3>
-              </div>
-              <ul class="challengers-view list-group"></ul>
             </div>
 
           </div>

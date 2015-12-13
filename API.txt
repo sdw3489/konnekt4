@@ -1,0 +1,60 @@
+API
+Users
+- index_get(:id)
+    - Get one/all users
+        - If no ID is supplied, all results are returned.
+- index_post(:ids)
+    - Create/Update User
+- index_delete(:ids)
+    - Delete One user
+- connections_get(:id)
+    - Get one/all user connections
+- connections_post(:id)
+    - update user connection
+- connections_delete(:id)
+    - delete user connection
+- notifications_get(:id)
+    - get user notifications
+Games
+- index_get(:id)
+    - Get one/all game info
+- index_post(:id)
+    - Creat/update game info
+- index_delete(:id)
+    - Delete game
+- last_move_get(:id)
+    - Get the last move played
+- last_move_post(:id)
+    - Update the last move played
+- board_get(:id)
+    - Get the entire board state
+- board_post(:id)
+    - Update the entire board state
+- turn_get
+    - Get whose turn it is
+- turn_post
+    - Update whose turn it is
+- players_get
+    - Get the game players
+Stats
+- index_get(:id)
+    - Get One/all stats record
+- index_post(:id)
+    - Create/Update stats record
+- wins_get(:id)
+    - Get User Wins
+- wins_post(:id)
+    - Update User Wins
+- losses_get(:id)
+    - Get User Losses
+- losses_post(:id)
+    - Update User Losses
+- ties_get(:id)
+    - Get User Ties
+- ties_post(:id)
+    - Update User Ties
+Chats
+- index_get(:id)
+    - Get one/all chat messages
+- index_post(:id, :msg)
+    - Create chat message

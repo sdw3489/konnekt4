@@ -15,9 +15,9 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <div class="navbar-right">
         <ul class="nav navbar-nav">
-          <li <?=($bodyClass=='dashboard')? 'class="active"': ''?>><a href="/"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-          <li <?=($bodyClass=='users')? 'class="active"': ''?>><a href="/users/"><span class="glyphicon glyphicon-user"></span> Users <span class="badge js-notifications"><?= $notifications; ?></span></a></li>
-          <li <?=($bodyClass=='profile' && $user->id==$id)? 'class="active dropdown"': 'dropdown'?>>
+          <li <?=($body_class=='dashboard')? 'class="active"': ''?>><a href="/"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
+          <li <?=($body_class=='users')? 'class="active"': ''?>><a href="/users/"><span class="glyphicon glyphicon-user"></span> Users <span class="badge js-notifications"><?= $notifications; ?></span></a></li>
+          <li <?=($body_class=='profile' && $user['id']==$id)? 'class="active dropdown"': 'dropdown'?>>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-eye-open"></span> <?=ucfirst($_SESSION['username']);?> <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="/user/<?=$id;?>"><span class="glyphicon glyphicon-user"></span> View Profile</a></li>

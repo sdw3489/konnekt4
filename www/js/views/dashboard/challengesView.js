@@ -24,26 +24,28 @@ define([
     getChallenges: function(){
       $.ajax({
         type: "GET",
-        url: '/game/getChallenges/1',
-        success: _.bind(this.onGetChallenges, this)
+        url: '/api/games/challenges/',
+        success: _.bind(this.onGetChallenges, this),
+        error: function(error){
+          console.log(error);
+        }
       });
       clearTimeout(this.timer);
       this.timer = setTimeout(_.bind(function(){
         this.getChallenges()
       },this), 4000);
     },
-    onGetChallenges:function(jsonText){
-      this.data = JSON.parse(jsonText);
-      if(!_.isEqual(this.data, this.prevData)){
+    onGetChallenges:function(data){
+      if(!_.isEqual(data, this.prevData)){
         EventsChannel.trigger('updateChallenges');
-        this.prevData = this.data;
+        this.prevData = data;
         this.$el.html('');
-        if(this.data != null){
-          for(i in this.data){
-            this.addOne(this.data[i]);
+        if(data.status != false){
+          for(i in data){
+            this.addOne(data[i]);
           }
         }else{
-          this.addOne({username:'', game_Id:''});
+          this.addOne({username:'', game_id:''});
         }
       }
     },

@@ -1,47 +1,33 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class User extends CI_Controller {
+class User extends MY_Controller {
 
-  private $model;
+  protected $models = array('User', 'Stat');
+  protected $helpers = array('form', 'url');
 
   public function __construct(){
     parent::__construct();
-    $this->load->model('User_model', 'User', TRUE);
-    $this->load->model('Stat_model', 'Stat', TRUE);
     $this->load->driver('session');
-    $this->load->helper(array('form', 'url'));
     $this->load->library('form_validation');
     $this->session_id = $this->session->userdata('id');
   }
 
   public function index(){
     if($this->session_id){
-      $data['title'] = 'Users';
-      $data['bodyClass'] = 'users';
-      $data['users'] = $this->User->users();
-      $data['usersJSON'] = json_encode($data['users'], JSON_NUMERIC_CHECK);
-      $data['id'] = $this->session_id;
-      $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
-      $this->load->view('global/head', $data);
-      $this->load->view('global/nav', $data);
-      $this->load->view('users', $data);
-      $this->load->view('global/footer', $data);
+        redirect('/');
     }else{
       redirect('/login/');
     }
   }
 
-  public function profile($id){
+  public function view($id){
     if($this->session_id){
-      $data['title'] = 'Profile';
-      $data['bodyClass'] = 'profile';
-      $data['id'] = $this->session_id;
-      $data['notifications'] = $this->User->getNotifications($id);
-      $data['user'] = $this->User->get($id);
-      $this->load->view('global/head', $data);
-      $this->load->view('global/nav', $data);
-      $this->load->view('profile/main', $data);
-      $this->load->view('global/footer', $data);
+      $this->set_page_title('Profile');
+      $this->set_body_class('profile');
+      $this->data['id'] = $this->session_id;
+      $this->data['notifications'] = $this->User->getNotifications($id);
+      $this->data['user'] = $this->User->get($id);
+      $this->view = 'profile/main';
     }else{
       redirect('/login/');
     }
@@ -50,35 +36,41 @@ class User extends CI_Controller {
   public function edit($id){
     if($this->session_id){
       if($this->session_id == $id){
-        $this->load->helper(array('form', 'url'));
-        $this->load->library('form_validation');
-        /*
-        $this->form_validation->set_rules(
-         'username', 'Username', 'trim|required|min_length[3]|max_length[12]|xss_clean',
-            array(
-                    'required'      => 'You have not provided a %s.'
-            ));
-        */
-        $this->form_validation->set_rules('email', 'Email', 'valid_email');
-        $this->form_validation->set_rules('password', 'Password', 'trim|min_length[3]');
-        if($this->input->post('password')){
-          $this->form_validation->set_rules('confirm_password', 'Password Confirmation', 'required|trim|matches[password]');
+        $result = $this->User->from_form(NULL,NULL,array('id' => $id))->update();
+        if ($result == FALSE) {
+          $this->set_page_title('Edit Profile');
+          $this->set_body_class('profile');
+          $this->data['id'] = $this->session_id;
+          $this->data['notifications'] = $this->User->getNotifications($id);
+          $this->data['user'] = $this->User->get($id);
+          $this->view = 'profile/edit';
+        }else{
+          redirect('/user/'.$id);
         }
-        if ($this->form_validation->run() == TRUE) {
-          $data['query'] = $this->User->update($id);
-        }
-        $data['title'] = 'Edit Profile';
-        $data['bodyClass'] = 'profile';
-        $data['id'] = $this->session_id;
-        $data['notifications'] = $this->User->getNotifications($id);
-        $data['user'] = $this->User->get($id);
-        $this->load->view('global/head', $data);
-        $this->load->view('global/nav', $data);
-        $this->load->view('profile/edit', $data);
-        $this->load->view('global/footer', $data);
-
       }else{
-        redirect('/');
+        redirect('/user/'.$id);
+      }
+    }else{
+      redirect('/login/');
+    }
+  }
+
+  public function change_password($id){
+    if($this->session_id){
+      if($this->session_id == $id){
+        $result = $this->User->from_form('change_password',NULL,array('id' => $id))->update();
+        if ($result == FALSE) {
+          $this->set_page_title('Change Password');
+          $this->set_body_class('profile');
+          $this->data['id'] = $this->session_id;
+          $this->data['notifications'] = $this->User->getNotifications($id);
+          $this->data['user'] = $this->User->get($id);
+          $this->view = 'profile/change_password';
+        }else{
+          redirect('/user/edit/'.$id);
+        }
+      }else{
+        redirect('/user/'.$id);
       }
     }else{
       redirect('/login/');
@@ -98,23 +90,21 @@ class User extends CI_Controller {
           array(
               'field'=>'login_password',
               'label'=>'Password',
-              'rules'=>array('trim','required',array('user_callable', array($this->User, 'validUser')))
+              'rules'=>array('trim',array('user_callable', array($this->User, 'validUser')))
           )
       );
       $this->form_validation->set_rules($config);
       $this->form_validation->set_message('user_callable', 'Username or Password is not correct.');
 
       if ($this->form_validation->run() == FALSE) {
-        $data['title'] = 'Login';
-        $data['bodyClass'] = 'login';
-        $this->load->view('global/head', $data);
-        $this->load->view('login', $data);
-        $this->load->view('global/footer', $data);
-
+        $this->set_page_title('Login');
+        $this->set_body_class('login');
+        $this->layout = 'layouts/logged_out';
+        $this->view = 'login';
       } else{
-        $data['query'] = $this->User->login();
-        if(count($data['query']) > 0 ){
-          $theuser = $data['query'][0];
+        $this->data['query'] = $this->User->login();
+        if(count($this->data['query']) > 0 ){
+          $theuser = $this->data['query'][0];
           $this->session->set_userdata(array(
             'username'=>$theuser->username,
             'id'=>$theuser->id,
@@ -144,47 +134,21 @@ class User extends CI_Controller {
 
      //Sign up page
   public function signup(){
-
     $id = $this->User->from_form()->insert();
-    if($id === FALSE)
-    {
-      $data['title'] = 'Signup';
-      $data['bodyClass'] = 'signup';
-      $this->load->view('global/head', $data);
-      $this->load->view('signup', $data);
-      $this->load->view('global/footer', $data);
+    if($id === FALSE) {
+      $this->set_page_title('Signup');
+      $this->set_body_class('signup');
+      $this->layout = 'layouts/logged_out';
+      $this->view = 'signup';
     }
-    else
-    {
+    else {
       $stat_insert = $this->Stat->insert(array('user_id'=>$id));
-      $data['title'] = 'Login';
-      $data['bodyClass'] = 'login';
-      $this->load->view('global/head', $data);
-      $this->load->view('login', $data);
-      $this->load->view('global/footer', $data);
+      $this->set_page_title('Login');
+      $this->set_body_class('login');
+      $this->layout = 'layouts/logged_out';
+      $this->view = 'login';
     }
   }//end signup
 
-  //Get list of logged in Users
-  public function getUserConnections(){
-    $data = $this->User->getUserConnections($_SESSION['id']);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
-
-  public function connect($id){
-    $type = $this->input->post('type');
-    $data = $this->User->connect($_SESSION['id'], $id, $type);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
-
-  public function getConnections($id){
-    $data = $this->User->getConnections($_SESSION['id'], $id);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
-
-  public function getNotifications(){
-    $data['notifications'] = $this->User->getNotifications($_SESSION['id']);
-    echo json_encode($data, JSON_NUMERIC_CHECK);
-  }
 }
 ?>

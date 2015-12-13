@@ -7,6 +7,7 @@ class User_model extends MY_Model {
   public $protected = array('id');
   public $before_create = array( 'hash_password' );
   public $before_update = array( 'hash_password' );
+  public $return_as = 'array';
   public $rules = array(
     'insert' => array(
         'username' => array(
@@ -48,15 +49,6 @@ class User_model extends MY_Model {
         )
     ),
     'update' => array(
-        'username' => array(
-            'field' => 'username',
-            'label' => 'Username',
-            'rules' => 'trim|required|min_length[3]|max_length[12]|is_unique[user.username]|xss_clean',
-            'errors' => array(
-                'required'  => 'You have not provided a %s.',
-                'is_unique' => 'This %s already exists.'
-            )
-        ),
         'email' => array(
             'field'=>'email',
             'label'=>'Email',
@@ -71,31 +63,38 @@ class User_model extends MY_Model {
             'field' => 'last_name',
             'label' => 'Last Name',
             'rules' => 'trim|xss_clean'
-        ),
+        )
+    ),
+    'change_password' => array(
         'password' => array(
             'field' => 'password',
             'label' => 'Password',
             'rules' => 'trim|required|min_length[3]|xss_clean'
         ),
-        'id' => array(
-            'field'=>'id',
-            'label'=>'ID',
-            'rules'=>'trim|is_natural_no_zero|required'
-        ),
+        'confirm_password' => array(
+            'field' => 'confirm_password',
+            'label' => 'Password Confirmation',
+            'rules' => 'trim|required|matches[password]|xss_clean',
+            'errors' => array(
+                'matches' => 'Passwords do not match.'
+            )
+        )
+
     )
+
   );
 
   public function __construct() {
     $this->has_many['chat'] = array('foreign_model'=>'Chat_model','foreign_table'=>'chat','foreign_key'=>'user_id','local_key'=>'id');
-    // $this->has_many_pivot['games'] = array(
-    //   'foreign_model'=>'Games_model',
-    //   'pivot_table'=>'game_user',
-    //   'local_key'=>'id',
-    //   'pivot_local_key'=>'user_id',
-    //   'pivot_foreign_key'=>'game_id',
-    //   'foreign_key'=>'id',
-    //   'get_relate'=>TRUE
-    // );
+    $this->has_many_pivot['games'] = array(
+      'foreign_model'=>'Game_model',
+      'pivot_table'=>'game_user',
+      'local_key'=>'id',
+      'pivot_local_key'=>'user_id',
+      'pivot_foreign_key'=>'game_id',
+      'foreign_key'=>'id',
+      'get_relate'=>TRUE
+    );
     // $this->has_one['stat'] = array('foreign_model'=>'Stat_model','foreign_table'=>'stat','foreign_key'=>'user_id','local_key'=>'id');
 
     parent::__construct();
@@ -141,22 +140,7 @@ class User_model extends MY_Model {
     }
   }
 
-  /*public function update($id){
-     $data = array(
-      // 'username' => $this->input->post('username'),
-      'first_name' => $this->input->post('first_name'),
-      'last_name' => $this->input->post('last_name'),
-      'email' => $this->input->post('email'),
-      // 'is_private' => $this->input->post('is_private')
-    );
-    if($this->input->post('password')){
-      $data['password'] = sha1($this->input->post('password'));
-    }
-    $this->db->where('id', $id);
-    return $this->db->update('user', $data);
-  }*/
-
-  public function getUserConnections($id){
+  public function getFriends($id){
     $query = $this->db->select('*')
     ->from('user_connection')
     ->group_start()
@@ -269,12 +253,16 @@ class User_model extends MY_Model {
 
     if($query->num_rows() > 0){
       return $query->num_rows();
+    }else{
+      return FALSE;
     }
   }
 
     //has password
   protected function hash_password($data){
-      $data['password'] = sha1($data['password']);
+      if(isset($data['password'])){
+        $data['password'] = sha1($data['password']);
+      }
       return $data;
   }
 }

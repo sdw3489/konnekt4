@@ -79,7 +79,7 @@ define([
     getConnections : function(){
       $.ajax({
         type: "GET",
-        url: '/user/getConnections/'+this.model.get('user').id,
+        url: '/api/users/connections/id/'+this.model.get('user').id,
         success: _.bind(this.onGetConnections, this)
       });
       clearTimeout(this.timer);
@@ -88,17 +88,17 @@ define([
       },this), 10000);
     },
     onGetConnections : function(jsonText) {
-      var data = JSON.parse(jsonText);
-      if(data != null){
-        if(data.status != this.model.get('status')){
+      this.data = (typeof jsonText == 'string')? JSON.parse(jsonText) : jsonText;
+      if(this.data.status != false){
+        if(this.data.status != this.model.get('status')){
           this.model.set({
             'isConnection':true,
-            'initiator': (data.initiator_id == this.model.get('user_id'))? true : false,
-            'status':data.status
+            'initiator': (this.data.initiator_id == this.model.get('user_id'))? true : false,
+            'status':this.data.status
           });
-          this.setClass(data.status);
+          this.setClass(this.data.status);
         }
-      }else if(data == null && this.model.get('isCurrent') == false){
+      }else if(this.data.status == false && this.model.get('isCurrent') == false){
         this.model.set({
           'isConnection':false,
           'initiator':false,
@@ -117,9 +117,10 @@ define([
 
       $.ajax({
         type: "POST",
-        url: '/user/connect/'+id,
+        url: '/api/users/connections/',
         data:{
-          'type': type
+          id : id,
+          type: type
         },
         success: _.bind(function(data){
           setTimeout(_.bind(function(){

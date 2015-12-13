@@ -301,7 +301,10 @@ class MY_Model extends CI_Model
             {
                 $rules = $this->rules['update'];
             }
+        }else{
+            $rules = $this->rules[$rules];
         }
+
         $this->form_validation->set_rules($rules);
         if($this->form_validation->run())
         {
