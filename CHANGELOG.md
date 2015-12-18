@@ -1,5 +1,11 @@
 # Changelog History
 
+### 2.5: 12-18-2015
+  - REST API
+  - Model & Controller Base Abstraction
+  - Separate Change Password in Edit
+  - Database update to V2
+
 ### 2.4: 12-9-2014
   - New Theme
   - Piece Legend
