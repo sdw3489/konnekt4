@@ -10,7 +10,7 @@ class User_model extends MY_Model {
   public $return_as = 'array';
   public $rules = array(
     'insert' => array(
-        'username' => array(
+        array(
             'field' => 'username',
             'label' => 'Username',
             'rules' => 'trim|required|min_length[3]|max_length[12]|is_unique[user.username]|xss_clean',
@@ -19,27 +19,27 @@ class User_model extends MY_Model {
                 'is_unique' => 'This %s already exists.'
             )
         ),
-        'email' => array(
+        array(
             'field' => 'email',
             'label' => 'Email',
             'rules' => 'trim|required|valid_email|xss_clean'
         ),
-        'first_name' => array(
+        array(
             'field' => 'first_name',
             'label' => 'First Name',
             'rules' => 'trim|xss_clean'
         ),
-        'last_name' => array(
+        array(
             'field' => 'last_name',
             'label' => 'Last Name',
             'rules' => 'trim|xss_clean'
         ),
-        'password' => array(
+        array(
             'field' => 'password',
             'label' => 'Password',
             'rules' => 'trim|required|min_length[3]|xss_clean'
         ),
-        'confirm_password' => array(
+        array(
             'field' => 'confirm_password',
             'label' => 'Password Confirmation',
             'rules' => 'trim|required|matches[password]|xss_clean',
@@ -49,29 +49,29 @@ class User_model extends MY_Model {
         )
     ),
     'update' => array(
-        'email' => array(
+        array(
             'field'=>'email',
             'label'=>'Email',
             'rules'=>'trim|required|valid_email|xss_clean'
         ),
-        'first_name' => array(
+        array(
             'field' => 'first_name',
             'label' => 'First Name',
             'rules' => 'trim|xss_clean'
         ),
-        'last_name' => array(
+        array(
             'field' => 'last_name',
             'label' => 'Last Name',
             'rules' => 'trim|xss_clean'
         )
     ),
     'change_password' => array(
-        'password' => array(
+        array(
             'field' => 'password',
             'label' => 'Password',
             'rules' => 'trim|required|min_length[3]|xss_clean'
         ),
-        'confirm_password' => array(
+        array(
             'field' => 'confirm_password',
             'label' => 'Password Confirmation',
             'rules' => 'trim|required|matches[password]|xss_clean',
@@ -79,9 +79,22 @@ class User_model extends MY_Model {
                 'matches' => 'Passwords do not match.'
             )
         )
-
+    ),
+    'login' => array(
+        array(
+            'field' => 'username',
+            'label' => 'Username',
+            'rules' => 'trim|required|xss_clean'
+        ),
+        array(
+            'field'=>'login_password',
+            'label'=>'Password',
+            'rules'=>'trim|validUser',
+            'errors' => array(
+                'validUser' => 'Username or Password is not correct.'
+            )
+        )
     )
-
   );
 
   public function __construct() {
@@ -108,8 +121,7 @@ class User_model extends MY_Model {
     $result = $query->result();
     if($query->num_rows() > 0){
       $id=$result[0]->id;
-      $this->db->where('id',$id);
-      $this->db->update('user', array('logged_in'=>1));
+      $this->db->where('id',$id)->update('user', array('logged_in'=>1));
       return $result;
     }else{
       return false;
@@ -117,7 +129,7 @@ class User_model extends MY_Model {
   }
 
   //Check username is valid
-  public function validUser($username){
+  public function validUser(){
     $encrypted_password = sha1($this->input->post('login_password'));
     $username = $this->input->post('username');
     $query = $this->db->get_where('user', array('username'=>$username, 'password'=>$encrypted_password));
@@ -132,8 +144,7 @@ class User_model extends MY_Model {
   //Logout Function
   public function logout($id){
     if ($id){
-      $this->db->where('id',$id);
-      $this->db->update('user', array('logged_in'=>0));
+      $this->db->where('id',$id)->update('user', array('logged_in'=>0));
       return true;
     }else{
       return false;
