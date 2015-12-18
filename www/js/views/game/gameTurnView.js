@@ -16,7 +16,7 @@ define([
     oppText : 'Opponents Turn',
 
     initialize: function () {
-      this.model.on('change', this.render, this);
+      this.model.on('change:turn', this.render, this);
     },
     render: function () {
       if(this.model.get('playerId') === this.model.get('turn')){

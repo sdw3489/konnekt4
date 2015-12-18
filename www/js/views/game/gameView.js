@@ -22,7 +22,7 @@ define([
     initialize: function () {
 
       this.model = new GameModel({
-        game_id         : this.game.game_id,
+        id              : this.game.id,
         turn            : this.game.whose_turn,
         playerId        : this.game.current_player.playerId,
         player2Id       : this.game.opponent_player.playerId,

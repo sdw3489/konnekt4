@@ -11,7 +11,7 @@
     var require = {
       config: {
         'views/baseView':{
-          page: "<?= $bodyClass; ?>"
+          page: "<?= $body_class; ?>"
         },
         'dv/dashboardView': <?= (isset($dashboardJSON))? "$dashboardJSON" : "null"; ?>,
         'gv/gameView': <?= (isset($gameJSON))? "$gameJSON" : "null"; ?>,

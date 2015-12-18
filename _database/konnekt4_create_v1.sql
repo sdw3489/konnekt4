@@ -1,47 +1,4 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Script type: drop
--- Scope: [tables, references]
--- Generated at Sat Nov 29 21:56:16 UTC 2014
-
-
-
--- foreign keys
-ALTER TABLE chat DROP FOREIGN KEY chat_user;
-ALTER TABLE game DROP FOREIGN KEY game_end_type;
-ALTER TABLE game_user DROP FOREIGN KEY game_user_challenge_type;
-ALTER TABLE game_user DROP FOREIGN KEY game_user_game;
-ALTER TABLE game_user DROP FOREIGN KEY game_user_stat_type;
-ALTER TABLE game_user DROP FOREIGN KEY game_user_user;
-ALTER TABLE stat DROP FOREIGN KEY stat_user;
-ALTER TABLE user_connection DROP FOREIGN KEY user_connection_connection;
-ALTER TABLE user_connection DROP FOREIGN KEY user_connection_initiator;
-ALTER TABLE user_connection DROP FOREIGN KEY user_connection_user;
-
--- tables
--- Table challenge_type
-DROP TABLE IF EXISTS challenge_type;
--- Table chat
-DROP TABLE IF EXISTS chat;
--- Table end_type
-DROP TABLE IF EXISTS end_type;
--- Table game
-DROP TABLE IF EXISTS game;
--- Table game_user
-DROP TABLE IF EXISTS game_user;
--- Table stat
-DROP TABLE IF EXISTS stat;
--- Table stat_type
-DROP TABLE IF EXISTS stat_type;
--- Table user
-DROP TABLE IF EXISTS user;
--- Table user_connection
-DROP TABLE IF EXISTS user_connection;
-
-
-
--- End of file.
-
--- Created by Vertabelo (http://vertabelo.com)
 -- Script type: create
 -- Scope: [tables, references]
 -- Generated at Sat Nov 29 21:56:52 UTC 2014
@@ -120,7 +77,7 @@ CREATE TABLE IF NOT EXISTS user (
     password varchar(64)    NOT NULL ,
     first_name varchar(64)    NOT NULL ,
     last_name varchar(64)    NOT NULL ,
-    logged_in int    NOT NULL ,
+    logged_in int    NOT NULL  DEFAULT 0,
     is_private int    NOT NULL DEFAULT 0 ,
     CONSTRAINT user_pk PRIMARY KEY (id)
 );

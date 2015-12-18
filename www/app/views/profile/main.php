@@ -5,7 +5,7 @@
 
   <div class="row">
     <div class="col-sm-3">
-      <h2 class="text-capitalize text-center"><?= $user->username;?></h2>
+      <h2 class="text-capitalize text-center"><?= $user['username'];?></h2>
       <div class="text-center">
         <img src="/images/user-placeholder.png" class="avatar img-circle" alt="avatar" width="256">
       </div>
@@ -22,28 +22,28 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">Username:</label>
               <div class="col-sm-8">
-                <p class="form-control-static"><?= $user->username;?></p>
+                <p class="form-control-static"><?= $user['username'];?></p>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">First name:</label>
               <div class="col-sm-8">
-                 <p class="form-control-static"><?= $user->first_name;?></p>
+                 <p class="form-control-static"><?= $user['first_name'];?></p>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Last name:</label>
               <div class="col-sm-8">
-                 <p class="form-control-static"><?= $user->last_name;?></p>
+                 <p class="form-control-static"><?= $user['last_name'];?></p>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">Email:</label>
               <div class="col-sm-8">
-                 <p class="form-control-static"><?= $user->email;?></p>
+                 <p class="form-control-static"><?= $user['email'];?></p>
               </div>
             </div>
-            <?php if($id == $user->id): ?>
+            <?php if($id == $user['id']): ?>
             <div class="form-group">
               <label class="col-sm-3 control-label"></label>
               <div class="col-sm-8">

@@ -1,29 +1,29 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Main extends MY_Controller {
+class Users extends MY_Controller {
 
     protected $models = array('User', 'Stat');
     protected $helpers = array('url');
-    private $session_id;
 
     public function __construct(){
         parent::__construct();
         $this->load->driver('session');
+        $this->load->library('form_validation');
         $this->session_id = $this->session->userdata('id');
     }
 
-    public function index() {
+    public function index(){
         if($this->session_id){
-            $this->set_page_title('Dashboard');
-            $this->set_body_class('dashboard');
+            $this->set_page_title('Users');
+            $this->set_body_class('users');
+            $this->data['users'] = $this->User->users();
+            $this->data['usersJSON'] = json_encode($this->data['users'], JSON_NUMERIC_CHECK);
             $this->data['id'] = $this->session_id;
-            $this->data['stats'] = $this->Stat->get($this->session_id);
             $this->data['notifications'] = $this->User->getNotifications($_SESSION['id']);
-            $this->view ='dashboard';
+            $this->view = 'users';
         }else{
-            redirect("/login/");
+            redirect('/login/');
         }
     }
 }
-
 ?>

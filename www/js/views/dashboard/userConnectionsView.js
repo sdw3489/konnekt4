@@ -33,7 +33,7 @@ define([
     getUserConnections : function(){
       $.ajax({
         type: "GET",
-        url: '/user/getUserConnections/',
+        url: '/api/users/friends/',
         success: _.bind(this.onGetUserConnections, this)
       });
       clearTimeout(this.timer);
@@ -42,11 +42,11 @@ define([
       },this), 10000);
     },
     onGetUserConnections : function(jsonText) {
-      this.data = JSON.parse(jsonText);
+      this.data = (typeof jsonText == 'string')? JSON.parse(jsonText) : jsonText;
       if(!_.isEqual(this.data, this.prevData)){
         this.prevData = this.data;
         this.$el.html('');
-        if(this.data != null){
+        if(this.data.status != false){
           for(i in this.data){
             this.addOne(this.data[i]);
           }
@@ -65,7 +65,10 @@ define([
 
       $.ajax({
         type: "POST",
-        url: '/game/challenge/'+id,
+        url: '/api/games/new/',
+        data:{
+          id: id
+        },
         success: _.bind(function(event){
           this.$btn.blur();
         }, this)

@@ -38,7 +38,7 @@ define([
     },
     addPiece: function(opts){
       this.model.set('numPieces', this.model.get('numPieces')+1);
-      var piece = new Piece('game_'+this.model.get('game_id'),opts.playerId, opts.row,opts.col,this.model.get('numPieces'), this);
+      var piece = new Piece('game_'+this.model.get('id'),opts.playerId, opts.row,opts.col,this.model.get('numPieces'), this);
       this.model.get('pieceArr').push(piece);
     },
     drawMoves: function(){
@@ -75,9 +75,32 @@ define([
                 r:row
               });
 
-              this.ajax_utility('/game/updateLastMove/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify({col:col, row:row}), "POST");
-              this.ajax_utility('/game/updateBoard/'+this.model.get('game_id'), this.onChangeBoard, JSON.stringify(this.model.get('moves')), "POST");
-              this.ajax_utility('/game/changeTurn/'+this.model.get('game_id'), this.onChangeServerTurn);
+              $.ajax({
+                type: "POST",
+                url: '/api/games/last_move/',
+                data: {
+                  id : this.model.get('id'),
+                  last_move : JSON.stringify({'col':col, 'row':row}),
+                },
+                success: _.bind(this.onChangeBoard, this)
+              });
+
+              $.ajax({
+                type: "POST",
+                url: '/api/games/board/',
+                data: {
+                  id : this.model.get('id'),
+                  board: JSON.stringify(this.model.get('moves')),
+                },
+                success: _.bind(this.onChangeBoard, this)
+              });
+
+              $.ajax({
+                type: "POST",
+                url: '/api/games/turn/',
+                data: {id: this.model.get('id')},
+                success: _.bind(this.onChangeServerTurn, this)
+              });
               this.model.changeTurn();
 
             }else{// if its not your turn throw a not your turn error at the top of the game board
@@ -92,13 +115,20 @@ define([
       }
     },
     getMove:function(){
-      this.ajax_utility('/game/getMove/'+this.model.get('game_id'), this.onGetMove);
+      $.ajax({
+        type: "GET",
+        url: '/api/games/last_move/id/'+this.model.get('id'),
+        success: _.bind(this.onGetMove, this)
+      });
     },
     onGetMove: function(jsonText){
-      var obj = JSON.parse(jsonText),
-          row = obj['row'],
-          col = obj['col'],
+      var obj = (typeof jsonText == 'string')? JSON.parse(jsonText) : jsonText;
+      var lastMove = (typeof obj['last_move'] == 'string')? JSON.parse(obj['last_move']) : obj['last_move'];
+
+      var row = lastMove['row'],
+          col = lastMove['col'],
           opponentId = Math.abs(this.model.get('playerId')-1);
+
 
       if(col != null || row != null){
         this.addPiece({
@@ -140,16 +170,7 @@ define([
       }else{
         this.$gameAlert.slideUp();
       }
-    },
-    ajax_utility:function(){
-      $.ajax({
-        type: (arguments[3])? arguments[3] : "GET",
-        url: arguments[0],
-        data: (arguments[2])? {data:arguments[2]} : '',
-        success: _.bind(arguments[1], this)
-      });
     }
-
 
   });
 
