@@ -2,11 +2,11 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.2.4 or newer
+ * An open source application development framework for PHP
  *
  * This content is released under the MIT License (MIT)
  *
- * Copyright (c) 2014, British Columbia Institute of Technology
+ * Copyright (c) 2014 - 2016, British Columbia Institute of Technology
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,10 +28,10 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
- * @copyright	Copyright (c) 2014, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2016, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	http://codeigniter.com
+ * @link	https://codeigniter.com
  * @since	Version 1.0.0
  * @filesource
  */
@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Logging
  * @author		EllisLab Dev Team
- * @link		http://codeigniter.com/user_guide/general/errors.html
+ * @link		https://codeigniter.com/user_guide/general/errors.html
  */
 class CI_Log {
 
@@ -68,13 +68,6 @@ class CI_Log {
 	 * @var int
 	 */
 	protected $_threshold = 1;
-
-	/**
-	 * Highest level of logging
-	 *
-	 * @var int
-	 */
-	protected $_threshold_max = 0;
 
 	/**
 	 * Array of threshold levels to log
@@ -139,7 +132,7 @@ class CI_Log {
 		}
 		elseif (is_array($config['log_threshold']))
 		{
-			$this->_threshold = $this->_threshold_max;
+			$this->_threshold = 0;
 			$this->_threshold_array = array_flip($config['log_threshold']);
 		}
 
@@ -161,8 +154,8 @@ class CI_Log {
 	 *
 	 * Generally this function will be called using the global log_message() function
 	 *
-	 * @param	string	the error level: 'error', 'debug' or 'info'
-	 * @param	string	the error message
+	 * @param	string	$level 	The error level: 'error', 'debug' or 'info'
+	 * @param	string	$msg 	The error message
 	 * @return	bool
 	 */
 	public function write_log($level, $msg)
@@ -198,9 +191,22 @@ class CI_Log {
 			return FALSE;
 		}
 
-		$message .= $level.' - '.date($this->_date_fmt).' --> '.$msg."\n";
-
 		flock($fp, LOCK_EX);
+
+		// Instantiating DateTime with microseconds appended to initial date is needed for proper support of this format
+		if (strpos($this->_date_fmt, 'u') !== FALSE)
+		{
+			$microtime_full = microtime(TRUE);
+			$microtime_short = sprintf("%06d", ($microtime_full - floor($microtime_full)) * 1000000);
+			$date = new DateTime(date('Y-m-d H:i:s.'.$microtime_short, $microtime_full));
+			$date = $date->format($this->_date_fmt);
+		}
+		else
+		{
+			$date = date($this->_date_fmt);
+		}
+
+		$message .= $this->_format_line($level, $date, $msg);
 
 		for ($written = 0, $length = strlen($message); $written < $length; $written += $result)
 		{
@@ -221,7 +227,21 @@ class CI_Log {
 		return is_int($result);
 	}
 
-}
+	// --------------------------------------------------------------------
 
-/* End of file Log.php */
-/* Location: ./system/core/Log.php */
+	/**
+	 * Format the log line.
+	 *
+	 * This is for extensibility of log formatting
+	 * If you want to change the log format, extend the CI_Log class and override this method
+	 *
+	 * @param	string	$level 	The error level
+	 * @param	string	$date 	Formatted date string
+	 * @param	string	$msg 	The log message
+	 * @return	string	Formatted log line with a new line character '\n' at the end
+	 */
+	protected function _format_line($level, $date, $message)
+	{
+		return $level.' - '.$date.' --> '.$message."\n";
+	}
+}

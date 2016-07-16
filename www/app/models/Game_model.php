@@ -21,8 +21,7 @@ class Game_model extends MY_Model {
   }
 
   public function newGame($user_id, $challenged_id){
-    $time=time();
-    $this->db->insert($this->table, array(
+    $this->insert(array(
       'whose_turn' => 0,
       'active'=>1,
       'initiator_id'=>$user_id
