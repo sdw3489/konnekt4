@@ -13,7 +13,7 @@ class User_model extends MY_Model {
         array(
             'field' => 'username',
             'label' => 'Username',
-            'rules' => 'trim|required|min_length[3]|max_length[12]|is_unique[user.username]|xss_clean',
+            'rules' => 'trim|required|min_length[3]|max_length[12]|is_unique[user.username]',
             'errors' => array(
                 'required'  => 'You have not provided a %s.',
                 'is_unique' => 'This %s already exists.'
@@ -22,27 +22,27 @@ class User_model extends MY_Model {
         array(
             'field' => 'email',
             'label' => 'Email',
-            'rules' => 'trim|required|valid_email|xss_clean'
+            'rules' => 'trim|required|valid_email'
         ),
         array(
             'field' => 'first_name',
             'label' => 'First Name',
-            'rules' => 'trim|xss_clean'
+            'rules' => 'trim'
         ),
         array(
             'field' => 'last_name',
             'label' => 'Last Name',
-            'rules' => 'trim|xss_clean'
+            'rules' => 'trim'
         ),
         array(
             'field' => 'password',
             'label' => 'Password',
-            'rules' => 'trim|required|min_length[3]|xss_clean'
+            'rules' => 'trim|required|min_length[3]'
         ),
         array(
             'field' => 'confirm_password',
             'label' => 'Password Confirmation',
-            'rules' => 'trim|required|matches[password]|xss_clean',
+            'rules' => 'trim|required|matches[password]',
             'errors' => array(
                 'matches' => 'Passwords do not match.'
             )
@@ -52,29 +52,29 @@ class User_model extends MY_Model {
         array(
             'field'=>'email',
             'label'=>'Email',
-            'rules'=>'trim|required|valid_email|xss_clean'
+            'rules'=>'trim|required|valid_email'
         ),
         array(
             'field' => 'first_name',
             'label' => 'First Name',
-            'rules' => 'trim|xss_clean'
+            'rules' => 'trim'
         ),
         array(
             'field' => 'last_name',
             'label' => 'Last Name',
-            'rules' => 'trim|xss_clean'
+            'rules' => 'trim'
         )
     ),
     'change_password' => array(
         array(
             'field' => 'password',
             'label' => 'Password',
-            'rules' => 'trim|required|min_length[3]|xss_clean'
+            'rules' => 'trim|required|min_length[3]'
         ),
         array(
             'field' => 'confirm_password',
             'label' => 'Password Confirmation',
-            'rules' => 'trim|required|matches[password]|xss_clean',
+            'rules' => 'trim|required|matches[password]',
             'errors' => array(
                 'matches' => 'Passwords do not match.'
             )
@@ -84,7 +84,7 @@ class User_model extends MY_Model {
         array(
             'field' => 'username',
             'label' => 'Username',
-            'rules' => 'trim|required|xss_clean'
+            'rules' => 'trim|required'
         ),
         array(
             'field'=>'login_password',

@@ -85,7 +85,7 @@ class User extends MY_Controller {
           array(
               'field' => 'username',
               'label' => 'Username',
-              'rules' => 'trim|required|xss_clean'
+              'rules' => 'trim|required'
           ),
           array(
               'field'=>'login_password',
