@@ -1,10 +1,19 @@
 # Changelog History
 
+### 2.5.1: 7-16-2016
+  - Codeigniter core Updated to v3.0.6
+  - My_Model updated to v3.0
+  - Database Schema updated to v2.1
+  - Timezone set to UTC to fix production created_at times. Production server was set to America\Denver
+  - Path & Capital Fix for MY_REST_Controller include in API controllers.
+  - Fix New Game insert call to use MY_Model
+  - Drop xss_clean from user validation (Depricated in latest codeigniter)
+
 ### 2.5: 12-18-2015
   - REST API
   - Model & Controller Base Abstraction
   - Separate Change Password in Edit
-  - Database update to V2
+  - Database update to v2
 
 ### 2.4: 12-9-2014
   - New Theme
