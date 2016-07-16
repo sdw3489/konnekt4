@@ -94,6 +94,31 @@ class Chats extends MY_REST_Controller {
 
     }
 
+    public function time_get(){
+
+        $results = array(
+            'CI now()' => date('Y-m-d H:i:s e', now()),
+            'time()'=> date('Y-m-d H:i:s e', time()),
+            '$_SESSION'=> date('Y-m-d H:i:s e', $_SESSION['time']),
+            'get_chats'=> date('Y-m-d H:i:s',local_to_gmt($_SESSION['time'])),
+            'timezone' => date_default_timezone_get()
+        );
+        // Check if the games data store contains games (in case the database result returns NULL)
+        if ($results)
+        {
+            // Set the response and exit
+            $this->response($results, REST_Controller::HTTP_OK); // OK (200) being the HTTP response code
+        }
+        else
+        {
+            // Set the response and exit
+            $this->response([
+                'status' => FALSE,
+                'message' => 'No Records were found'
+            ], REST_Controller::HTTP_OK); // NOT_FOUND (404) being the HTTP response code
+        }
+    }
+
     private function _get_chat(){
         return $this->Chat->with_user('fields: username')
                     ->where('created_at >=', date('Y-m-d H:i:s',local_to_gmt($_SESSION['time'])))

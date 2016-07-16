@@ -54,7 +54,6 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -305,6 +304,10 @@ switch (ENVIRONMENT)
 
 	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
 
+	if( function_exists('date_default_timezone_set'))
+	{
+	   date_default_timezone_set('UTC');
+	}
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
