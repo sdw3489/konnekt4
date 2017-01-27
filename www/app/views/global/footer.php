@@ -1,6 +1,6 @@
   <div class="footer">
   	<div class="container">
-  		<p class="text-muted">&copy; Seth Whitaker 2014</p>
+  		<p class="text-muted">&copy; Seth Whitaker 2011-<?= date('Y'); ?></p>
   	</div>
   </div>
 
