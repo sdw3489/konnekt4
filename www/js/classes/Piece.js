@@ -1,7 +1,8 @@
 define([
   'jquery',
-  'events/channel'
-], function($, EventsChannel){
+  'events/channel',
+  'utils/utils'
+], function($, EventsChannel, utils){
 
   //////////////////////////////////////////////////////
   // Class: Piece                   //
@@ -34,26 +35,26 @@ define([
     this.x=this.current_cell.getCenterX();            // the piece needs to know what its x location value is.
     this.y=this.current_cell.getCenterY();            // the piece needs to know what its y location value is as well.
 
-    var svgns = "http://www.w3.org/2000/svg";
-    this.piece =  document.createElementNS(svgns,"g");        // a shortcut to the actual svg piece object
+    // create the svg piece.
+    var g = utils.createSVG('g',{
+      "id" : this.id,
+      "transform" : "translate("+this.x+","+this.y+")"
+    });
 
-    this.piece.setAttributeNS(null,"transform","translate("+this.x+","+this.y+")");
+    var circ = utils.createSVG('circle',{
+      'r' : '30',
+      'class' : 'player' + this.player // change the color according to player
+    });
+    g.appendChild(circ);
 
-    // create the svg 'checker' piece.
-    var circ = document.createElementNS(svgns,"circle");
-    circ.setAttributeNS(null,"r",'30');
-    circ.setAttributeNS(null,"class",'player' + this.player);          // change the color according to player
-    this.piece.appendChild(circ);                       // add the svg 'checker' to svg group
-    //create more circles to prove I'm moving the group (and to make it purty)
-    var circ2 = document.createElementNS(svgns,"circle");
-    circ2.setAttributeNS(null,"r",'25');
-    circ2.setAttributeNS(null,"fill",'white');
-    circ2.setAttributeNS(null,"opacity",'0.1');
-    this.piece.appendChild(circ2);
+    var innerCirc = utils.createSVG('circle',{
+      "r" : "25",
+      "fill" : "white",
+      "opacity" : "0.1"
+    });
+    g.appendChild(innerCirc);
 
-
-    this.setAtt("id",this.id); // make sure the SVG object has the correct id value
-    document.getElementsByTagName('svg')[0].appendChild(this.piece);
+    document.getElementsByTagName('svg')[0].appendChild(g);
 
     this.model.boardArr[cellRow][cellCol].occupied = Array(player,cellRow, cellCol);
 
@@ -112,7 +113,6 @@ define([
         }
       }
     },
-
 
     checkDirection: function(direction){
       switch(direction) {
@@ -184,15 +184,9 @@ define([
         default:
           break;
       }
-    },
-
-    // function that allows a quick setting of an attribute of the specific piece object
-    setAtt: function(att,val) {
-      this.piece.setAttributeNS(null,att,val);
     }
+
   }
-
-
 
   return Piece;
 

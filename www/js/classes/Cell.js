@@ -1,6 +1,7 @@
 define([
-  'jquery'
-], function($){
+  'jquery',
+  'utils/utils'
+], function($, utils){
 
   //////////////////////////////////////////////////////
   // Class: Cell                    //
@@ -40,31 +41,31 @@ define([
 
     //create it
     createIt: function() {
-      var svgns = "http://www.w3.org/2000/svg";
+      // create the svg cell item.
+      var g = utils.createSVG('g');
 
-      this.piece = document.createElementNS(svgns,"g");
-      // create the svg 'checker' piece.
-      var rect = document.createElementNS(svgns,'rect');
-      rect.setAttributeNS(null,'id',this.id);
-      rect.setAttributeNS(null,'width',this.size+'px');
-      rect.setAttributeNS(null,'height',this.size+'px');
-      rect.setAttributeNS(null,'x',this.x+'px');
-      rect.setAttributeNS(null,'y',this.y+'px');
-      rect.setAttributeNS(null,'class','cell'); // change the color according to player
-      this.piece.appendChild(rect); // add the svg 'checker' to svg group
+      var rect = utils.createSVG('rect', {
+        'id': this.id,
+        'width': this.size+'px',
+        'height': this.size+'px',
+        'x': this.x+'px',
+        'y': this.y+'px',
+        'class': 'cell'
+      });
+      g.appendChild(rect);
 
-      //create more circles to prove I'm moving the group (and to make it purty)
-      var circ = document.createElementNS(svgns,'circle');
-      circ.setAttributeNS(null,"transform","translate("+(this.x+(this.size/2))+","+(this.y+(this.size/2))+")");
-      circ.setAttributeNS(null,"r",'30');
-      circ.setAttributeNS(null,'x',this.x+'px');
-      circ.setAttributeNS(null,'y',this.y+'px');
-      circ.setAttributeNS(null,"fill",'white');
-      circ.setAttributeNS(null,"opacity",'1');
-      this.piece.appendChild(circ);
+      var circ = utils.createSVG('circle', {
+        'transform' : "translate("+(this.x+(this.size/2))+","+(this.y+(this.size/2))+")",
+        'r' : '30',
+        'x' : this.x+'px',
+        'y' : this.y+'px',
+        'fill' : 'white'
+      });
+
+      g.appendChild(circ);
 
       // return this object to be stored in a variable
-      return this.piece;
+      return g;
     },
     //getCol
     getCol: function(){
