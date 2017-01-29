@@ -21,13 +21,12 @@ define([
     this.row = row;
     //initialize the other instance vars
     this.occupied = null;
-    this.state = 'alive';
     this.x = this.col * this.size;
     this.y = this.row * this.size;
     this.centerx=this.getCenterX();           // the piece needs to know what its x location value is.
     this.centery=this.getCenterY();         // the piece needs to know what its y location value is as well.
-    this.color = 'white';
-    //create it...
+
+    //create the cell svg object
     this.object = this.createIt();
 
     //******* Moving to Game View *********/
@@ -35,22 +34,15 @@ define([
       GameView.placePiece(col);
     }
     this.parent.appendChild(this.object);
-    this.myBBox = this.getMyBBox();
   }
 
   Cell.prototype = {
 
-    //////////////////////////////////////////////////////
-    // Cell : Methods                 //
-    // Description:  All of the methods for the     //
-    // Cell Class (remember WHY we want these to be   //
-    // seperate from the object constructor!)     //
-    //////////////////////////////////////////////////////
-    //create it...
+    //create it
     createIt: function() {
       var svgns = "http://www.w3.org/2000/svg";
 
-      this.piece = document.createElementNS("http://www.w3.org/2000/svg","g");
+      this.piece = document.createElementNS(svgns,"g");
       // create the svg 'checker' piece.
       var rect = document.createElementNS(svgns,'rect');
       rect.setAttributeNS(null,'id',this.id);
@@ -58,8 +50,9 @@ define([
       rect.setAttributeNS(null,'height',this.size+'px');
       rect.setAttributeNS(null,'x',this.x+'px');
       rect.setAttributeNS(null,'y',this.y+'px');
-      rect.setAttributeNS(null,'class','cell');         // change the color according to player
-      this.piece.appendChild(rect);                       // add the svg 'checker' to svg group
+      rect.setAttributeNS(null,'class','cell'); // change the color according to player
+      this.piece.appendChild(rect); // add the svg 'checker' to svg group
+
       //create more circles to prove I'm moving the group (and to make it purty)
       var circ = document.createElementNS(svgns,'circle');
       circ.setAttributeNS(null,"transform","translate("+(this.x+(this.size/2))+","+(this.y+(this.size/2))+")");
@@ -78,11 +71,6 @@ define([
       return this.col;
     },
 
-    //get my BBox
-    getMyBBox: function(){
-      return this.object.getBBox();
-    },
-
     //get my center x
     getCenterX: function(){
       return (this.x + (this.size/2));
@@ -96,12 +84,8 @@ define([
     //set me to occupied...
     isOccupied: function(pieceId){
       this.occupied = pieceId;
-    },
-
-    //set me to unoccupied...
-    notOccupied: function(){
-      this.occupied = null;
     }
+
   }
 
   return Cell;

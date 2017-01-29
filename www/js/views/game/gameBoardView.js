@@ -21,7 +21,7 @@ define([
     },
     render: function () {
       //create a parent to stick board in...
-      var gEle=document.createElementNS(this.model.get('svgns'),'g');
+      var gEle=document.createElementNS("http://www.w3.org/2000/svg",'g');
       gEle.setAttributeNS(null,'id','game-board');
       gEle.setAttributeNS(null,'stroke','blue');
       //stick g on board

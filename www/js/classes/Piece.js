@@ -34,67 +34,60 @@ define([
     this.x=this.current_cell.getCenterX();            // the piece needs to know what its x location value is.
     this.y=this.current_cell.getCenterY();            // the piece needs to know what its y location value is as well.
 
-    // this.object = eval("new " + type + "(this)"); // based on the piece type, you need to create the more specific piece object (Checker, Pawn, Rook, etc.)
-    // this.piece = this.object.piece;
-
-    /* FROM CHECKER */
-    this.piece =  document.createElementNS("http://www.w3.org/2000/svg","g");        // a shortcut to the actual svg piece object
-
-    /* NOT SURE IF I NEED */
-    // if(this.player == playerId){
-    //   this.piece.setAttributeNS(null,"style","cursor: pointer;");           // change the cursor
-    // }
+    var svgns = "http://www.w3.org/2000/svg";
+    this.piece =  document.createElementNS(svgns,"g");        // a shortcut to the actual svg piece object
 
     this.piece.setAttributeNS(null,"transform","translate("+this.x+","+this.y+")");
 
     // create the svg 'checker' piece.
-    var circ = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    var circ = document.createElementNS(svgns,"circle");
     circ.setAttributeNS(null,"r",'30');
     circ.setAttributeNS(null,"class",'player' + this.player);          // change the color according to player
     this.piece.appendChild(circ);                       // add the svg 'checker' to svg group
     //create more circles to prove I'm moving the group (and to make it purty)
-    var circ2 = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    var circ2 = document.createElementNS(svgns,"circle");
     circ2.setAttributeNS(null,"r",'25');
     circ2.setAttributeNS(null,"fill",'white');
     circ2.setAttributeNS(null,"opacity",'0.1');
     this.piece.appendChild(circ2);
 
 
-    /* END FROM CHECKER */
-
-    this.setAtt("id",this.id);            // make sure the SVG object has the correct id value (make sure it can be dragged)
+    this.setAtt("id",this.id); // make sure the SVG object has the correct id value
     document.getElementsByTagName('svg')[0].appendChild(this.piece);
 
     this.model.boardArr[cellRow][cellCol].occupied = Array(player,cellRow, cellCol);
-    var winner, loser;
-    for (var i = this.model.directionArr.length-1; i >= 0; i--) {
-      for (var k = 0; k <= this.model.directionArr[i].direction.length-1; k++) {
-        if(this.countDirection(this.model.directionArr[i].direction[k])){
-          $.each(this.model.players, $.proxy(function(i, player){
-            if(player.playerId == this.player){
-              winner = player;
-            }else{
-              loser = player;
-            }
-          },this));
-          EventsChannel.trigger('game:end', {
-            'display_msg' : this.model.directionArr[i].message,
-            'end_type'    : this.model.directionArr[i].end_type,
-            'winner'      : winner,
-            'loser'       : loser
-          });
-          return;
-        }
-      }
-      this.connections=0;
-    }
 
-
-    // return this;
+    this.runCheck();
+    return this; //was commented out, need to keep an eye out
   }
 
 
   Piece.prototype = {
+
+    runCheck : function(){
+      var winner, loser;
+      for (var i = this.model.directionArr.length-1; i >= 0; i--) {
+        for (var k = 0; k <= this.model.directionArr[i].direction.length-1; k++) {
+          if(this.countDirection(this.model.directionArr[i].direction[k])){
+            $.each(this.model.players, $.proxy(function(i, player){
+              if(player.playerId == this.player){
+                winner = player;
+              }else{
+                loser = player;
+              }
+            },this));
+            EventsChannel.trigger('game:end', {
+              'display_msg' : this.model.directionArr[i].message,
+              'end_type'    : this.model.directionArr[i].end_type,
+              'winner'      : winner,
+              'loser'       : loser
+            });
+            return;
+          }
+        }
+        this.connections=0;
+      }
+    },
 
     countDirection: function(direction){
       checkerRow = this.cellRow;
@@ -196,12 +189,6 @@ define([
     // function that allows a quick setting of an attribute of the specific piece object
     setAtt: function(att,val) {
       this.piece.setAttributeNS(null,att,val);
-    },
-
-    //when called, will remove the piece from the document and then re-append it (put it on top!)
-    putOnTop: function() {
-      document.getElementsByTagName('svg')[0].removeChild(this.piece);
-      document.getElementsByTagName('svg')[0].appendChild(this.piece);
     }
   }
 

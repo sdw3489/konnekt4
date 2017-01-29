@@ -8,8 +8,6 @@ define([
   var GameModel = Backbone.Model.extend({
 
     defaults:{
-      xhtmlns : "http://www.w3.org/1999/xhtml",
-      svgns : "http://www.w3.org/2000/svg",
       boardArr : [],   //2d array [row][col]
       pieceArr : [],   //2d array [player][piece] (player is either 0 or 1)
       directionArr : [
