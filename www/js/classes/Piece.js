@@ -4,13 +4,11 @@ define([
   'utils/utils'
 ], function($, EventsChannel, utils){
 
-  //////////////////////////////////////////////////////
-  // Class: Piece                   //
-  // Description: Using the javascript prototype, you //
-  // can make faux classes. This allows objects to be //
-  // made which act like classes and can be referenced//
-  // by the game.                   //
-  //////////////////////////////////////////////////////
+  /******************
+   * Class: Piece
+   * Description: Using the javascript prototype, you  can make faux classes.
+   *   This allows objects to be made which act like classes and can be referenced by the game.
+   ******************/
 
 
   // Piece constructor
@@ -19,10 +17,8 @@ define([
     this.model = GameView.model.attributes;
     this.board = board;     // piece needs to know the svg board object so that it can be attached to it.
     this.player = player;   // piece needs to know what player it belongs to.
-    // this.type = type;     // piece needs to know what type of piece it is. (put in so it could be something besides a checker!)
     this.current_cell = this.model.boardArr[cellRow][cellCol]; // piece needs to know what its current cell/location is.
     this.number = num;      // piece needs to know what number piece it is.
-    //this.isCaptured = false;  // a boolean to know whether the piece has been captured yet or not.
     this.cellRow = cellRow;
     this.cellCol = cellCol;
     //NEW
@@ -31,30 +27,12 @@ define([
     this.connections = 0;
     //id looks like 'piece_0|3' - for player 0, the third piece
     this.id = "piece_" + this.player + "|" + this.number;   // the piece also needs to know what it's id is.
-    this.current_cell.isOccupied(this.id);            //set THIS board cell to occupied
     this.x=this.current_cell.getCenterX();            // the piece needs to know what its x location value is.
     this.y=this.current_cell.getCenterY();            // the piece needs to know what its y location value is as well.
 
-    // create the svg piece.
-    var g = utils.createSVG('g',{
-      "id" : this.id,
-      "transform" : "translate("+this.x+","+this.y+")"
-    });
+    this.object = this.createIt();
 
-    var circ = utils.createSVG('circle',{
-      'r' : '30',
-      'class' : 'player' + this.player // change the color according to player
-    });
-    g.appendChild(circ);
-
-    var innerCirc = utils.createSVG('circle',{
-      "r" : "25",
-      "fill" : "white",
-      "opacity" : "0.1"
-    });
-    g.appendChild(innerCirc);
-
-    document.getElementsByTagName('svg')[0].appendChild(g);
+    document.getElementsByTagName('svg')[0].appendChild(this.object);
 
     this.model.boardArr[cellRow][cellCol].occupied = Array(player,cellRow, cellCol);
 
@@ -65,7 +43,30 @@ define([
 
   Piece.prototype = {
 
-    runCheck : function(){
+    createIt: function() {
+      // create the svg piece.
+      var g = utils.createSVG('g',{
+        "id" : this.id,
+        "transform" : "translate("+this.x+","+this.y+")"
+      });
+
+      var circ = utils.createSVG('circle',{
+        'r' : '30',
+        'class' : 'player' + this.player // change the color according to player
+      });
+      g.appendChild(circ);
+
+      var innerCirc = utils.createSVG('circle',{
+        "r" : "25",
+        "fill" : "white",
+        "opacity" : "0.1"
+      });
+      g.appendChild(innerCirc);
+
+      return g;
+    },
+
+    runCheck : function() {
       var winner, loser;
       for (var i = this.model.directionArr.length-1; i >= 0; i--) {
         for (var k = 0; k <= this.model.directionArr[i].direction.length-1; k++) {
@@ -101,7 +102,6 @@ define([
         return false;
       }
     },
-
 
     countConnections: function(direction){
       var checkedCell = this.model.boardArr[checkerRow][checkerCol];

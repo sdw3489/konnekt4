@@ -3,14 +3,13 @@ define([
   'utils/utils'
 ], function($, utils){
 
-  //////////////////////////////////////////////////////
-  // Class: Cell                    //
-  // Description:  This will create a cell object   //
-  // (board square) that you can reference from the   //
-  // game.                      //
-  // Arguments:                   //
-  //    size - tell the object it's width & height  //
-  //////////////////////////////////////////////////////
+  /***********************************************
+   * Class: Cell
+   * Description:  This will create a cell object
+   * (board square) that you can reference from the game
+   * Arguments:
+   *    size - tell the object it's width & height
+   **************************************************/
 
 
   // Cell constructor
@@ -67,10 +66,6 @@ define([
       // return this object to be stored in a variable
       return g;
     },
-    //getCol
-    getCol: function(){
-      return this.col;
-    },
 
     //get my center x
     getCenterX: function(){
@@ -80,11 +75,6 @@ define([
     //get my center y
     getCenterY: function(){
       return (this.y + (this.size/2));
-    },
-
-    //set me to occupied...
-    isOccupied: function(pieceId){
-      this.occupied = pieceId;
     }
 
   }
