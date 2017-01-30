@@ -5,7 +5,8 @@ define([
   'classes/Cell',
   'classes/Piece',
   'events/channel',
-], function($, _, Backbone, Cell, Piece, EventsChannel ){
+  'utils/utils',
+], function($, _, Backbone, Cell, Piece, EventsChannel, utils ){
 
   var gameBoardView = Backbone.View.extend({
 
@@ -21,11 +22,12 @@ define([
     },
     render: function () {
       //create a parent to stick board in...
-      var gEle=document.createElementNS(this.model.get('svgns'),'g');
-      gEle.setAttributeNS(null,'id','game-board');
-      gEle.setAttributeNS(null,'stroke','blue');
+      var g = utils.createSVG('g',{
+        "id" : "game-board",
+        "stroke" : "blue"
+      });
       //stick g on board
-      this.$el.append(gEle);
+      this.$el.append(g);
 
       //create the board...
       for(i=0;i<this.model.get('BOARDHEIGHT');i++){//rows i
