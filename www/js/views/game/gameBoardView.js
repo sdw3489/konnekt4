@@ -49,7 +49,17 @@ define([
     },
     addPiece: function(opts){
       this.model.set('numPieces', this.model.get('numPieces')+1);
-      var piece = new Piece('game_'+this.model.get('id'),opts.playerId, opts.row,opts.col,this.model.get('numPieces'), this);
+      var piece = new Piece({
+        attributes : {
+          board : 'game_'+this.model.get('id'),
+          player : opts.playerId,
+          cellRow : opts.row,
+          cellCol : opts.col,
+          num : this.model.get('numPieces'),
+          GameView : this
+        }
+      });
+      $(this.gameBoard).append(piece.el);
       this.model.get('pieceArr').push(piece);
     },
     drawMoves: function(){
