@@ -1,7 +1,10 @@
 define([
   'jquery',
-  'utils/utils'
-], function($, utils){
+  'underscore',
+  'backbone',
+  'events/channel',
+  'utils/utils',
+], function($, _, Backbone, EventsChannel, utils ){
 
   /***********************************************
    * Class: Cell
@@ -10,74 +13,58 @@ define([
    * Arguments:
    *    size - tell the object it's width & height
    **************************************************/
+  var Cell = Backbone.View.extend({
 
-
-  // Cell constructor
-  var Cell = function(myParent,id,size,col,row, GameView) {
-    this.parent = myParent;
-    this.id = id;
-    this.size = size;
-    this.col = col;
-    this.row = row;
-    //initialize the other instance vars
-    this.occupied = null;
-    this.x = this.col * this.size;
-    this.y = this.row * this.size;
-    this.centerx=this.getCenterX();           // the piece needs to know what its x location value is.
-    this.centery=this.getCenterY();         // the piece needs to know what its y location value is as well.
-
-    //create the cell svg object
-    this.object = this.createIt();
-
-    //******* Moving to Game View *********/
-    this.object.onclick = function() {
-      GameView.placePiece(col);
-    }
-    this.parent.appendChild(this.object);
-  }
-
-  Cell.prototype = {
-
-    //create it
-    createIt: function() {
-      // create the svg cell item.
-      var g = utils.createSVG('g');
-
-      var rect = utils.createSVG('rect', {
-        'id': this.id,
-        'width': this.size+'px',
-        'height': this.size+'px',
-        'x': this.x+'px',
-        'y': this.y+'px',
-        'class': 'cell'
+    el: function(){
+      this.x = this.model.col * this.model.size;
+      this.y = this.model.row * this.model.size;
+      return utils.createSVG('g', {
+        'id' : this.model.id,
+        'transform' : "translate("+(this.x+(this.model.size/2))+","+(this.y+(this.model.size/2))+")",
       });
-      g.appendChild(rect);
+    },
+    events: {
+      'click' : 'onCellClick'
+    },
 
+    initialize : function(){
+      //initialize the other instance vars
+      this.occupied = null;
+
+      //create the cell svg object
+      this.render();
+    },
+
+     //create it
+    render: function() {
+      // create the svg cell item.
       var circ = utils.createSVG('circle', {
-        'transform' : "translate("+(this.x+(this.size/2))+","+(this.y+(this.size/2))+")",
         'r' : '30',
-        'x' : this.x+'px',
-        'y' : this.y+'px',
         'fill' : 'white'
       });
 
-      g.appendChild(circ);
+      this.$el.append(circ);
 
       // return this object to be stored in a variable
-      return g;
+      return this;
+    },
+
+    onCellClick : function(e){
+      EventsChannel.trigger('Cell:clicked', {col:this.model.col});
     },
 
     //get my center x
     getCenterX: function(){
-      return (this.x + (this.size/2));
+      return (this.x + (this.model.size/2));
     },
 
     //get my center y
     getCenterY: function(){
-      return (this.y + (this.size/2));
+      return (this.y + (this.model.size/2));
     }
 
-  }
+
+  });
 
   return Cell;
 

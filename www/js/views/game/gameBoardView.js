@@ -18,29 +18,48 @@ define([
 
     initialize: function () {
       EventsChannel.on('getMove', this.getMove, this);
+      EventsChannel.on('Cell:clicked', this.placePiece, this);
       this.render();
     },
     render: function () {
       //create a parent to stick board in...
-      var g = utils.createSVG('g',{
-        "id" : "game-board",
-        "stroke" : "blue"
+      this.gameBoard = utils.createSVG('g',{
+        "id" : "game-board"
       });
       //stick g on board
-      this.$el.append(g);
+      this.$el.append(this.gameBoard);
 
       //create the board...
       for(i=0;i<this.model.get('BOARDHEIGHT');i++){//rows i
         this.model.get('boardArr')[i]=new Array();
         for(j=0;j<this.model.get('BOARDWIDTH');j++){//cols j
-          this.model.get('boardArr')[i][j]=new Cell($('#game-board')[0],'cell_'+j+i,75,j,i,this);
+          var cell = new Cell({
+            model: {
+              id : 'cell_'+j+i,
+              size : 75,
+              col : j,
+              row : i
+            }
+          });
+          this.model.get('boardArr')[i][j] = cell;
+          $(this.gameBoard).append(cell.el);
         }
       }
       if(this.model.get('moves').length>0) this.drawMoves();
     },
     addPiece: function(opts){
       this.model.set('numPieces', this.model.get('numPieces')+1);
-      var piece = new Piece('game_'+this.model.get('id'),opts.playerId, opts.row,opts.col,this.model.get('numPieces'), this);
+      var piece = new Piece({
+        attributes : {
+          board : 'game_'+this.model.get('id'),
+          player : opts.playerId,
+          cellRow : opts.row,
+          cellCol : opts.col,
+          num : this.model.get('numPieces'),
+          GameView : this
+        }
+      });
+      $(this.gameBoard).append(piece.el);
       this.model.get('pieceArr').push(piece);
     },
     drawMoves: function(){
@@ -54,7 +73,8 @@ define([
        }
     },
     //************************ NEW FUNCTION ***********************/
-    placePiece: function(col){
+    placePiece: function(data){
+      var col = data.col;
       if(this.model.get('active')===true){
         //checks from the bottom of the board up.
         for(var row=this.model.get('boardArr').length-1; row >= 0; row--){

@@ -122,6 +122,7 @@ input:required:valid {
 }
 
 .svg-content {
+  background-color: #f1f15e;
   display: inline-block;
   position: absolute;
   top: 0;

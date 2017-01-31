@@ -1,8 +1,10 @@
 define([
   'jquery',
+  'underscore',
+  'backbone',
   'events/channel',
-  'utils/utils'
-], function($, EventsChannel, utils){
+  'utils/utils',
+], function($, _, Backbone, EventsChannel, utils ){
 
   /******************
    * Class: Piece
@@ -13,57 +15,57 @@ define([
 
   // Piece constructor
   // creates and initializes each Piece object
-  var Piece = function(board,player,cellRow,cellCol,num, GameView){
-    this.model = GameView.model.attributes;
-    this.board = board;     // piece needs to know the svg board object so that it can be attached to it.
-    this.player = player;   // piece needs to know what player it belongs to.
-    this.current_cell = this.model.boardArr[cellRow][cellCol]; // piece needs to know what its current cell/location is.
-    this.number = num;      // piece needs to know what number piece it is.
-    this.cellRow = cellRow;
-    this.cellCol = cellCol;
-    //NEW
-    this.checkerRow = 0;
-    this.checkerCol = 0;
-    this.connections = 0;
-    //id looks like 'piece_0|3' - for player 0, the third piece
-    this.id = "piece_" + this.player + "|" + this.number;   // the piece also needs to know what it's id is.
-    this.x=this.current_cell.getCenterX();            // the piece needs to know what its x location value is.
-    this.y=this.current_cell.getCenterY();            // the piece needs to know what its y location value is as well.
+  var Piece = Backbone.View.extend({
 
-    this.object = this.createIt();
-
-    document.getElementsByTagName('svg')[0].appendChild(this.object);
-
-    this.model.boardArr[cellRow][cellCol].occupied = Array(player,cellRow, cellCol);
-
-    this.runCheck();
-    return this; //was commented out, need to keep an eye out
-  }
-
-
-  Piece.prototype = {
-
-    createIt: function() {
-      // create the svg piece.
-      var g = utils.createSVG('g',{
-        "id" : this.id,
+     el: function(){
+      this.current_cell = this.attributes.GameView.model.attributes.boardArr[this.attributes.cellRow][this.attributes.cellCol]; // piece needs to know what its current cell/location is.
+      this.x=this.current_cell.getCenterX(); // the piece needs to know what its x location value is.
+      this.y=this.current_cell.getCenterY(); // the piece needs to know what its y location value is as well.
+      return utils.createSVG('g', {
+        'id' : "piece_" + this.attributes.player + "|" + this.attributes.num,
         "transform" : "translate("+this.x+","+this.y+")"
       });
+    },
+    events:{},
 
+    initialize: function(){
+      this.model = this.attributes.GameView.model.attributes;
+      this.board = this.attributes.board; // piece needs to know the svg board object so that it can be attached to it.
+      this.player = this.attributes.player; // piece needs to know what player it belongs to.
+      this.number = this.attributes.num; // piece needs to know what number piece it is.
+      this.cellRow = this.attributes.cellRow;
+      this.cellCol = this.attributes.cellCol;
+      //NEW
+      this.checkerRow = 0;
+      this.checkerCol = 0;
+      this.connections = 0;
+
+      this.id = "piece_" + this.player + "|" + this.number; //id looks like 'piece_0|3' - for player 0, the third piece
+
+      this.render();
+
+      this.model.boardArr[this.cellRow][this.cellCol].occupied = Array(this.player,this.cellRow, this.cellCol);
+
+      this.runCheck();
+    },
+
+    render: function(){
+      // create the svg piece.
       var circ = utils.createSVG('circle',{
         'r' : '30',
         'class' : 'player' + this.player // change the color according to player
       });
-      g.appendChild(circ);
+
+      this.$el.append(circ);
 
       var innerCirc = utils.createSVG('circle',{
         "r" : "25",
         "fill" : "white",
         "opacity" : "0.1"
       });
-      g.appendChild(innerCirc);
+      this.$el.append(innerCirc);
 
-      return g;
+      return this;
     },
 
     runCheck : function() {
@@ -186,7 +188,7 @@ define([
       }
     }
 
-  }
+  });
 
   return Piece;
 
