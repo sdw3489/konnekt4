@@ -200,8 +200,8 @@ class Games extends MY_REST_Controller {
         $update = array(
             'active'=>0,
             'end_type'=> $data['end_type'],
-            'winner_id'=> $data['winner']['id'],
-            'loser_id'=> $data['loser']['id']
+            'winner_id'=> (isset($data['winner']['id'])) ? $data['winner']['id'] : null,
+            'loser_id'=> (isset($data['loser']['id'])) ? $data['loser']['id'] : null
         );
         $results = $this->Game->where('id', $id)->update($update);
 

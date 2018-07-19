@@ -12,11 +12,6 @@ define([
       pieceArr : [],   //2d array [player][piece] (player is either 0 or 1)
       directionArr : [
         {
-          end_type: 'tie',
-          direction:['full'],
-          message:'Both Players Tied with all Spaces Taken.'
-        },
-        {
           end_type: 'across',
           direction: ['right','left'],
           message:'Won with 4 Across.'
@@ -35,6 +30,11 @@ define([
           end_type: 'diagonal_left',
           direction: ['aboveLeft','belowRight'],
           message:'Won with 4 Diagonal Left.'
+        },
+        {
+          end_type: 'tie',
+          direction:['full'],
+          message:'Both Players Tied with all Spaces Taken.'
         }
       ],
       BOARDWIDTH : 7,       //how many squares across

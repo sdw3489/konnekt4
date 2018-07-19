@@ -22,7 +22,7 @@ define([
     gameEnd: function (data){
       this.render(data);
       this.model.set('active',0);
-      if(data.winner.playerId == this.model.get('playerId')){
+      if(data.winner.playerId == this.model.get('playerId')){ // avoids the stats from getting updated 2x
         this.onGameEnd(data);
       }
     },

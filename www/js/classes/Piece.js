@@ -69,17 +69,21 @@ define([
     },
 
     runCheck : function() {
-      var winner, loser;
+      var winner = null, loser = null;
       for (var i = this.model.directionArr.length-1; i >= 0; i--) {
         for (var k = 0; k <= this.model.directionArr[i].direction.length-1; k++) {
           if(this.countDirection(this.model.directionArr[i].direction[k])){
-            $.each(this.model.players, $.proxy(function(i, player){
-              if(player.playerId == this.player){
-                winner = player;
-              }else{
-                loser = player;
-              }
-            },this));
+
+            //dont set winner or loser if TIE returns true
+            if(this.model.directionArr[i].end_type != 'tie'){
+              $.each(this.model.players, $.proxy(function(i, player){
+                if(player.playerId == this.player){
+                  winner = player;
+                }else{
+                  loser = player;
+                }
+              },this));
+            }
             EventsChannel.trigger('game:end', {
               'display_msg' : this.model.directionArr[i].message,
               'end_type'    : this.model.directionArr[i].end_type,
@@ -179,7 +183,7 @@ define([
           }
           break;
         case 'full':
-          if(this.model.numPieces == 42){
+          if(this.model.numPieces == (this.model.BOARDHEIGHT * this.model.BOARDWIDTH)){
             this.connections = 4;
           }
           break;
